@@ -48,8 +48,7 @@ public class F implements SkillBase {
 
         if(target != null){
             player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_KNOCKBACK, 1.0f, 1.0f);
-
-            Special_Attack(player, firstLocation, playerGameMode, target, config.dreamPoint.getOrDefault(player.getUniqueId(), new HashMap<>()).getOrDefault("F", 1.0));
+            Special_Attack(player, firstLocation, playerGameMode, target, (config.dreamPoint.getOrDefault(player.getUniqueId(), new HashMap<>()).getOrDefault("F", 1.0) + 0.6) / 2);
         }else{
             world.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_WEAK, 1, 1);
             long cools = 250L;
@@ -86,9 +85,6 @@ public class F implements SkillBase {
     public void Special_Attack(Player player, Location firstLocation, GameMode playerGameMode, Entity entity, double times) {
 
         int num = (int) times;
-
-        long cools = config.f_Skill_Cool * num;
-        cool.updateCooldown(player, "F", cools);
 
         World world = player.getWorld();
 
@@ -196,7 +192,7 @@ public class F implements SkillBase {
                         for (Entity entity : world.getNearbyEntities(particleLocation, 1.2, 1.2, 1.2)) {
                             if (entity instanceof LivingEntity target && entity != player && !config.damaged_2.getOrDefault(player.getUniqueId(), new HashSet<>()).contains(entity)) {
 
-                                ForceDamage forceDamage = new ForceDamage(target, config.f_Skill_damage * config.dreamPoint.getOrDefault(player.getUniqueId(), new HashMap<>()).getOrDefault("F", 1.0));
+                                ForceDamage forceDamage = new ForceDamage(target, config.f_Skill_damage * (config.dreamPoint.getOrDefault(player.getUniqueId(), new HashMap<>()).getOrDefault("F", 1.0) / 2));
                                 forceDamage.applyEffect(player);
                                 target.setVelocity(new Vector(0, 0, 0));
 

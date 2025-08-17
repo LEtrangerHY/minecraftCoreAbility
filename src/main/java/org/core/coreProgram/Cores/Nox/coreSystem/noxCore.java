@@ -42,7 +42,7 @@ public class noxCore extends absCore {
         this.Qskill = new Q(config, plugin, cool, dream);
         this.Fskill = new F(config, plugin, cool, dream);
 
-        getLogger().info("Benjamin downloaded...");
+        getLogger().info("Nox downloaded...");
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -92,11 +92,11 @@ public class noxCore extends absCore {
     }
 
     private boolean canUseQSkill(Player player) {
-        return true;
+        return !config.fskill_using.getOrDefault(player.getUniqueId(), false);
     }
 
     private boolean canUseFSkill(Player player) {
-        return !config.fskill_using.getOrDefault(player.getUniqueId(), false) && !config.qskill_using.getOrDefault(player.getUniqueId(), false);
+        return !config.fskill_using.getOrDefault(player.getUniqueId(), false);
     }
 
     @Override

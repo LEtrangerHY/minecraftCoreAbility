@@ -32,78 +32,65 @@ public class Dream implements Listener {
         this.tag = tag;
     }
 
+    private final Map<String, BossBar> activeDreamBars = new HashMap<>();
+    private final Map<String, BukkitRunnable> activeDreamTasks = new HashMap<>();
+
     public void wanderersDream(Player player, String skill) {
 
-        updateList(player, skill, 0);
+        long duration = switch (skill) {
+            case "F" -> 12000;
+            case "R" -> 3000;
+            default -> 6000;
+        };
 
-        long duration = 0;
+        String key = player.getUniqueId().toString() + "_" + skill;
 
-        BossBar bossBar = Bukkit.createBossBar(skill + " Cooldown", BarColor.PURPLE, BarStyle.SOLID);
-        bossBar.addPlayer(player);
-
-        if (skill.equals("R")) {
-            duration = 3000;
-        } else if (skill.equals("Q")) {
-            duration = 6000;
-        } else if (skill.equals("F")) {
-            duration = 6000;
+        if (activeDreamBars.containsKey(key)) {
+            BossBar oldBar = activeDreamBars.get(key);
+            oldBar.removeAll();
+            activeDreamBars.remove(key);
         }
+
+        if (activeDreamTasks.containsKey(key)) {
+            BukkitRunnable oldTask = activeDreamTasks.get(key);
+            if (!oldTask.isCancelled()) oldTask.cancel();
+            activeDreamTasks.remove(key);
+        }
+
+        BossBar bossBar = Bukkit.createBossBar(skill + " wanderersDream", BarColor.PURPLE, BarStyle.SOLID);
+        bossBar.addPlayer(player);
+        activeDreamBars.put(key, bossBar);
 
         long cooldownEndTime = System.currentTimeMillis() + duration;
         long finalDuration = duration;
 
-        new BukkitRunnable() {
+        BukkitRunnable task = new BukkitRunnable() {
             @Override
             public void run() {
                 long remainingTime = cooldownEndTime - System.currentTimeMillis();
                 if (remainingTime <= 0) {
                     bossBar.setProgress(1.0);
                     bossBar.removePlayer(player);
-                    updateList(player, skill, 1);
+                    activeDreamBars.remove(key);
+                    activeDreamTasks.remove(key);
                     cancel();
                 } else {
-                    Map<String, Double> skillMap = config.dreamPoint.computeIfAbsent(player.getUniqueId(), k -> new HashMap<>());
-
+                    Map<String, Double> skillMap = config.dreamPoint
+                            .computeIfAbsent(player.getUniqueId(), k -> new HashMap<>());
                     double elapsed = finalDuration - remainingTime;
-
                     skillMap.putIfAbsent(skill, 1.0);
-                    skillMap.put(skill, elapsed / 1000);
-
+                    if(skill.equals("F")) {
+                        skillMap.put(skill, elapsed / 500);
+                    }else{
+                        skillMap.put(skill, elapsed / 1000);
+                    }
                     double progress = elapsed / finalDuration;
                     bossBar.setProgress(Math.min(1.0, Math.max(0.0, progress)));
                 }
             }
-        }.runTaskTimer(plugin, 0L, 1L);
-    }
-
-    public void updateList(Player player, String skillType, int updateType){
-
-        ScoreboardManager manager = Bukkit.getScoreboardManager();
-        Scoreboard scoreboard = manager.getNewScoreboard();
-
-        Objective old = scoreboard.getObjective("NOX");
-        if (old != null) old.unregister();
-
-        Objective objective = scoreboard.registerNewObjective("NOX", Criteria.DUMMY, Component.text("NOX"));
-        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-
-        Score score1 = objective.getScore("------------");
-        score1.setScore(6);
-
-        int scoreNumber = switch (skillType) {
-            case "R" -> 3;
-            case "Q" -> 2;
-            default -> 1;
         };
 
-        if(updateType == 1) {
-            Score score = objective.getScore("§5" + skillType);
-            score.setScore(scoreNumber);
-        }else{
-            Score score = objective.getScore("§7" + skillType);
-            score.setScore(scoreNumber);
-        }
-
-        player.setScoreboard(scoreboard);
+        task.runTaskTimer(plugin, 0L, 1L);
+        activeDreamTasks.put(key, task);
     }
 }
