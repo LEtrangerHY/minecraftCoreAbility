@@ -86,8 +86,6 @@ public class F implements SkillBase {
 
         int num = (int) times;
 
-        World world = player.getWorld();
-
         config.fskill_using.put(player.getUniqueId(), true);
 
         new BukkitRunnable() {
@@ -109,8 +107,7 @@ public class F implements SkillBase {
                     this.cancel();
                     return;
                 }
-
-                player.spawnParticle(Particle.SPIT, player.getLocation().add(0, 1.0, 0),10, 0.1, 0.2, 0.1, 0.5);
+                player.getWorld().playSound(player.getLocation(), Sound.ENTITY_WITHER_SHOOT, 1, 1);
 
                 teleportBehind(player, playerGameMode, entity, -5.0);
 
@@ -179,13 +176,13 @@ public class F implements SkillBase {
                         Location particleLocation = origin.clone().add(particleOffset);
 
                         if(length < innerRadius + 0.2){
-                            Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(66, 66, 66), 0.5f);
+                            Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(199, 199, 199), 0.4f);
                             world.spawnParticle(Particle.DUST, particleLocation.add(0, height, 0), 1, 0, 0, 0, 0, dustOptions);
                         }else if(length < innerRadius + 0.3){
-                            Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(88, 88, 88), 0.5f);
+                            Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(222, 222, 222), 0.5f);
                             world.spawnParticle(Particle.DUST, particleLocation.add(0, height, 0), 1, 0, 0, 0, 0, dustOptions);
                         }else{
-                            Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(110, 110, 110), 0.5f);
+                            Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(255, 255, 255), 0.6f);
                             world.spawnParticle(Particle.DUST, particleLocation.add(0, height, 0), 1, 0, 0, 0, 0, dustOptions);
                         }
 

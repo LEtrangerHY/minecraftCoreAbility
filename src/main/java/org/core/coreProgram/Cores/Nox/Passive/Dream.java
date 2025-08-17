@@ -79,11 +79,7 @@ public class Dream implements Listener {
                             .computeIfAbsent(player.getUniqueId(), k -> new HashMap<>());
                     double elapsed = finalDuration - remainingTime;
                     skillMap.putIfAbsent(skill, 1.0);
-                    if(skill.equals("F")) {
-                        skillMap.put(skill, elapsed / 500);
-                    }else{
-                        skillMap.put(skill, elapsed / 1000);
-                    }
+                    skillMap.put(skill, elapsed / 1000);
                     double progress = elapsed / finalDuration;
                     bossBar.setProgress(Math.min(1.0, Math.max(0.0, progress)));
                 }
