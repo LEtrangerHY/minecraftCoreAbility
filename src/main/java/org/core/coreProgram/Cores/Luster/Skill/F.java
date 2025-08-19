@@ -58,7 +58,7 @@ public class F implements SkillBase {
                 Location spawnLoc = new Location(world, x, y, z);
                 Entity golemEntity = world.spawnEntity(spawnLoc, EntityType.IRON_GOLEM);
 
-                PotionEffect glow = new PotionEffect(PotionEffectType.GLOWING, Integer.MAX_VALUE, 1, false, true);
+                PotionEffect glow = new PotionEffect(PotionEffectType.GLOWING, Integer.MAX_VALUE, 1, false, false);
                 ((LivingEntity) golemEntity).addPotionEffect(glow);
 
                 boolean isObstructed = false;

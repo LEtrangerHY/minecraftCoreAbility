@@ -42,9 +42,9 @@ public class F implements SkillBase {
         if(offhandItem.getType() == Material.BLAZE_POWDER && offhandItem.getAmount() >= 20) {
 
             player.damage(player.getHealth() / 2);
-            PotionEffect slowness = new PotionEffect(PotionEffectType.SLOWNESS, 20 * 14, 3, false, true);
+            PotionEffect slowness = new PotionEffect(PotionEffectType.SLOWNESS, 20 * 14, 3, false, false);
             player.addPotionEffect(slowness);
-            PotionEffect fatigue = new PotionEffect(PotionEffectType.MINING_FATIGUE, 20 * 14, 2, false, true);
+            PotionEffect fatigue = new PotionEffect(PotionEffectType.MINING_FATIGUE, 20 * 14, 2, false, false);
             player.addPotionEffect(fatigue);
 
 

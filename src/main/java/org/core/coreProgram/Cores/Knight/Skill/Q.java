@@ -118,7 +118,7 @@ public class Q implements SkillBase {
                 }
 
                 if (ticks % 10 == 0) {
-                    PotionEffect slowness = new PotionEffect(PotionEffectType.SLOWNESS, 10, 2, false, true);
+                    PotionEffect slowness = new PotionEffect(PotionEffectType.SLOWNESS, 10, 2, false, false);
                     player.addPotionEffect(slowness);
 
                     player.getWorld().spawnParticle(Particle.ENCHANTED_HIT,
@@ -188,7 +188,7 @@ public class Q implements SkillBase {
 
         Location origin = player.getEyeLocation().add(0, 0, 0);
         Vector direction = player.getLocation().getDirection().clone();
-        Vector rightAxis = direction.clone().crossProduct(new Vector(0, 1, 0)).normalize(); // 수직참격용
+        Vector rightAxis = direction.clone().crossProduct(new Vector(0, 1, 0)).normalize();
 
         new BukkitRunnable() {
             int ticks = 0;

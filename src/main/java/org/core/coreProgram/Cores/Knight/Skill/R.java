@@ -242,7 +242,7 @@ public class R implements SkillBase {
                         player.playSound(e.getLocation(), Sound.BLOCK_ANVIL_PLACE, 1, 1);
                         ForceDamage forceDamage = new ForceDamage((LivingEntity) e, damage);
                         forceDamage.applyEffect(player);
-                        PotionEffect darkness = new PotionEffect(PotionEffectType.DARKNESS, 20 * 3, 1, false, true);
+                        PotionEffect darkness = new PotionEffect(PotionEffectType.DARKNESS, 20 * 3, 1, false, false);
                         ((LivingEntity) e).addPotionEffect(darkness);
                         sword.remove();
                         cancel();
