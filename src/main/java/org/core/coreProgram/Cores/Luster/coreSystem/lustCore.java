@@ -3,11 +3,13 @@ package org.core.coreProgram.Cores.Luster.coreSystem;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.IronGolem;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -23,6 +25,10 @@ import org.core.coreProgram.Abs.absCore;
 import org.core.coreProgram.Cores.Luster.Skill.F;
 import org.core.coreProgram.Cores.Luster.Skill.Q;
 import org.core.coreProgram.Cores.Luster.Skill.R;
+
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 import static org.bukkit.Bukkit.getLogger;
 
@@ -47,6 +53,26 @@ public class lustCore extends absCore {
 
 
         getLogger().info("Luster downloaded...");
+    }
+
+    @EventHandler
+    public void onGolemDeath(EntityDeathEvent event) {
+        if (event.getEntity() instanceof IronGolem golem) {
+            Player owner = null;
+
+            for (Map.Entry<Player, Set<IronGolem>> entry : config.golems.entrySet()) {
+                if (entry.getValue().remove(golem)) {
+                    owner = entry.getKey();
+                    break;
+                }
+            }
+
+            if (owner != null && config.golems.get(owner).isEmpty()) {
+                long cools = 60000L;
+                cool.updateCooldown(owner, "F", cools);
+                config.golems.remove(owner);
+            }
+        }
     }
 
     @EventHandler(priority = EventPriority.NORMAL)

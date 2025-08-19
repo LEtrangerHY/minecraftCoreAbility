@@ -1,8 +1,11 @@
 package org.core.coreProgram.Cores.Luster.coreSystem;
 
+import org.bukkit.entity.IronGolem;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 public class Luster {
@@ -21,10 +24,12 @@ public class Luster {
     public long r_Skill_Cool = 13000;
 
     //Q
-    public long q_Skill_Cool = 10000;
+    public double q_Skill_Damage = 3;
+    public long q_Skill_Cool = 13000;
 
     //F
-    public long f_Skill_Cool = 100000;
+    public HashMap<Player, Set<IronGolem>> golems = new HashMap<>();
+    public long f_Skill_Cool = 4000;
 
     public void variableReset(Player player){
 
