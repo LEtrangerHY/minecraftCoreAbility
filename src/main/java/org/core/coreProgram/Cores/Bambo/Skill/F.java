@@ -37,7 +37,7 @@ public class F implements SkillBase {
     @Override
     public void Trigger(Player player) {
 
-        Block block = player.getTargetBlockExact(20);
+        Block block = player.getTargetBlockExact(40);
 
         ItemStack offhandItem = player.getInventory().getItem(EquipmentSlot.OFF_HAND);
         int amount = offhandItem.getAmount();
@@ -56,7 +56,7 @@ public class F implements SkillBase {
 
                     if (config.stringCount.getOrDefault(player.getUniqueId(), 0) == 2) {
                         config.stringCount.remove(player.getUniqueId());
-                        long cools = 50000L;
+                        long cools = 25000L;
                         cool.updateCooldown(player, "F", cools);
 
                     } else {
