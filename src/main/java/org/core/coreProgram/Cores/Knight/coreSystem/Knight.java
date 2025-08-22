@@ -35,7 +35,7 @@ public class Knight {
 
     //F
     public HashMap<UUID, HashSet<Entity>> damaged = new HashMap<>();
-    public double f_Skill_Damage = 17;
+    public double f_Skill_Damage = 22;
     public long f_Skill_Cool = 30000;
 
 

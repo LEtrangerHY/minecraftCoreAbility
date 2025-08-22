@@ -2,12 +2,11 @@ package org.core.coreProgram.Cores.Blaze.coreSystem;
 
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -54,6 +53,20 @@ public class blazeCore extends absCore {
 
 
         getLogger().info("Blaze downloaded...");
+    }
+
+    @EventHandler
+    public void projectileEvent(ProjectileHitEvent event){
+        Entity victim = event.getHitEntity();
+        Projectile fireball = event.getEntity();
+        Player player = (Player) fireball.getShooter();
+
+        if(fireball.getType() == EntityType.FIREBALL || tag.Blaze.contains(player)){
+            if(Math.random() < 0.6){
+                Burn burn = new Burn(victim, 6000L);
+                burn.applyEffect(player);
+            }
+        }
     }
 
     @EventHandler(priority = EventPriority.NORMAL)

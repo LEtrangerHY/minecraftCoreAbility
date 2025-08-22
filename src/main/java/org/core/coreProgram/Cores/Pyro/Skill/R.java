@@ -136,9 +136,9 @@ public class R implements SkillBase {
                     return;
                 }
 
-                for(int i = 0; i < 66; i++){
+                for(int i = 0; i < 100; i++){
                     Location particleLoc = initiateLoc.clone().add(0, i / 10.0, 0);
-                    world.spawnParticle(Particle.FLAME, particleLoc, 1, 0.1, 0.1, 0.1, 0);
+                    world.spawnParticle(Particle.FLAME, particleLoc, 1, 0.1, 0.1, 0.1, 0.07);
                 }
 
                 if(tick % 30 == 0) {

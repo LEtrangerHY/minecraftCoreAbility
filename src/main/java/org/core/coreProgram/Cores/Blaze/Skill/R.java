@@ -1,15 +1,21 @@
 package org.core.coreProgram.Cores.Blaze.Skill;
 
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.World;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 import org.core.Cool.Cool;
 import org.core.coreProgram.Abs.SkillBase;
 import org.core.coreProgram.Cores.Blaze.Passive.BlueFlame;
 import org.core.coreProgram.Cores.Blaze.coreSystem.Blaze;
 
-public class R implements SkillBase {
+public class R implements SkillBase{
     private final Blaze config;
     private final JavaPlugin plugin;
     private final Cool cool;
@@ -25,22 +31,33 @@ public class R implements SkillBase {
     @Override
     public void Trigger(Player player) {
         World world = player.getWorld();
+        player.playSound(player.getLocation(), Sound.ENTITY_PARROT_IMITATE_BLAZE, 1, 1);
+        player.playSound(player.getLocation(), Sound.ENTITY_BLAZE_BURN, 1, 1);
+        player.playSound(player.getLocation(), Sound.BLOCK_FIRE_AMBIENT, 1, 1);
 
         new BukkitRunnable(){
             int tick = 0;
 
             @Override
             public void run(){
-                if(tick > 10){
-
+                if(tick > 26 || player.isDead()){
                     cancel();
                     return;
+                }
+
+                if(tick < 20){
+                    world.spawnParticle(Particle.SOUL_FIRE_FLAME, player.getLocation().clone().add(0, 1, 0), 13, 0.2, 0.1, 0.2, 0.13);
+                }else{
+                    world.spawnParticle(Particle.SOUL, player.getLocation().clone().add(0, 1, 0), 4, 0.4, 0.4, 0.4, 0.04);
+                    player.playSound(player.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 1, 1);
+                    Vector direction = player.getLocation().getDirection().normalize().multiply(1.4);
+                    player.launchProjectile(Fireball.class, direction);
                 }
 
                 tick++;
             }
 
-        }.runTaskTimer(plugin, 0L, 1L);
+        }.runTaskTimer(plugin, 0L, 3L);
 
     }
 }

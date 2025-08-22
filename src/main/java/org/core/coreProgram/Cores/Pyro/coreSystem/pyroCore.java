@@ -145,13 +145,13 @@ public class pyroCore extends absCore {
         for (Entity entity : world.getNearbyEntities(burstLoction, 3, 3, 3)) {
             if (entity instanceof LivingEntity target && entity != player) {
 
-                ForceDamage forceDamage = new ForceDamage(target, 9);
-                forceDamage.applyEffect(player);
-
                 if (Math.random() < 0.3) {
                     Burn burn = new Burn(target, 7000L);
                     burn.applyEffect(player);
                 }
+
+                ForceDamage forceDamage = new ForceDamage(target, 9);
+                forceDamage.applyEffect(player);
 
                 Vector direction = entity.getLocation().toVector().subtract(burstLoction.toVector()).normalize().multiply(0.5);
                 direction.setY(0.5);

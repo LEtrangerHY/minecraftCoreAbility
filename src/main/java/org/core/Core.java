@@ -32,7 +32,7 @@ import org.core.coreProgram.Cores.Luster.coreSystem.lustCore;
 import org.core.coreProgram.Cores.Pyro.coreSystem.Pyro;
 import org.core.coreProgram.Cores.Pyro.coreSystem.pyroCore;
 
-public final class Core extends JavaPlugin {
+public final class Core extends JavaPlugin{
 
     private coreConfig config;
 

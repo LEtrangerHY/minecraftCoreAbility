@@ -109,7 +109,7 @@ public class F implements SkillBase {
 
                 teleportBehind(player, playerGameMode, entity, -5.0);
 
-                double height = 0.3 - (0.15 * tick);
+                double height = - 0.2 * tick;
 
                 Slash(player, height);
 
@@ -134,15 +134,17 @@ public class F implements SkillBase {
         double innerRadius = 5.0;
 
         Random rand = new Random();
-        int random = rand.nextInt(2);
+        int random = rand.nextInt(4);
 
         double tiltAngle = switch (random) {
-            case 0 -> Math.toRadians(8);
-            case 1 -> Math.toRadians(-8);
+            case 0 -> Math.toRadians(6);
+            case 1 -> Math.toRadians(-6);
+            case 2 -> Math.toRadians(12);
+            case 3 -> Math.toRadians(-12);
             default -> Math.toRadians(0);
         };
 
-        Location origin = player.getEyeLocation().add(0, -0.6, 0);
+        Location origin = player.getEyeLocation().add(0, 0, 0);
         Vector direction = player.getLocation().getDirection().clone().setY(0).normalize();
 
         new BukkitRunnable() {
