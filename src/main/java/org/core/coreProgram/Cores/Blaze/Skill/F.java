@@ -64,7 +64,7 @@ public class F implements SkillBase {
             player.playSound(player.getLocation(), Sound.ENTITY_BLAZE_BURN, 1.0f, 1.0f);
             player.playSound(player.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 1.0f, 1.0f);
             player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1, 1);
-            player.playSound(player.getLocation(), Sound.ENTITY_WITHER_AMBIENT, 1, 1);
+            player.playSound(player.getLocation(), Sound.ENTITY_WITHER_DEATH, 1, 1);
 
             List<Entity> entities = new ArrayList<>(world.getNearbyEntities(center, 13, 13, 13));
             new BukkitRunnable() {
@@ -85,7 +85,7 @@ public class F implements SkillBase {
 
                     index++;
                 }
-            }.runTaskTimer(plugin, 0L, 13L);
+            }.runTaskTimer(plugin, 0L, 4L);
 
 
             if((offhandItem.getType() == Material.SOUL_SAND || offhandItem.getType() == Material.SOUL_SOIL) && offhandItem.getAmount() >= 30) {
@@ -114,7 +114,7 @@ public class F implements SkillBase {
             @Override
             public void run(){
 
-                if(tick > 40 || victim.isDead() || player.isDead()){
+                if(tick > 6 || victim.isDead() || player.isDead()){
 
                     blueFlamePool(player, victim);
 
@@ -140,12 +140,11 @@ public class F implements SkillBase {
         player.spawnParticle(Particle.FLAME, victim.getLocation().clone().add(0, 0.6, 0), 6, 0.1, 0.1, 0.1, 0.8);
 
         player.playSound(victim.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f);
-        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_DEATH, 1, 1);
 
         for (Entity entity : victim.getWorld().getNearbyEntities(victim.getLocation().clone().add(0, 0.2, 0), 1, 10, 1)) {
             if (entity instanceof LivingEntity target && entity != player) {
 
-                ForceDamage forceDamage = new ForceDamage(target, 6);
+                ForceDamage forceDamage = new ForceDamage(target, 13);
                 forceDamage.applyEffect(player);
 
                 Stun stun = new Stun(victim, 2000);
