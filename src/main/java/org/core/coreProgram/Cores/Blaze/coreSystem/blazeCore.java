@@ -9,6 +9,8 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.core.Cool.Cool;
@@ -63,8 +65,10 @@ public class blazeCore extends absCore {
 
         if(fireball.getType() == EntityType.FIREBALL || tag.Blaze.contains(player)){
             if(Math.random() < 0.6){
-                Burn burn = new Burn(victim, 6000L);
+                Burn burn = new Burn(victim, 4000L);
                 burn.applyEffect(player);
+                PotionEffect wither = new PotionEffect(PotionEffectType.WITHER, 20 * 4, 3, false, false);
+                ((LivingEntity) victim).addPotionEffect(wither);
             }
         }
     }
@@ -125,6 +129,8 @@ public class blazeCore extends absCore {
                                             if (Math.random() < 0.4) {
                                                 Burn burn = new Burn(target, 4000L);
                                                 burn.applyEffect(player);
+                                                PotionEffect wither = new PotionEffect(PotionEffectType.WITHER, 20 * 4, 3, false, false);
+                                                ((LivingEntity) target).addPotionEffect(wither);
                                             }
 
                                             world.spawnParticle(Particle.SMOKE, target.getLocation().add(0, 1, 0), 4, 0.2, 0.4, 0.2, 0.05);

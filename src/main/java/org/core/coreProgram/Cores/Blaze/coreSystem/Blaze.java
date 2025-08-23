@@ -21,13 +21,13 @@ public class Blaze {
     public HashMap<UUID, HashSet<Entity>> damaged = new HashMap<>();
 
     //R
-    public long r_Skill_Cool = 300;
+    public long r_Skill_Cool = 10000;
 
     //Q
     public long q_Skill_Cool = 3000;
 
     //F
-    public long f_Skill_Cool = 1000;
+    public long f_Skill_Cool = 666000;
 
 
     public void variableReset(Player player){
