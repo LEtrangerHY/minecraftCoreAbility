@@ -82,7 +82,8 @@ public class F implements SkillBase {
 
     public void Special_Attack(Player player, Location firstLocation, GameMode playerGameMode, Entity entity, double times) {
 
-        int slashCount = (int) times;
+        int slashCount = (times > 1.0) ? (int) times : 1;
+        boolean justTeleport = !(times > 1.0);
 
         config.fskill_using.put(player.getUniqueId(), true);
 
@@ -111,7 +112,9 @@ public class F implements SkillBase {
 
                 double height = - 0.2 * tick;
 
-                Slash(player, height);
+                if(!justTeleport) {
+                    Slash(player, height);
+                }
 
                 tick++;
             }

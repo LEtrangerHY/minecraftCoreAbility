@@ -27,7 +27,9 @@ import org.core.coreProgram.Cores.Blaze.coreSystem.Blaze;
 import org.core.coreProgram.Cores.Dagger.Passive.DamageStroke;
 import org.core.coreProgram.Cores.Dagger.coreSystem.Dagger;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class F implements SkillBase {
@@ -64,11 +66,27 @@ public class F implements SkillBase {
             player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1, 1);
             player.playSound(player.getLocation(), Sound.ENTITY_WITHER_AMBIENT, 1, 1);
 
-            for (Entity entity : world.getNearbyEntities(center, 13, 13, 13)) {
-                if (entity.equals(player) || !(entity instanceof LivingEntity) || entity.isDead()) continue;
+            List<Entity> entities = new ArrayList<>(world.getNearbyEntities(center, 13, 13, 13));
+            new BukkitRunnable() {
+                int index = 0;
 
-                blueFlameInitiate(player, (LivingEntity) entity);
-            }
+                @Override
+                public void run() {
+                    if (index >= entities.size()) {
+                        cancel();
+                        return;
+                    }
+
+                    Entity entity = entities.get(index);
+
+                    if (!entity.equals(player) && entity instanceof LivingEntity && !entity.isDead()) {
+                        blueFlameInitiate(player, (LivingEntity) entity);
+                    }
+
+                    index++;
+                }
+            }.runTaskTimer(plugin, 0L, 13L);
+
 
             if((offhandItem.getType() == Material.SOUL_SAND || offhandItem.getType() == Material.SOUL_SOIL) && offhandItem.getAmount() >= 30) {
                 offhandItem.setAmount(offhandItem.getAmount() - 30);
