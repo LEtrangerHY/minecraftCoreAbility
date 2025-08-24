@@ -1,6 +1,8 @@
 package org.core.Effect;
 
 import com.destroystokyo.paper.event.entity.EntityJumpEvent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -36,12 +38,16 @@ public class Grounding implements  Effects, Listener {
             public void run() {
                 groundedEntities.put(target, endTime);
 
-                if (System.currentTimeMillis() >= endTime) {
+                if (System.currentTimeMillis() >= endTime || target.isDead()) {
                     removeEffect(target);
                     cancel();
                 }
+
+                if (target instanceof Player) {
+                    target.sendActionBar(Component.text("Grounded").color(NamedTextColor.YELLOW));
+                }
             }
-        }.runTaskTimer(Objects.requireNonNull(Bukkit.getPluginManager().getPlugin("Core")), 0L, 20L);
+        }.runTaskTimer(Objects.requireNonNull(Bukkit.getPluginManager().getPlugin("Core")), 0L, 1L);
     }
 
     @Override
@@ -61,7 +67,20 @@ public class Grounding implements  Effects, Listener {
     }
 
     public static void handleEntityJump(EntityJumpEvent event) {
-        if (isGrounded(event.getEntity())) {
+        Entity entity = event.getEntity();
+
+        if (isGrounded(entity)) {
+
+            Bukkit.getScheduler().runTaskLater(
+                    Objects.requireNonNull(Bukkit.getPluginManager().getPlugin("Core")),
+                    () -> {
+                        if (entity instanceof LivingEntity living) {
+                            living.setVelocity(living.getVelocity().setY(-1));
+                        }
+                    },
+                    1L
+            );
+
             event.setCancelled(true);
         }
     }

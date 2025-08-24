@@ -58,17 +58,29 @@ public class blazeCore extends absCore {
     }
 
     @EventHandler
-    public void projectileEvent(ProjectileHitEvent event){
+    public void projectileEvent(ProjectileHitEvent event) {
         Entity victim = event.getHitEntity();
         Projectile fireball = event.getEntity();
-        Player player = (Player) fireball.getShooter();
 
-        if(fireball.getType() == EntityType.FIREBALL || tag.Blaze.contains(player)){
-            if(Math.random() < 0.6){
-                Burn burn = new Burn(victim, 4000L);
-                burn.applyEffect(player);
-                PotionEffect wither = new PotionEffect(PotionEffectType.WITHER, 20 * 4, 3, false, false);
-                ((LivingEntity) victim).addPotionEffect(wither);
+        if (!(fireball.getShooter() instanceof Player shooter)) {
+            return;
+        }
+
+        if (fireball.getType() == EntityType.FIREBALL || tag.Blaze.contains(shooter)) {
+            if (victim instanceof LivingEntity livingVictim) {
+                if (Math.random() < 0.6) {
+                    Burn burn = new Burn(livingVictim, 4000L);
+                    burn.applyEffect(shooter);
+
+                    PotionEffect wither = new PotionEffect(
+                            PotionEffectType.WITHER,
+                            20 * 4,
+                            3,
+                            false,
+                            false
+                    );
+                    livingVictim.addPotionEffect(wither);
+                }
             }
         }
     }

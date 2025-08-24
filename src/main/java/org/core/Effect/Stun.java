@@ -3,6 +3,7 @@ package org.core.Effect;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -11,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,23 +37,28 @@ public class Stun implements Effects, Listener {
 
         long endTime = System.currentTimeMillis() + duration;
 
+        Location stunPos = target.getLocation();
 
         new BukkitRunnable() {
             @Override
             public void run() {
+
                 stunnedEntities.put(target, endTime);
+
+                if (System.currentTimeMillis() >= endTime || target.isDead()) {
+                    removeEffect(target);
+                    cancel();
+                }
+
                 livingEntity.setAI(false);
 
                 if (target instanceof Player) {
                     target.sendActionBar(Component.text("Stunned").color(NamedTextColor.YELLOW));
-                }
-
-                if (System.currentTimeMillis() >= endTime) {
-                    removeEffect(target);
-                    cancel();
+                    target.teleport(stunPos);
+                    target.setVelocity(new Vector(0, 0, 0));
                 }
             }
-        }.runTaskTimer(Objects.requireNonNull(Bukkit.getPluginManager().getPlugin("Core")), 0L, 20L);
+        }.runTaskTimer(Objects.requireNonNull(Bukkit.getPluginManager().getPlugin("Core")), 0L, 1L);
     }
 
     @Override
@@ -75,8 +82,18 @@ public class Stun implements Effects, Listener {
 
     public static void handlePlayerMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
+
         if (isStunned(player)) {
-            event.setCancelled(true);
+            Location from = event.getFrom();
+            Location to = event.getTo();
+
+            to.setX(from.getX());
+            to.setY(from.getY());
+            to.setZ(from.getZ());
+            event.setTo(to);
+
+            player.setVelocity(new Vector(0, 0, 0));
         }
     }
+
 }

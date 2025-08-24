@@ -56,7 +56,7 @@ public class F implements SkillBase {
 
             setBiome(world, center, 21);
 
-            PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 20 * 20, 2, false, false);
+            PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 20 * 13, 1, false, false);
             player.addPotionEffect(speed);
 
             player.spawnParticle(Particle.SOUL_FIRE_FLAME, player.getLocation().clone().add(0, 0.6, 0), 666, 0.1, 0.1, 0.1, 0.8);
@@ -66,27 +66,11 @@ public class F implements SkillBase {
             player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1, 1);
             player.playSound(player.getLocation(), Sound.ENTITY_WITHER_DEATH, 1, 1);
 
-            List<Entity> entities = new ArrayList<>(world.getNearbyEntities(center, 13, 13, 13));
-            new BukkitRunnable() {
-                int index = 0;
-
-                @Override
-                public void run() {
-                    if (index >= entities.size()) {
-                        cancel();
-                        return;
-                    }
-
-                    Entity entity = entities.get(index);
-
-                    if (!entity.equals(player) && entity instanceof LivingEntity && !entity.isDead()) {
-                        blueFlameInitiate(player, (LivingEntity) entity);
-                    }
-
-                    index++;
+            for (Entity entity : player.getWorld().getNearbyEntities(player.getLocation().clone().add(0, 0.2, 0), 13, 13, 13)) {
+                if (entity instanceof LivingEntity target && entity != player) {
+                    blueFlameInitiate(player, target);
                 }
-            }.runTaskTimer(plugin, 0L, 4L);
-
+            }
 
             if((offhandItem.getType() == Material.SOUL_SAND || offhandItem.getType() == Material.SOUL_SOIL) && offhandItem.getAmount() >= 30) {
                 offhandItem.setAmount(offhandItem.getAmount() - 30);
@@ -108,24 +92,24 @@ public class F implements SkillBase {
         player.getWorld().playSound(victim.getLocation(), Sound.ENTITY_GENERIC_EXTINGUISH_FIRE, 1.0f, 1.0f);
         player.getWorld().playSound(victim.getLocation(), Sound.ITEM_FIRECHARGE_USE, 1.0f, 1.0f);
 
+        Location pollLoc = victim.getLocation().add(0, 0.2, 0);
+
         new BukkitRunnable(){
             int tick = 0;
 
             @Override
             public void run(){
 
-                if(tick > 13 || victim.isDead() || player.isDead()){
+                if(tick > 13 || player.isDead()){
 
-                    blueFlamePool(player, victim);
+                    blueFlamePool(player, pollLoc);
 
                     cancel();
                     return;
                 }
 
-                Location bottom = victim.getLocation().clone().add(0, 0.2, 0);
-
-                player.getWorld().spawnParticle(Particle.SOUL_FIRE_FLAME, bottom, 4, 0.4, 0.3, 0.4, 0);
-                player.getWorld().spawnParticle(Particle.SOUL, bottom, 4, 0.4, 0.3, 0.4, 0.04);
+                player.getWorld().spawnParticle(Particle.SOUL_FIRE_FLAME, pollLoc, 4, 0.4, 0.3, 0.4, 0);
+                player.getWorld().spawnParticle(Particle.SOUL, pollLoc, 4, 0.4, 0.3, 0.4, 0.04);
 
                 tick++;
 
@@ -134,25 +118,25 @@ public class F implements SkillBase {
 
     }
 
-    public void blueFlamePool(Player player, LivingEntity victim){
+    public void blueFlamePool(Player player, Location pollLoc){
 
-        player.spawnParticle(Particle.SOUL_FIRE_FLAME, victim.getLocation().clone().add(0, 0.6, 0), 20, 0.1, 0.1, 0.1, 0.8);
-        player.spawnParticle(Particle.FLAME, victim.getLocation().clone().add(0, 0.6, 0), 6, 0.1, 0.1, 0.1, 0.8);
+        player.spawnParticle(Particle.SOUL_FIRE_FLAME, pollLoc.clone().add(0, 0.6, 0), 20, 0.1, 0.1, 0.1, 0.8);
+        player.spawnParticle(Particle.FLAME, pollLoc.clone().add(0, 0.6, 0), 6, 0.1, 0.1, 0.1, 0.8);
 
-        player.playSound(victim.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f);
+        player.getWorld().playSound(pollLoc, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE, 1.0f, 1.0f);
+        player.getWorld().playSound(pollLoc, Sound.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f);
 
-        for (Entity entity : victim.getWorld().getNearbyEntities(victim.getLocation().clone().add(0, 0.2, 0), 0.3, 13, 0.3)) {
+        PotionEffect wither = new PotionEffect(PotionEffectType.WITHER, 20 * 13, 3, false, false);
+
+        for (Entity entity : player.getWorld().getNearbyEntities(pollLoc.clone().add(0, 0.2, 0), 1.3, 13, 1.3)) {
             if (entity instanceof LivingEntity target && entity != player) {
 
-                ForceDamage forceDamage = new ForceDamage(target, 13);
-                forceDamage.applyEffect(player);
-
-                Stun stun = new Stun(victim, 2000);
+                Stun stun = new Stun(target, 3300L);
                 stun.applyEffect(player);
 
-                Burn burn = new Burn(target, 6000L);
+                Burn burn = new Burn(target, 13000L);
                 burn.applyEffect(player);
-                PotionEffect wither = new PotionEffect(PotionEffectType.WITHER, 20 * 6, 3, false, false);
+
                 target.addPotionEffect(wither);
 
             }
@@ -163,14 +147,25 @@ public class F implements SkillBase {
             @Override
             public void run(){
 
-                if(tick > 40 || victim.isDead() || player.isDead()){
+                if(tick > 66){
                     cancel();
                     return;
                 }
 
-                for(int i = 0; i < 77; i++){
-                    Location particleLoc = victim.getLocation().clone().add(0, i / 10.0, 0);
-                    player.getWorld().spawnParticle(Particle.SOUL_FIRE_FLAME, particleLoc, 1, 0.1, 0.1, 0.1, 0.04);
+                for(int i = 0; i < 90; i++){
+                    Location particleLoc = pollLoc.clone().add(0, i / 10.0, 0);
+                    player.getWorld().spawnParticle(Particle.SOUL_FIRE_FLAME, particleLoc, 2, 0.2, 0.2, 0.2, 0.06);
+                    player.getWorld().spawnParticle(Particle.FLAME, particleLoc, 1, 0.24, 0.24, 0.24, 0.13);
+                }
+
+                for (Entity entity : player.getWorld().getNearbyEntities(pollLoc.clone().add(0, 0.2, 0), 1.3, 13, 1.3)) {
+                    if (entity instanceof LivingEntity target && entity != player) {
+
+                        ForceDamage forceDamage = new ForceDamage(target, 0.6);
+                        forceDamage.applyEffect(player);
+                        target.setVelocity(new Vector(0, 0, 0));
+
+                    }
                 }
 
                 tick++;
@@ -223,7 +218,7 @@ public class F implements SkillBase {
 
                     if (sandLike.contains(type)) {
                         block.setType(Material.SOUL_SAND);
-                        if (Math.random() < 0.4 || isEdge) {
+                        if (Math.random() < 0.13 || isEdge) {
                             Block above = block.getRelative(BlockFace.UP);
                             if (above.getType() == Material.AIR) {
                                 above.setType(Material.FIRE);
@@ -233,7 +228,7 @@ public class F implements SkillBase {
                         block.setType(Material.BONE_BLOCK);
                     } else if (replaceable.contains(type)) {
                         block.setType(Material.SOUL_SOIL);
-                        if (Math.random() < 0.4 || isEdge) {
+                        if (Math.random() < 0.13 || isEdge) {
                             Block above = block.getRelative(BlockFace.UP);
                             if (above.getType() == Material.AIR) {
                                 above.setType(Material.FIRE);
