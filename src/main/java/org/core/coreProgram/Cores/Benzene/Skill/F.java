@@ -6,6 +6,10 @@ import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.RayTraceResult;
@@ -92,6 +96,26 @@ public class F implements SkillBase {
                         Special_Attack(player, firstLocation, playerGameMode, target, chainNum);
                     }
 
+                    if(config.blockBreak.getOrDefault(player.getUniqueId(), false)){
+                        ItemStack mainHand = player.getInventory().getItemInMainHand();
+                        ItemMeta meta = mainHand.getItemMeta();
+                        if (meta instanceof org.bukkit.inventory.meta.Damageable && mainHand.getType().getMaxDurability() > 0) {
+                            org.bukkit.inventory.meta.Damageable damageable = (org.bukkit.inventory.meta.Damageable) meta;
+                            int newDamage = damageable.getDamage() + 12;
+                            damageable.setDamage(newDamage);
+                            mainHand.setItemMeta(meta);
+
+                            if (newDamage >= mainHand.getType().getMaxDurability()) {
+                                player.getInventory().setItemInMainHand(null);
+                            }
+                        }
+                        config.blockBreak.remove(player.getUniqueId());
+                    }
+
+                    if(config.canBlockBreak.getOrDefault(player.getUniqueId(), false)){
+                        config.canBlockBreak.remove(player.getUniqueId());
+                    }
+
                     this.cancel();
                     return;
                 }
@@ -107,6 +131,17 @@ public class F implements SkillBase {
                         Location particleLocation = origin.clone().add(particleOffset);
 
                         double distanceFromOrigin = particleLocation.distance(origin);
+
+                        if(config.canBlockBreak.getOrDefault(player.getUniqueId(), false)) {
+                            Block blockDown = particleLocation.clone().getBlock();
+                            Block blockUp = particleLocation.clone().add(0, 1, 0).getBlock();
+                            if(blockDown.getType() != Material.AIR && blockDown.getType() != Material.WATER) {
+                                breakBlockSafely(player, blockDown);
+                            }
+                            if(blockUp.getType() != Material.AIR && blockDown.getType() != Material.WATER) {
+                                breakBlockSafely(player, blockUp);
+                            }
+                        }
 
                         if (distanceFromOrigin >= innerRadius) {
                             world.spawnParticle(Particle.DUST, particleLocation, 1, 0, 0, 0, 0, dustOption_slash_gra);
@@ -135,6 +170,40 @@ public class F implements SkillBase {
             }
         }.runTaskTimer(plugin, tickDelay, 1L);
     }
+
+    private static final Set<Material> UNBREAKABLE_BLOCKS = Set.of(
+            Material.BEDROCK,
+            Material.BARRIER,
+            Material.COMMAND_BLOCK,
+            Material.CHAIN_COMMAND_BLOCK,
+            Material.REPEATING_COMMAND_BLOCK,
+            Material.END_PORTAL_FRAME,
+            Material.END_PORTAL,
+            Material.NETHER_PORTAL,
+            Material.STRUCTURE_BLOCK,
+            Material.JIGSAW
+    );
+
+    public void breakBlockSafely(Player player, Block block) {
+        if (UNBREAKABLE_BLOCKS.contains(block.getType())) {
+            return;
+        }
+
+        if(!config.blockBreak.getOrDefault(player.getUniqueId(), false)) {
+            config.blockBreak.put(player.getUniqueId(), true);
+        }
+
+        block.getWorld().spawnParticle(
+                Particle.BLOCK,
+                block.getLocation().add(0.5, 0.5, 0.5),
+                6,
+                0.3, 0.3, 0.3,
+                block.getBlockData()
+        );
+
+        block.breakNaturally(new ItemStack(Material.IRON_SWORD));
+    }
+
 
     public static LivingEntity getTargetedEntity(Player player, double range, double raySize) {
         World world = player.getWorld();

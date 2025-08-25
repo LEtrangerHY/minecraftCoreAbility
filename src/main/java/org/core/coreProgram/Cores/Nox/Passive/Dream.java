@@ -58,6 +58,7 @@ public class Dream implements Listener {
         }
 
         BossBar bossBar = Bukkit.createBossBar(skill + " wanderersDream", BarColor.PURPLE, BarStyle.SOLID);
+        bossBar.setProgress(0.0);
         bossBar.addPlayer(player);
         activeDreamBars.put(key, bossBar);
 
@@ -81,7 +82,7 @@ public class Dream implements Listener {
                     skillMap.putIfAbsent(skill, 1.0);
                     skillMap.put(skill, elapsed / 1000);
                     double progress = elapsed / finalDuration;
-                    bossBar.setProgress(Math.min(1.0, Math.max(0.0, progress)));
+                    bossBar.setProgress(progress);
                 }
             }
         };

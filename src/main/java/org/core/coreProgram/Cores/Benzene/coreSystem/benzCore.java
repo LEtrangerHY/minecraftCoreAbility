@@ -2,8 +2,12 @@ package org.core.coreProgram.Cores.Benzene.coreSystem;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -15,7 +19,9 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.core.Cool.Cool;
 import org.core.Core;
 import org.core.coreConfig;
@@ -29,7 +35,10 @@ import org.core.coreProgram.Cores.Benzene.Skill.F;
 import org.core.coreProgram.Cores.Benzene.Skill.Q;
 import org.core.coreProgram.Cores.Benzene.Skill.R;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.UUID;
 
 import static org.bukkit.Bukkit.getLogger;
 
@@ -71,6 +80,72 @@ public class benzCore extends absCore {
             }
         }
     }
+
+    private final Map<UUID, BossBar> activeChargeBars = new HashMap<>();
+    private final Map<UUID, BukkitRunnable> activeChargeTasks = new HashMap<>();
+
+    @EventHandler
+    public void sneakCharge(PlayerToggleSneakEvent event) {
+        Player player = event.getPlayer();
+
+        if (!event.isSneaking() || cool.isReloading(player, "F") || !hasProperItems(player) || !tag.Benzene.contains(player)) return;
+
+        long durationTicks = 60L;
+
+        if (activeChargeTasks.containsKey(player.getUniqueId())) {
+            activeChargeTasks.get(player.getUniqueId()).cancel();
+            activeChargeTasks.remove(player.getUniqueId());
+        }
+        if (activeChargeBars.containsKey(player.getUniqueId())) {
+            activeChargeBars.get(player.getUniqueId()).removeAll();
+            activeChargeBars.remove(player.getUniqueId());
+        }
+
+        BossBar bossBar = Bukkit.createBossBar("F skill Charge", BarColor.PURPLE, BarStyle.SOLID);
+        bossBar.setProgress(0.0);
+        bossBar.addPlayer(player);
+        activeChargeBars.put(player.getUniqueId(), bossBar);
+
+        BukkitRunnable task = new BukkitRunnable() {
+            long ticks = 0;
+
+            @Override
+            public void run() {
+                if (!player.isSneaking()) {
+                    config.canBlockBreak.remove(player.getUniqueId());
+                    cleanup();
+                    return;
+                }
+
+                if (cool.isReloading(player, "F")) {
+                    cleanup();
+                    return;
+                }
+
+                if (ticks < durationTicks) {
+                    ticks++;
+                    double progress = (double) ticks / durationTicks;
+                    bossBar.setProgress(progress);
+                } else {
+                    bossBar.setProgress(1.0);
+                    if (!config.canBlockBreak.getOrDefault(player.getUniqueId(), false)) {
+                        config.canBlockBreak.put(player.getUniqueId(), true);
+                    }
+                }
+            }
+
+            private void cleanup() {
+                bossBar.removeAll();
+                activeChargeBars.remove(player.getUniqueId());
+                activeChargeTasks.remove(player.getUniqueId());
+                cancel();
+            }
+        };
+
+        task.runTaskTimer(plugin, 0L, 1L);
+        activeChargeTasks.put(player.getUniqueId(), task);
+    }
+
 
     @EventHandler
     public void rSkillPassive(PlayerMoveEvent event){

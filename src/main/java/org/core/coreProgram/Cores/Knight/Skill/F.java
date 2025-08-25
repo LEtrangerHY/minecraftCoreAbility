@@ -1,6 +1,7 @@
 package org.core.coreProgram.Cores.Knight.Skill;
 
 import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -17,6 +18,7 @@ import org.core.coreProgram.Cores.Knight.coreSystem.Knight;
 
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.Set;
 
 public class F implements SkillBase {
     private final Knight config;
@@ -45,7 +47,7 @@ public class F implements SkillBase {
 
         config.damaged.put(player.getUniqueId(), new HashSet<>());
 
-        Location origin = player.getEyeLocation().add(0, -0.5, 0);
+        Location origin = player.getEyeLocation().add(0, -0.4, 0);
         Vector direction = player.getLocation().getDirection().clone().setY(0).normalize();
 
         Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(0, 0, 0), 0.7f);
@@ -86,6 +88,13 @@ public class F implements SkillBase {
 
                         double distanceFromOrigin = particleLocation.distance(origin);
 
+                        for(int i = -1; i < 2; i++) {
+                            Block block = particleLocation.clone().add(0, i, 0).getBlock();
+                            if(block.getType() != Material.AIR) {
+                                breakBlockSafely(player, block);
+                            }
+                        }
+
                         if (distanceFromOrigin >= innerRadius) {
                             if(Math.random() < 0.17){
                                 world.spawnParticle(Particle.DUST, particleLocation, 1, 0, 0, 0, 0, dustOptions_gra);
@@ -98,7 +107,7 @@ public class F implements SkillBase {
                                     config.damaged.getOrDefault(player.getUniqueId(), new HashSet<>()).add(entity);
                                     world.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_STRONG, 1, 1);
                                     world.playSound(player.getLocation(), Sound.ENTITY_IRON_GOLEM_HURT, 1, 1);
-                                    player.getWorld().spawnParticle(Particle.DAMAGE_INDICATOR, target.getLocation().clone().add(0, 1.3, 0), 77, 0.4, 0.4, 0.4, 1);
+                                    player.getWorld().spawnParticle(Particle.DAMAGE_INDICATOR, target.getLocation().clone().add(0, 1.3, 0), 20, 0.4, 0.4, 0.4, 1);
                                     Stun stun = new Stun(target, 700);
                                     stun.applyEffect(player);
                                     ForceDamage forceDamage = new ForceDamage(target, config.f_Skill_Damage);
@@ -112,5 +121,34 @@ public class F implements SkillBase {
                 ticks++;
             }
         }.runTaskTimer(plugin, tickDelay, 1L);
+    }
+
+    private static final Set<Material> UNBREAKABLE_BLOCKS = Set.of(
+            Material.BEDROCK,
+            Material.BARRIER,
+            Material.COMMAND_BLOCK,
+            Material.CHAIN_COMMAND_BLOCK,
+            Material.REPEATING_COMMAND_BLOCK,
+            Material.END_PORTAL_FRAME,
+            Material.END_PORTAL,
+            Material.NETHER_PORTAL,
+            Material.STRUCTURE_BLOCK,
+            Material.JIGSAW
+    );
+
+    public void breakBlockSafely(Player player, Block block) {
+        if (UNBREAKABLE_BLOCKS.contains(block.getType())) {
+            return;
+        }
+
+        block.getWorld().spawnParticle(
+                Particle.BLOCK_CRUMBLE,
+                block.getLocation().add(0.5, 0.5, 0.5),
+                7,
+                0.3, 0.3, 0.3,
+                block.getBlockData()
+        );
+
+        block.breakNaturally(new ItemStack(Material.NETHERITE_SWORD));
     }
 }
