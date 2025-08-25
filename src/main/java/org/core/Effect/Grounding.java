@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,9 +35,9 @@ public class Grounding implements  Effects, Listener {
 
         long endTime = System.currentTimeMillis() + duration;
 
-        Location groundLoc = target.getLocation();
-
         new BukkitRunnable() {
+            Location groundLoc = target.getLocation();
+
             @Override
             public void run() {
 
@@ -50,6 +51,8 @@ public class Grounding implements  Effects, Listener {
                 Location fixed = new Location(target.getWorld(), target.getX(), groundLoc.getY(), target.getZ(), target.getYaw(), target.getPitch());
                 if(fixed.getY() < target.getY()) {
                     target.teleport(fixed);
+                }else if(fixed.getY() > target.getY()){
+                    groundLoc = target.getLocation();
                 }
 
                 if (target instanceof Player) {
@@ -61,6 +64,7 @@ public class Grounding implements  Effects, Listener {
 
     @Override
     public void removeEffect(Entity entity) {
+        entity.setVelocity(new Vector(0, 0, 0));
         groundedEntities.remove(entity);
     }
 

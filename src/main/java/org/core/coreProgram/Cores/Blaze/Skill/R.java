@@ -1,5 +1,7 @@
 package org.core.coreProgram.Cores.Blaze.Skill;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -7,6 +9,8 @@ import org.bukkit.World;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -30,34 +34,47 @@ public class R implements SkillBase{
 
     @Override
     public void Trigger(Player player) {
-        World world = player.getWorld();
-        player.playSound(player.getLocation(), Sound.ENTITY_PARROT_IMITATE_BLAZE, 1, 1);
-        player.playSound(player.getLocation(), Sound.ENTITY_BLAZE_BURN, 1, 1);
-        player.playSound(player.getLocation(), Sound.BLOCK_FIRE_AMBIENT, 1, 1);
+        ItemStack offhandItem = player.getInventory().getItem(EquipmentSlot.OFF_HAND);
 
-        new BukkitRunnable(){
-            int tick = 0;
+        if (offhandItem.getType() == Material.SOUL_LANTERN || ((offhandItem.getType() == Material.SOUL_SAND || offhandItem.getType() == Material.SOUL_SOIL) && offhandItem.getAmount() >= 7)) {
+            World world = player.getWorld();
+            player.playSound(player.getLocation(), Sound.ENTITY_PARROT_IMITATE_BLAZE, 1, 1);
+            player.playSound(player.getLocation(), Sound.ENTITY_BLAZE_BURN, 1, 1);
+            player.playSound(player.getLocation(), Sound.BLOCK_FIRE_AMBIENT, 1, 1);
 
-            @Override
-            public void run(){
-                if(tick > 26 || player.isDead()){
-                    cancel();
-                    return;
+            new BukkitRunnable() {
+                int tick = 0;
+
+                @Override
+                public void run() {
+                    if (tick > 26 || player.isDead()) {
+                        cancel();
+                        return;
+                    }
+
+                    if (tick < 20) {
+                        world.spawnParticle(Particle.SOUL_FIRE_FLAME, player.getLocation().clone().add(0, 1, 0), 13, 0.2, 0.1, 0.2, 0.05);
+                    } else {
+                        world.spawnParticle(Particle.SOUL, player.getLocation().clone().add(0, 1, 0), 4, 0.4, 0.4, 0.4, 0.04);
+                        player.playSound(player.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 1, 1);
+                        Vector direction = player.getLocation().getDirection().normalize().multiply(1.4);
+                        player.launchProjectile(Fireball.class, direction);
+                    }
+
+                    tick++;
                 }
 
-                if(tick < 20){
-                    world.spawnParticle(Particle.SOUL_FIRE_FLAME, player.getLocation().clone().add(0, 1, 0), 13, 0.2, 0.1, 0.2, 0.05);
-                }else{
-                    world.spawnParticle(Particle.SOUL, player.getLocation().clone().add(0, 1, 0), 4, 0.4, 0.4, 0.4, 0.04);
-                    player.playSound(player.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 1, 1);
-                    Vector direction = player.getLocation().getDirection().normalize().multiply(1.4);
-                    player.launchProjectile(Fireball.class, direction);
-                }
+            }.runTaskTimer(plugin, 0L, 3L);
 
-                tick++;
+            if((offhandItem.getType() == Material.SOUL_SAND || offhandItem.getType() == Material.SOUL_SOIL) && offhandItem.getAmount() >= 7) {
+                offhandItem.setAmount(offhandItem.getAmount() - 7);
             }
 
-        }.runTaskTimer(plugin, 0L, 3L);
-
+        }else{
+            player.playSound(player.getLocation(), Sound.ENTITY_BLAZE_AMBIENT, 1, 1);
+            player.sendActionBar(Component.text("Soul needed").color(NamedTextColor.RED));
+            long cools = 100L;
+            cool.updateCooldown(player, "R", cools);
+        }
     }
 }

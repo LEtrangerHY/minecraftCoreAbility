@@ -198,6 +198,7 @@ public class F implements SkillBase {
                 Material.GRANITE, Material.ANDESITE, Material.DIORITE, Material.TUFF,
                 Material.CRIMSON_NYLIUM, Material.WARPED_NYLIUM, Material.SANDSTONE
         );
+        Set<Material> meltable = Set.of(Material.ICE, Material.FROSTED_ICE, Material.BLUE_ICE, Material.PACKED_ICE, Material.SNOW_BLOCK, Material.POWDER_SNOW);
 
         Set<Chunk> modifiedChunks = new HashSet<>();
 
@@ -218,7 +219,9 @@ public class F implements SkillBase {
                     Block block = world.getBlockAt(x, y, z);
                     Material type = block.getType();
 
-                    if (sandLike.contains(type)) {
+                    if (meltable.contains(type)){
+                        block.setType(Material.AIR);
+                    }else if (sandLike.contains(type)) {
                         block.setType(Material.SOUL_SAND);
                         if (Math.random() < 0.13 || isEdge) {
                             Block above = block.getRelative(BlockFace.UP);
