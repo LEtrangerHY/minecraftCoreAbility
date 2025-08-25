@@ -135,10 +135,10 @@ public class F implements SkillBase {
                         if(config.canBlockBreak.getOrDefault(player.getUniqueId(), false)) {
                             Block blockDown = particleLocation.clone().getBlock();
                             Block blockUp = particleLocation.clone().add(0, 1, 0).getBlock();
-                            if(blockDown.getType() != Material.AIR && blockDown.getType() != Material.WATER) {
+                            if(blockDown.getType() != Material.AIR && blockDown.getType() != Material.WATER && blockDown.getType() != Material.LAVA) {
                                 breakBlockSafely(player, blockDown);
                             }
-                            if(blockUp.getType() != Material.AIR && blockDown.getType() != Material.WATER) {
+                            if(blockUp.getType() != Material.AIR && blockDown.getType() != Material.WATER && blockDown.getType() != Material.LAVA) {
                                 breakBlockSafely(player, blockUp);
                             }
                         }

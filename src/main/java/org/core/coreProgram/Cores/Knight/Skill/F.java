@@ -90,7 +90,7 @@ public class F implements SkillBase {
 
                         for(int i = -1; i < 2; i++) {
                             Block block = particleLocation.clone().add(0, i, 0).getBlock();
-                            if(block.getType() != Material.AIR) {
+                            if(block.getType() != Material.AIR && block.getType() != Material.WATER && block.getType() != Material.LAVA) {
                                 breakBlockSafely(player, block);
                             }
                         }
