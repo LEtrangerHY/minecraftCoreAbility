@@ -1,12 +1,10 @@
 package org.core.coreProgram.Cores.Blaze.coreSystem;
 
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.IronGolem;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.UUID;
+import java.util.*;
 
 public class Blaze {
 
@@ -24,7 +22,8 @@ public class Blaze {
     public long r_Skill_Cool = 10000;
 
     //Q
-    public long q_Skill_Cool = 3000;
+    public HashMap<UUID, Boolean> BurstBlaze = new HashMap<>();
+    public long q_Skill_Cool = 44000;
 
     //F
     public long f_Skill_Cool = 666000;

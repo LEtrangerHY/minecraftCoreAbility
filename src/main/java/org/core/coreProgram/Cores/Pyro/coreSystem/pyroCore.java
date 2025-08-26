@@ -2,6 +2,7 @@ package org.core.coreProgram.Cores.Pyro.coreSystem;
 
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -98,7 +99,8 @@ public class pyroCore extends absCore {
 
                             @Override
                             public void run() {
-                                if (ticks >= 10 || config.collision.getOrDefault(player.getUniqueId(), true)) {
+
+                                if (ticks >= 25 || config.collision.getOrDefault(player.getUniqueId(), true)) {
                                     config.collision.remove(player.getUniqueId());
                                     this.cancel();
                                     return;
@@ -111,8 +113,31 @@ public class pyroCore extends absCore {
                                 player.spawnParticle(Particle.FLAME, particleLocation, 3, 0.1, 0.1, 0.1, 0);
                                 player.spawnParticle(Particle.SMOKE, particleLocation, 2, 0.1, 0.1, 0.1, 0);
 
+                                Block block = particleLocation.getBlock();
+
+                                if (block.isBurnable() || block.getType() == Material.ICE || block.getType() == Material.SNOW || block.getType() == Material.BLUE_ICE || block.getType() == Material.FROSTED_ICE || block.getType() == Material.PACKED_ICE || block.getType() == Material.POWDER_SNOW || block.getType() == Material.SNOW_BLOCK) {
+                                    if(block.getType() == Material.BLUE_ICE) {
+                                        if(Math.random() < 0.06) {
+                                            block.setType(Material.FIRE);
+                                        }
+                                    }else{
+                                        block.setType(Material.FIRE);
+                                    }
+                                    if(Math.random() < 0.2) {
+                                        block.getWorld().playSound(block.getLocation(), Sound.ENTITY_GENERIC_BURN, 1, 1);
+                                    }
+                                }
+
+
+                                if(!particleLocation.getBlock().isPassable()){
+                                    Burst(player, particleLocation);
+                                    config.collision.put(player.getUniqueId(), true);
+                                }
+
                                 for (Entity entity : world.getNearbyEntities(particleLocation, 0.5, 0.5, 0.5)) {
                                     if (entity instanceof LivingEntity target && entity != player) {
+                                        ForceDamage forceDamage = new ForceDamage(target, 9);
+                                        forceDamage.applyEffect(player);
                                         Burst(player, particleLocation);
                                         config.collision.put(player.getUniqueId(), true);
                                         break;
@@ -150,7 +175,7 @@ public class pyroCore extends absCore {
                     burn.applyEffect(player);
                 }
 
-                ForceDamage forceDamage = new ForceDamage(target, 9);
+                ForceDamage forceDamage = new ForceDamage(target, 4);
                 forceDamage.applyEffect(player);
 
                 Vector direction = entity.getLocation().toVector().subtract(burstLoction.toVector()).normalize().multiply(0.5);

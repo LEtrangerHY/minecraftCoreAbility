@@ -2,13 +2,17 @@ package org.core.coreProgram.Cores.Blaze.coreSystem;
 
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -100,18 +104,43 @@ public class blazeCore extends absCore {
                             return;
                         }
 
-                        cool.setCooldown(player, 4000L, "blaze");
+                        if(config.BurstBlaze.getOrDefault(player.getUniqueId(), false)){
+                            cool.setCooldown(player, 2000L, "blaze");
+                        }else {
+                            cool.setCooldown(player, 4000L, "blaze");
+                        }
 
                         World world = player.getWorld();
                         Location origin = player.getLocation().add(0, 1.3, 0);
                         Vector forward = origin.getDirection().normalize();
 
-                        player.getAttribute(Attribute.ATTACK_SPEED).setBaseValue(0.25);
+                        if(config.BurstBlaze.getOrDefault(player.getUniqueId(), false)){
+                            player.getAttribute(Attribute.ATTACK_SPEED).setBaseValue(0.5);
+                        }else {
+                            player.getAttribute(Attribute.ATTACK_SPEED).setBaseValue(0.25);
+                        }
                         player.playSound(player.getLocation(), Sound.ITEM_FIRECHARGE_USE, 1, 1);
                         player.playSound(player.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 1, 1);
 
-                        double maxDistance = 9.0;
-                        double coneAngle = 60.0;
+                        double maxDistance = (config.BurstBlaze.getOrDefault(player.getUniqueId(), false)) ? 11.0 : 9.0;
+                        double coneAngle = (config.BurstBlaze.getOrDefault(player.getUniqueId(), false)) ? 360.0 : 60.0;
+
+                        if(config.BurstBlaze.getOrDefault(player.getUniqueId(), false)){
+                            player.spawnParticle(Particle.SOUL_FIRE_FLAME, player.getLocation().clone().add(0, 0.6, 0), 130, 0.1, 0.1, 0.1, 0.8);
+                            for (Entity entity : world.getNearbyEntities(player.getLocation(), 13, 13, 13)) {
+                                if (entity instanceof LivingEntity target && entity != player) {
+
+                                    if (Math.random() < 0.4) {
+                                        Burn burn = new Burn(target, 2000L);
+                                        burn.applyEffect(player);
+                                        PotionEffect wither = new PotionEffect(PotionEffectType.WITHER, 40, 3, false, false);
+                                        ((LivingEntity) target).addPotionEffect(wither);
+                                    }
+
+                                    world.spawnParticle(Particle.SMOKE, target.getLocation().add(0, 1, 0), 4, 0.2, 0.4, 0.2, 0.05);
+                                }
+                            }
+                        }
 
                         new BukkitRunnable() {
                             double distance = 1.0;
@@ -125,27 +154,49 @@ public class blazeCore extends absCore {
                                 }
 
                                 for (double angle = -coneAngle / 2; angle <= coneAngle / 2; angle += 8) {
-                                    Vector dir = forward.clone();
-                                    dir.rotateAroundY(Math.toRadians(angle));
+                                    Vector dir = (config.BurstBlaze.getOrDefault(player.getUniqueId(), false)) ? forward.clone().setY(0).rotateAroundY(Math.toRadians(angle)): forward.clone().rotateAroundY(Math.toRadians(angle));
                                     Location particleLoc = origin.clone().add(dir.multiply(distance));
 
                                     world.spawnParticle(Particle.SOUL_FIRE_FLAME, particleLoc, 4, 0.2, 0.1, 0.2, 0.04);
 
-                                    for (Entity entity : world.getNearbyEntities(particleLoc, 0.6, 0.6, 0.6)) {
+                                    double dist = (config.BurstBlaze.getOrDefault(player.getUniqueId(), false)) ? 2 : 0.6;
+
+                                    for (Entity entity : world.getNearbyEntities(particleLoc, dist, dist, dist)) {
                                         if (entity instanceof LivingEntity && entity != player) {
 
                                             LivingEntity target = (LivingEntity) entity;
                                             ForceDamage forceDamage = new ForceDamage(target, 0.4);
                                             forceDamage.applyEffect(player);
 
-                                            if (Math.random() < 0.4) {
-                                                Burn burn = new Burn(target, 4000L);
+                                            double per = (config.BurstBlaze.getOrDefault(player.getUniqueId(), false)) ? 1.0 : 0.4;
+                                            long burnTime = (config.BurstBlaze.getOrDefault(player.getUniqueId(), false)) ? 6000L : 4000L;
+
+                                            if (Math.random() < per) {
+                                                Burn burn = new Burn(target, burnTime);
                                                 burn.applyEffect(player);
-                                                PotionEffect wither = new PotionEffect(PotionEffectType.WITHER, 20 * 4, 3, false, false);
+                                                PotionEffect wither = new PotionEffect(PotionEffectType.WITHER, (int) (20 * (burnTime / 1000)), 3, false, false);
                                                 ((LivingEntity) target).addPotionEffect(wither);
                                             }
 
                                             world.spawnParticle(Particle.SMOKE, target.getLocation().add(0, 1, 0), 4, 0.2, 0.4, 0.2, 0.05);
+                                        }
+                                    }
+
+                                    if(config.BurstBlaze.getOrDefault(player.getUniqueId(), false)) {
+                                        for (int i = -3; i < 4; i++) {
+                                            Block block = particleLoc.clone().add(0, i, 0).getBlock();
+                                            if (block.isBurnable() || block.getType() == Material.ICE || block.getType() == Material.SNOW || block.getType() == Material.BLUE_ICE || block.getType() == Material.FROSTED_ICE || block.getType() == Material.PACKED_ICE || block.getType() == Material.POWDER_SNOW || block.getType() == Material.SNOW_BLOCK) {
+                                                if(block.getType() == Material.BLUE_ICE) {
+                                                    if(Math.random() < 0.06) {
+                                                        block.setType(Material.FIRE);
+                                                    }
+                                                }else{
+                                                    block.setType(Material.FIRE);
+                                                }
+                                                if(Math.random() < 0.2) {
+                                                    block.getWorld().playSound(block.getLocation(), Sound.ENTITY_GENERIC_BURN, 1, 1);
+                                                }
+                                            }
                                         }
                                     }
                                 }
