@@ -138,7 +138,7 @@ public class ChainCalc {
 
                 double tiltAngle = Math.toRadians(16);
 
-                Particle.DustOptions dustOption_chain = (distance <= 24) ? new Particle.DustOptions(Color.fromRGB(66, 66, 66), 0.6f) : new Particle.DustOptions(Color.fromRGB(0, 0, 0), 0.6f);
+                Particle.DustOptions dustOption_chain = (distance <= 22) ? new Particle.DustOptions(Color.fromRGB(66, 66, 66), 0.6f) : new Particle.DustOptions(Color.fromRGB(0, 0, 0), 0.6f);
 
                 List<Location> vertices = new ArrayList<>();
 

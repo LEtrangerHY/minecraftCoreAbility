@@ -15,7 +15,7 @@ public class Benzene {
     public long frozenCool = 10000;
 
     //passive
-    public LinkedHashMap<Entity, LinkedHashMap<Entity, Double>> damageTimes = new LinkedHashMap<>();
+    public LinkedHashMap<Entity, LinkedHashMap<Entity, Long>> damageTimes = new LinkedHashMap<>();
     public HashMap<UUID, Integer> Chain_Count = new HashMap<>();
     public HashMap<UUID, LinkedHashMap<Integer, Entity>> Chain = new HashMap<>();
 
@@ -47,7 +47,6 @@ public class Benzene {
         Q_COOLDOWN.remove(player.getUniqueId());
         F_COOLDOWN.remove(player.getUniqueId());
 
-        //processed.remove(player.getUniqueId());
         Chain_Count.remove(player.getUniqueId());
         Chain.remove(player.getUniqueId());
 

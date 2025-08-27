@@ -28,7 +28,7 @@ public class DamageShare {
 
     public void damageShareTrigger(Player player, Entity target, double damage) {
 
-        double times = Bukkit.getServer().getCurrentTick();
+        long times = Bukkit.getServer().getCurrentTick();
 
         if(!config.damageTimes.getOrDefault(target, new LinkedHashMap<>()).containsValue(times)) {
             damageShare(player, target, damage, times);
@@ -36,7 +36,7 @@ public class DamageShare {
 
     }
 
-    private void damageShare(Player player, Entity target, double damage, double times) {
+    private void damageShare(Player player, Entity target, double damage, long times) {
 
         Set<Entity> processedEntities = new HashSet<>();
 
@@ -50,7 +50,7 @@ public class DamageShare {
             Location loc2 = chainedEntity.getLocation().add(0, chainedEntity.getHeight() / 2 + 0.2, 0);
             double distance = loc1.distance(loc2);
 
-            if (distance <= 24 && !config.damageTimes.getOrDefault(target, new LinkedHashMap<>()).containsValue(times)) {
+            if (distance <= 22 && !config.damageTimes.getOrDefault(target, new LinkedHashMap<>()).containsValue(times)) {
                 player.getWorld().playSound(player.getLocation(), Sound.BLOCK_CHAIN_PLACE, 1.0f, 1.0f);
                 chainedEntity.getWorld().playSound(player.getLocation(), Sound.BLOCK_CHAIN_PLACE, 1.0f, 1.0f);
 
@@ -72,13 +72,9 @@ public class DamageShare {
                 chainedEntity.getWorld().playSound(effectLoc, Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.0f, 1.0f);
                 chainedEntity.getWorld().playSound(effectLoc, Sound.ITEM_TRIDENT_HIT_GROUND, 1.0f, 1.0f);
 
-                if (chainedEntity.isDead()) {
-                    config.Chain.forEach((uuid, entityMap) -> entityMap.values().removeIf(entity -> entity.equals(chainedEntity)));
-                    config.Chain.entrySet().removeIf(entry -> entry.getValue().isEmpty());
-                }
             }
 
-            Map<Entity, Double> timesMap = config.damageTimes.getOrDefault(chainedEntity, new LinkedHashMap<>());
+            Map<Entity, Long> timesMap = config.damageTimes.getOrDefault(chainedEntity, new LinkedHashMap<>());
             timesMap.remove(target, times);
             if (timesMap.isEmpty()) {
                 config.damageTimes.remove(chainedEntity);
