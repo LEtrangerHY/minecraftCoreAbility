@@ -293,7 +293,7 @@ public class ChainCalc {
                     j.put(player.getUniqueId(), 0);
 
                     for (String displayName : con.get(player.getUniqueId())) {
-                        Score score = (lastDist.get(player.getUniqueId()).get(j.get(player.getUniqueId())) <= 24) ? objective.getScore(displayName) : objective.getScore("§7" + displayName);
+                        Score score = (lastDist.get(player.getUniqueId()).get(j.get(player.getUniqueId())) <= 22) ? objective.getScore(displayName) : objective.getScore("§7" + displayName);
                         score.setScore(j.get(player.getUniqueId()));
                         j.put(player.getUniqueId(), j.get(player.getUniqueId()) + 1);
                     }
