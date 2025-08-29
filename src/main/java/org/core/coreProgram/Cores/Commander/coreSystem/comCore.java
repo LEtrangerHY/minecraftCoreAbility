@@ -135,7 +135,7 @@ public class comCore extends absCore {
         World world = player.getWorld();
         Location center = fb.getLocation();
 
-        for (Entity entity : world.getNearbyEntities(center, 8, 8, 8)) {
+        for (Entity entity : world.getNearbyEntities(center, 5, 5, 5)) {
             if (entity.equals(player) || !(entity instanceof LivingEntity)) continue;
 
             entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);

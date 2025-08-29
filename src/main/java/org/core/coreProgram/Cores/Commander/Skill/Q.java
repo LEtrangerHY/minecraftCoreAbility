@@ -37,19 +37,19 @@ public class Q implements SkillBase {
     public void Trigger(Player player){
         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
         for(FallingBlock fb : config.comBlocks.getOrDefault(player.getUniqueId(), new HashSet<>())){
-            player.getWorld().spawnParticle(Particle.ENCHANTED_HIT, fb.getLocation().add(0.5, 0.5, 0.5), 30, 0.2, 0.2, 0.2, 1);
-            circleParticle(player, fb.getLocation().add(0.5, 0.5, 0.5));
+            player.getWorld().spawnParticle(Particle.ENCHANTED_HIT, fb.getLocation().clone().add(0.5, 0.5, 0.5), 30, 0.2, 0.2, 0.2, 1);
+            circleParticle(player, fb.getLocation().clone().add(0, 0.5, 0));
             commandReceiver(player, fb);
         }
     }
 
     public void circleParticle(Player player, Location center){
 
-        double Length = 4.0;
+        double Length = 3.5;
         double maxAngle = Math.toRadians(180);
         long tickDelay = 0L;
         int maxTicks = 5;
-        double innerRadius = 3.9;
+        double innerRadius = 3.4;
 
         Vector direction = center.getDirection().clone().setY(0).normalize();
 
@@ -92,7 +92,7 @@ public class Q implements SkillBase {
         World world = player.getWorld();
         Location center = fb.getLocation();
 
-        for (Entity entity : world.getNearbyEntities(center, 4, 4, 4)) {
+        for (Entity entity : world.getNearbyEntities(center, 3.5, 3.5, 3.5)) {
             if (!(entity instanceof LivingEntity)) continue;
 
             if(!entity.equals(player)) {
@@ -113,7 +113,7 @@ public class Q implements SkillBase {
 
                 attackLine(player, maxDistance, start, dir);
             }else{
-                ((LivingEntity) entity).heal(1);
+                ((LivingEntity) entity).heal(2);
                 player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
                 player.spawnParticle(Particle.HAPPY_VILLAGER, player.getLocation().clone().add(0, 1.2, 0), 5, 0.2, 0.2, 0.2, 0);
             }
