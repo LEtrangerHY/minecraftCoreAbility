@@ -16,6 +16,8 @@ import org.core.coreProgram.Cores.Bambo.coreSystem.Bambo;
 import org.core.coreProgram.Cores.Bambo.coreSystem.bambCore;
 import org.core.coreProgram.Cores.Blaze.coreSystem.Blaze;
 import org.core.coreProgram.Cores.Blaze.coreSystem.blazeCore;
+import org.core.coreProgram.Cores.Commander.coreSystem.Commander;
+import org.core.coreProgram.Cores.Commander.coreSystem.comCore;
 import org.core.coreProgram.Cores.Nox.coreSystem.Nox;
 import org.core.coreProgram.Cores.Nox.coreSystem.noxCore;
 import org.core.coreProgram.Cores.Benzene.coreSystem.Benzene;
@@ -51,6 +53,7 @@ public final class Core extends JavaPlugin implements TabCompleter {
     private knightCore knight;
     private lustCore luster;
     private blazeCore blaze;
+    private comCore commander;
 
     public static Core getInstance() {
         return instance;
@@ -70,6 +73,7 @@ public final class Core extends JavaPlugin implements TabCompleter {
         Knight knightConfig = new Knight();
         Luster lustConfig = new Luster();
         Blaze blazeConfig = new Blaze();
+        Commander comConfig = new Commander();
 
         Cool cool = new Cool(this);
 
@@ -104,6 +108,9 @@ public final class Core extends JavaPlugin implements TabCompleter {
 
         this.blaze = new blazeCore(this, config, blazeConfig, cool);
         Bukkit.getPluginManager().registerEvents(this.blaze, this);
+
+        this.commander = new comCore(this, config, comConfig, cool);
+        Bukkit.getPluginManager().registerEvents(this.commander, this);
 
         getCommand("core").setExecutor(this);
         getCommand("corecheck").setExecutor(this);
@@ -236,6 +243,7 @@ public final class Core extends JavaPlugin implements TabCompleter {
                 suggestions.add("bambo");
                 suggestions.add("luster");
                 suggestions.add("blaze");
+                suggestions.add("commander");
             } else if (args.length == 3) {
                 suggestions.add("true");
                 suggestions.add("false");

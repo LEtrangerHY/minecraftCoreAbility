@@ -28,6 +28,7 @@ public class coreConfig {
     public Set<Player> Knight;
     public Set<Player> Luster;
     public Set<Player> Blaze;
+    public Set<Player> Commander;
 
     public coreConfig(JavaPlugin plugin) {
         this.plugin = plugin;
@@ -42,6 +43,7 @@ public class coreConfig {
         this.Knight = new PersistentPlayerSet(plugin, "setting_knight");
         this.Luster = new PersistentPlayerSet(plugin, "setting_luster");
         this.Blaze = new PersistentPlayerSet(plugin, "setting_blaze");
+        this.Commander = new PersistentPlayerSet(plugin, "setting_commander");
     }
 
     public String getPlayerCore(Player player) {
@@ -52,9 +54,10 @@ public class coreConfig {
         if (Dagger.contains(player)) return "dagger";
         if (Pyro.contains(player)) return "pyro";
         if (Glacier.contains(player)) return "glacier";
-        if(Knight.contains(player)) return "knight";
-        if(Luster.contains(player)) return "luster";
-        if(Blaze.contains(player)) return "blaze";
+        if (Knight.contains(player)) return "knight";
+        if (Luster.contains(player)) return "luster";
+        if (Blaze.contains(player)) return "blaze";
+        if (Commander.contains(player)) return "commander";
         return "none";
     }
 
@@ -71,6 +74,7 @@ public class coreConfig {
         player.getPersistentDataContainer().set(new NamespacedKey(plugin, "setting_knight"), PersistentDataType.BYTE, (byte) 0);
         player.getPersistentDataContainer().set(new NamespacedKey(plugin, "setting_luster"), PersistentDataType.BYTE, (byte) 0);
         player.getPersistentDataContainer().set(new NamespacedKey(plugin, "setting_blaze"), PersistentDataType.BYTE, (byte) 0);
+        player.getPersistentDataContainer().set(new NamespacedKey(plugin, "setting_commander"), PersistentDataType.BYTE, (byte) 0);
     }
 
     public void setSetting(Player player, String setting, boolean value) {
@@ -93,6 +97,7 @@ public class coreConfig {
             case "knight" -> new NamespacedKey(plugin, "setting_knight");
             case "luster" -> new NamespacedKey(plugin, "setting_luster");
             case "blaze" -> new NamespacedKey(plugin, "setting_blaze");
+            case "commander" -> new NamespacedKey(plugin, "setting_commander");
             default -> null;
         };
     }

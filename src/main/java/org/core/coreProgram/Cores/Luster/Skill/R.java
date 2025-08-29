@@ -8,6 +8,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -92,7 +93,8 @@ public class R implements SkillBase {
                     for (Entity e : world.getNearbyEntities(fb.getLocation(), 0.7, 0.7, 0.7)) {
                         if (e instanceof LivingEntity le && !le.equals(player)) {
 
-                            world.playSound(player.getLocation(), Sound.BLOCK_ANVIL_PLACE, 1f, 1.6f);
+                            world.playSound(fb.getLocation(), Sound.BLOCK_ANVIL_LAND, 1f, 1f);
+                            world.playSound(fb.getLocation(), Sound.ENTITY_WITHER_SHOOT, 1f, 1f);
 
                             ForceDamage forceDamage = new ForceDamage(le, config.r_Skill_Damage);
                             forceDamage.applyEffect(player);
@@ -103,9 +105,6 @@ public class R implements SkillBase {
 
                             world.spawnParticle(Particle.BLOCK, fb.getLocation(), 44, 0.3, 0.3, 0.3,
                                     Material.IRON_BLOCK.createBlockData());
-
-                            world.playSound(fb.getLocation(), Sound.BLOCK_ANVIL_LAND, 1f, 1f);
-                            world.playSound(fb.getLocation(), Sound.ENTITY_WITHER_SHOOT, 1f, 1f);
 
                             fb.remove();
                             cancel();
