@@ -114,7 +114,7 @@ public class Q implements SkillBase {
                 attackLine(player, maxDistance, start, dir);
             }else{
                 ((LivingEntity) entity).heal(2);
-                player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
+                player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.5f, 1);
                 player.spawnParticle(Particle.HAPPY_VILLAGER, player.getLocation().clone().add(0, 1.2, 0), 5, 0.2, 0.2, 0.2, 0);
             }
         }

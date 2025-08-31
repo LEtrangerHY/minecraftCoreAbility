@@ -57,7 +57,7 @@ public class Q implements SkillBase {
                 @Override
                 public void run() {
 
-                    player.getWorld().playSound(player.getLocation(), Sound.BLOCK_CHAIN_PLACE, 1.0f, 1.0f);
+                    player.getWorld().playSound(entity.getLocation(), Sound.BLOCK_CHAIN_PLACE, 1.12f, 1.0f);
                     player.getWorld().spawnParticle(Particle.BLOCK, entity.getLocation().clone().add(0, 1.2, 0), 6, 0.3, 0.3, 0.3,
                             Material.CHAIN.createBlockData());
 
@@ -72,8 +72,7 @@ public class Q implements SkillBase {
 
             player.getWorld().spawnParticle(Particle.ENCHANTED_HIT, entity.getLocation().add(0, 1, 0), 30, 0.6, 0, 0.6, 1);
 
-            world.spawnParticle(Particle.SOUL, entity.getLocation().add(0, 1.1, 0), 12, 0.3, 0.3, 0.3, 0);
-            world.spawnParticle(Particle.DRAGON_BREATH, entity.getLocation().add(0, 1.1, 0), 12, 0.3, 0.3, 0.3, 0);
+            world.spawnParticle(Particle.PORTAL, entity.getLocation().clone().add(0, 3.3, 0), 12, 0.3, 0.3, 0.3, 0);
             chain_qSkill_Particle_Effect(player, entity, 40);
 
             Grounding grounding = new Grounding(entity, 2000);
@@ -98,13 +97,12 @@ public class Q implements SkillBase {
             for (Entity rangeTarget : world.getNearbyEntities(player.getLocation(), 6.0, 6.0, 6.0)) {
                 if (rangeTarget instanceof LivingEntity target && rangeTarget != player) {
 
-                    player.getWorld().playSound(player.getLocation(), Sound.ITEM_TRIDENT_HIT_GROUND, 1.0f, 1.0f);
-                    player.getWorld().playSound(player.getLocation(), Sound.BLOCK_CHAIN_PLACE, 1.0f, 1.0f);
+                    player.getWorld().playSound(target.getLocation(), Sound.ITEM_TRIDENT_HIT_GROUND, 1.0f, 1.0f);
+                    player.getWorld().playSound(target.getLocation(), Sound.BLOCK_CHAIN_PLACE, 1.12f, 1.0f);
                     player.getWorld().spawnParticle(Particle.BLOCK, target.getLocation().clone().add(0, 1.2, 0), 6, 0.3, 0.3, 0.3,
                             Material.CHAIN.createBlockData());
 
-                    world.spawnParticle(Particle.SOUL, rangeTarget.getLocation().add(0, 1.1, 0), 6, 0.3, 0.3, 0.3, 0);
-                    world.spawnParticle(Particle.DRAGON_BREATH, rangeTarget.getLocation().add(0, 1.1, 0), 6, 0.3, 0.3, 0.3, 0);
+                    world.spawnParticle(Particle.PORTAL, rangeTarget.getLocation().clone().add(0, 3.3, 0), 6, 0.3, 0.3, 0.3, 0);
 
                     chain_qSkill_Particle_Effect(player, rangeTarget, 40);
 
@@ -122,9 +120,9 @@ public class Q implements SkillBase {
             }
 
             if(config.atkCount.getOrDefault(player.getUniqueId(), 0) == 3) {
-                player.sendActionBar(Component.text("Skill Enable").color(NamedTextColor.DARK_GRAY));
+                player.sendActionBar(Component.text("R Enabled").color(NamedTextColor.DARK_GRAY));
             }else{
-                player.sendActionBar(Component.text("Attack Count : " + config.atkCount.getOrDefault(player.getUniqueId(), 0)).color(NamedTextColor.GRAY));
+                player.sendActionBar(Component.text("Count : " + config.atkCount.getOrDefault(player.getUniqueId(), 0)).color(NamedTextColor.GRAY));
             }
         }
     }
@@ -132,6 +130,8 @@ public class Q implements SkillBase {
     public void chain_qSkill_Particle_Effect(Player player, Entity entity, int time){
 
         World world = player.getWorld();
+
+        Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(66, 66, 66), 0.5f);
 
         new BukkitRunnable() {
             int tick = 0;
@@ -144,8 +144,6 @@ public class Q implements SkillBase {
                     this.cancel();
                     return;
                 }
-
-                Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(66, 66, 66), 0.5f);
 
                 for(int i = 0; i < 33; i++){
                     world.spawnParticle(Particle.DUST, entity.getLocation().add(0, ((double) i) / 10, 0), 1, 0, 0, 0, 0, dustOptions);

@@ -55,7 +55,7 @@ public class F implements SkillBase {
 
         if(target != null){
             player.getWorld().playSound(player.getLocation(), Sound.ITEM_TRIDENT_HIT_GROUND, 1.0f, 1.0f);
-            player.getWorld().spawnParticle(Particle.ENCHANTED_HIT, target.getLocation().add(0, 1, 0), 20, 0.6, 0, 0.6, 1);
+            player.getWorld().spawnParticle(Particle.ENCHANTED_HIT, target.getLocation().clone().add(0, 1, 0), 20, 0.6, 0, 0.6, 1);
             player.getWorld().spawnParticle(Particle.BLOCK, target.getLocation().clone().add(0, 1.2, 0), 12, 0.3, 0.3, 0.3,
                     Material.CHAIN.createBlockData());
         }
@@ -73,7 +73,7 @@ public class F implements SkillBase {
             public void run() {
 
                 if(ticks < 2){
-                    player.getWorld().playSound(player.getLocation(), Sound.BLOCK_CHAIN_BREAK, 1.0f, 1.0f);
+                    player.getWorld().playSound(player.getLocation(), Sound.BLOCK_CHAIN_BREAK, 1.12f, 1.0f);
                 }
 
                 if (ticks >= maxTicks || player.isDead()) {
@@ -305,7 +305,7 @@ public class F implements SkillBase {
             public void run() {
 
                 if(ticks < 1){
-                    player.getWorld().playSound(player.getLocation(), Sound.BLOCK_CHAIN_BREAK, 1.0f, 1.0f);
+                    player.getWorld().playSound(player.getLocation(), Sound.BLOCK_CHAIN_BREAK, 1.12f, 1.0f);
                 }
 
                 if (ticks >= maxTicks || player.isDead()) {

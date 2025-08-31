@@ -179,9 +179,9 @@ public class benzCore extends absCore {
 
         if(tag.Benzene.contains(player) && !config.rskill_using.getOrDefault(player.getUniqueId(), false)) {
             if (config.atkCount.getOrDefault(player.getUniqueId(), 0) == 3) {
-                player.sendActionBar(Component.text("Skill Enable").color(NamedTextColor.DARK_GRAY));
+                player.sendActionBar(Component.text("R Enabled").color(NamedTextColor.DARK_GRAY));
             } else {
-                player.sendActionBar(Component.text("Attack Count : " + config.atkCount.getOrDefault(player.getUniqueId(), 0)).color(NamedTextColor.GRAY));
+                player.sendActionBar(Component.text("Count : " + config.atkCount.getOrDefault(player.getUniqueId(), 0)).color(NamedTextColor.GRAY));
             }
         }
 

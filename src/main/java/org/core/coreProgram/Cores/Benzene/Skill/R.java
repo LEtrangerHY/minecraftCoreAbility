@@ -58,7 +58,10 @@ public class R implements SkillBase {
         config.damaged_2.put(player.getUniqueId(), new HashSet<>());
 
         config.atkCount.put(player.getUniqueId(), 0);
-        player.sendActionBar(Component.text("Attack Count : " + config.atkCount.getOrDefault(player.getUniqueId(), 0)).color(NamedTextColor.GRAY));
+        player.sendActionBar(Component.text("Count : " + config.atkCount.getOrDefault(player.getUniqueId(), 0)).color(NamedTextColor.GRAY));
+
+        Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(111, 111, 111), 0.6f);
+        Particle.DustOptions dustOptions_small = new Particle.DustOptions(Color.fromRGB(66, 66, 66), 0.6f);
 
         new BukkitRunnable() {
             private double ticks = 0;
@@ -67,7 +70,7 @@ public class R implements SkillBase {
             public void run() {
 
                 if(ticks < 4){
-                    player.getWorld().playSound(player.getLocation(), Sound.BLOCK_CHAIN_BREAK, 1.0f, 1.0f);
+                    player.getWorld().playSound(player.getLocation(), Sound.BLOCK_CHAIN_BREAK, 1.12f, 1.0f);
                     player.getWorld().spawnParticle(Particle.BLOCK, player.getLocation().clone().add(0, 1.2, 0), 6, 0.3, 0.3, 0.3,
                             Material.CHAIN.createBlockData());
                 }
@@ -79,10 +82,7 @@ public class R implements SkillBase {
                     return;
                 }
 
-                Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(111, 111, 111), 0.6f);
                 player.getWorld().spawnParticle(Particle.DUST, player.getLocation().add(0, 1, 0), 111, 0.3, 0, 0.3, 0.08, dustOptions);
-
-                Particle.DustOptions dustOptions_small = new Particle.DustOptions(Color.fromRGB(66, 66, 66), 0.6f);
                 player.getWorld().spawnParticle(Particle.DUST, player.getLocation().add(0, 1, 0), 66, 0.3, 0, 0.3, 0.08, dustOptions_small);
 
                 List<Entity> nearbyEntities = player.getNearbyEntities(1.2, 1.2, 1.2);

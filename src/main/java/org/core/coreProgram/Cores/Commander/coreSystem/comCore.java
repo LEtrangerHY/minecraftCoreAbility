@@ -76,7 +76,7 @@ public class comCore extends absCore {
                         Vector direction = playerLocation.getDirection().normalize().multiply(1.0);
 
                         player.getAttribute(Attribute.ATTACK_SPEED).setBaseValue((double) 1.0);
-                        player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
+                        player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.5f, 1);
 
                         config.collision.put(player.getUniqueId(), false);
 
@@ -138,7 +138,7 @@ public class comCore extends absCore {
         for (Entity entity : world.getNearbyEntities(center, 5, 5, 5)) {
             if (entity.equals(player) || !(entity instanceof LivingEntity)) continue;
 
-            entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
+            entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.5f, 1);
 
             ForceDamage forceDamage = new ForceDamage((LivingEntity) entity, 1);
             forceDamage.applyEffect(player);
