@@ -1,5 +1,7 @@
 package org.core.coreProgram.Cores.Commander.Skill;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -35,11 +37,18 @@ public class Q implements SkillBase {
 
     @Override
     public void Trigger(Player player){
-        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-        for(FallingBlock fb : config.comBlocks.getOrDefault(player.getUniqueId(), new HashSet<>())){
-            player.getWorld().spawnParticle(Particle.ENCHANTED_HIT, fb.getLocation().clone().add(0, 0.5, 0), 30, 0.2, 0.2, 0.2, 1);
-            circleParticle(player, fb.getLocation().clone().add(0, 0.5, 0));
-            commandReceiver(player, fb);
+        if(!config.comBlocks.getOrDefault(player.getUniqueId(), new HashSet<>()).isEmpty()) {
+            player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+            for (FallingBlock fb : config.comBlocks.getOrDefault(player.getUniqueId(), new HashSet<>())) {
+                player.getWorld().spawnParticle(Particle.ENCHANTED_HIT, fb.getLocation().clone().add(0, 0.5, 0), 30, 0.2, 0.2, 0.2, 1);
+                circleParticle(player, fb.getLocation().clone().add(0, 0.5, 0));
+                commandReceiver(player, fb);
+            }
+        }else{
+            player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
+            player.sendActionBar(Component.text("com-block uninstalled").color(NamedTextColor.RED));
+            long cools = 100L;
+            cool.updateCooldown(player, "Q", cools);
         }
     }
 

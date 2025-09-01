@@ -34,7 +34,8 @@ public class Commander {
     public long q_Skill_Cool = 9000;
 
     //F
-    public long f_Skill_Cool = 4000;
+    public HashMap<UUID, HashSet<FallingBlock>> received = new HashMap<>();
+    public long f_Skill_Cool = 7000;
 
     public void variableReset(Player player){
 

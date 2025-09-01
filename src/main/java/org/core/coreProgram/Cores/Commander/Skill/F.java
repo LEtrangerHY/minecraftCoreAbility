@@ -1,5 +1,7 @@
 package org.core.coreProgram.Cores.Commander.Skill;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.FallingBlock;
@@ -31,11 +33,17 @@ public class F implements SkillBase {
 
     @Override
     public void Trigger(Player player){
-        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-        for(FallingBlock fb : config.comBlocks.getOrDefault(player.getUniqueId(), new HashSet<>())){
-            player.getWorld().spawnParticle(Particle.DRAGON_BREATH, fb.getLocation().clone().add(0, 0.5, 0), 30, 0.2, 0.2, 0.2, 1);
-            circleParticle(player, fb.getLocation().clone().add(0, 0.5, 0));
-            commandReceiver_1(player, fb);
+        if(!config.comBlocks.getOrDefault(player.getUniqueId(), new HashSet<>()).isEmpty()){
+            player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+            for(FallingBlock fb : config.comBlocks.getOrDefault(player.getUniqueId(), new HashSet<>())){
+                circleParticle(player, fb.getLocation().clone().add(0, 0.5, 0));
+                commandReceiver_1(player, fb);
+            }
+        }else{
+            player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
+            player.sendActionBar(Component.text("com-block uninstalled").color(NamedTextColor.RED));
+            long cools = 100L;
+            cool.updateCooldown(player, "F", cools);
         }
     }
 
@@ -104,8 +112,10 @@ public class F implements SkillBase {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    if (world.getNearbyEntities(center, 1, 1, 1).contains(entity)) {
-                        commandReceiver_2(player, center);
+                    if (world.getNearbyEntities(center, 1, 1, 1).contains(entity) || !fb.isValid()) {
+                        if(fb.isValid()) {
+                            commandReceiver_2(player, center, entity);
+                        }
                         this.cancel();
                     } else {
                         Vector direction = center.toVector().subtract(entity.getLocation().toVector()).normalize().multiply(1.0);
@@ -116,19 +126,15 @@ public class F implements SkillBase {
         }
     }
 
-    public void commandReceiver_2(Player player, Location center) {
+    public void commandReceiver_2(Player player, Location center, Entity entity) {
         World world = player.getWorld();
 
-        for (Entity entity : world.getNearbyEntities(center, 6, 6, 6)) {
-            if (entity.equals(player) || !(entity instanceof LivingEntity)) continue;
+        player.getWorld().spawnParticle(Particle.DRAGON_BREATH, center, 70, 0.2, 0.2, 0.2, 0.4);
+        player.getWorld().playSound(center, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE, 1, 1);
 
-            player.getWorld().playSound(center, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE, 1, 1);
-
-            ForceDamage forceDamage = new ForceDamage((LivingEntity) entity, 12);
-            forceDamage.applyEffect(player);
-            entity.setVelocity(new Vector(0, 0, 0));
-
-        }
+        ForceDamage forceDamage = new ForceDamage((LivingEntity) entity, 4);
+        forceDamage.applyEffect(player);
+        entity.setVelocity(new Vector(0, 0, 0));
     }
 
     public void attackLine(Player player, double maxDistance, Location start, Vector direction){
