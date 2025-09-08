@@ -3,6 +3,8 @@ package org.core;
 import com.destroystokyo.paper.event.entity.EntityJumpEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -228,12 +230,25 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
                     return true;
                 }
 
+                AttributeInstance maxHealth = target.getAttribute(Attribute.MAX_HEALTH);
+                if (maxHealth != null) {
+                    maxHealth.setBaseValue(20.0);
+                    target.setHealth(20.0);
+                }
+
                 target.getPersistentDataContainer().set(new NamespacedKey(this, "exp"), PersistentDataType.LONG, 0L);
                 target.getPersistentDataContainer().set(new NamespacedKey(this, "level"), PersistentDataType.LONG, 0L);
                 sender.sendMessage( "§a" + target.getName() + " 경험치, 레벨 리셋 : " + this.level.Exp.getOrDefault(target, 0L) + ", " + this.level.Level.getOrDefault(target, 0L));
                 return true;
             }else if(args.length == 0){
                 if (!(sender instanceof Player player)) return true;
+
+                AttributeInstance maxHealth = player.getAttribute(Attribute.MAX_HEALTH);
+                if (maxHealth != null) {
+                    maxHealth.setBaseValue(20.0);
+                    player.setHealth(20.0);
+                }
+
                 player.getPersistentDataContainer().set(new NamespacedKey(this, "exp"), PersistentDataType.LONG, 0L);
                 player.getPersistentDataContainer().set(new NamespacedKey(this, "level"), PersistentDataType.LONG, 0L);
                 sender.sendMessage( "§a본인의 경험치, 레벨 리셋 " + this.level.Exp.getOrDefault(player, 0L) + ", " + this.level.Level.getOrDefault(player, 0L));

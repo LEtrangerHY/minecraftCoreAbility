@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Burn implements Debuffs{
-    private static final Map<Entity, Long> burnedEntities = new HashMap();
+    private static final HashMap<Entity, Long> burnedEntities = new HashMap();
 
     private final Entity target;
     private final long duration;
@@ -57,11 +57,5 @@ public class Burn implements Debuffs{
     public static boolean isBurning(Entity entity) {
         Long endTime = burnedEntities.get(entity);
         return endTime != null && System.currentTimeMillis() < endTime;
-    }
-
-    @EventHandler
-    public void quitRemove(PlayerQuitEvent event){
-        Player player = event.getPlayer();
-        removeEffect(player);
     }
 }

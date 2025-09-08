@@ -3,12 +3,16 @@ package org.core.Level;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerExpChangeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -52,7 +56,36 @@ public class LevelingManager implements Listener {
 
     @EventHandler
     public void Join(PlayerJoinEvent event){
-        levelActionBar(event.getPlayer());
+        Player player = event.getPlayer();
+
+        levelActionBar(player);
+
+        Long level = player.getPersistentDataContainer().getOrDefault(
+                new NamespacedKey(plugin, "level"), PersistentDataType.LONG, 0L
+        );
+
+        AttributeInstance maxHealth = player.getAttribute(Attribute.MAX_HEALTH);
+        if (maxHealth != null) {
+            maxHealth.setBaseValue(20.0 + 2.0 * level);
+        }
+    }
+
+
+    @EventHandler
+    public void Respawn(PlayerRespawnEvent event) {
+        Player player = event.getPlayer();
+
+        Long level = player.getPersistentDataContainer().getOrDefault(
+                new NamespacedKey(plugin, "level"), PersistentDataType.LONG, 0L
+        );
+
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            AttributeInstance maxHealth = player.getAttribute(Attribute.MAX_HEALTH);
+            if (maxHealth != null) {
+                maxHealth.setBaseValue(20.0 + 2.0 * level);
+                player.setHealth(maxHealth.getBaseValue());
+            }
+        }, 1L);
     }
 
     @EventHandler
