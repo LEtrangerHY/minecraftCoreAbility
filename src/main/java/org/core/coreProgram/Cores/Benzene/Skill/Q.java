@@ -72,7 +72,6 @@ public class Q implements SkillBase {
 
             player.getWorld().spawnParticle(Particle.ENCHANTED_HIT, entity.getLocation().add(0, 1, 0), 30, 0.6, 0, 0.6, 1);
 
-            world.spawnParticle(Particle.DRAGON_BREATH, entity.getLocation().clone().add(0, 3.3, 0), 12, 0.2, 0.2, 0.2, 0);
             chain_qSkill_Particle_Effect(player, entity, 40);
 
             Grounding grounding = new Grounding(entity, 2000);
@@ -101,8 +100,6 @@ public class Q implements SkillBase {
                     player.getWorld().playSound(target.getLocation(), Sound.BLOCK_CHAIN_PLACE, 1.12f, 1.0f);
                     player.getWorld().spawnParticle(Particle.BLOCK, target.getLocation().clone().add(0, 1.2, 0), 6, 0.3, 0.3, 0.3,
                             Material.CHAIN.createBlockData());
-
-                    world.spawnParticle(Particle.DRAGON_BREATH, rangeTarget.getLocation().clone().add(0, 3.3, 0), 6, 0.2, 0.2, 0.2, 0);
 
                     chain_qSkill_Particle_Effect(player, rangeTarget, 40);
 

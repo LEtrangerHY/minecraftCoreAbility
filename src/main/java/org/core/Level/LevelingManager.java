@@ -59,7 +59,6 @@ public class LevelingManager implements Listener {
     public void Join(PlayerJoinEvent event){
         Player player = event.getPlayer();
 
-        player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
         levelActionBar(player);
 
         Long level = player.getPersistentDataContainer().getOrDefault(
@@ -156,6 +155,8 @@ public class LevelingManager implements Listener {
             runnableHashMap.get(player.getUniqueId()).cancel();
             runnableHashMap.remove(player.getUniqueId());
         }
+
+        player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
 
         BukkitRunnable runnable = new BukkitRunnable() {
             @Override

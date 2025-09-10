@@ -129,6 +129,9 @@ public class ChainCalc {
 
                     particleUse.remove(target);
 
+                    config.Chain.remove(player.getUniqueId());
+                    config.Chain_Count.remove(player.getUniqueId());
+
                     this.cancel();
                     return;
                 }
@@ -215,6 +218,9 @@ public class ChainCalc {
                 if (!player.isOnline() || !tag.Benzene.contains(player)) {
                     player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
                     activeTasks.remove(playerUUID);
+
+                    config.Chain.remove(player.getUniqueId());
+                    config.Chain_Count.remove(player.getUniqueId());
                     this.cancel();
                     return;
                 }
