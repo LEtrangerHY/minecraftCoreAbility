@@ -1,9 +1,6 @@
 package org.core.coreProgram.Cores.Nox.Skill;
 
-import org.bukkit.Color;
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -57,9 +54,14 @@ public class R implements SkillBase {
 
     public void detect(Player player){
 
+        World world = player.getWorld();
+
         config.rskill_using.put(player.getUniqueId(), true);
 
         config.damaged.put(player.getUniqueId(), new HashSet<>());
+
+        boolean diff = (config.dreamSkill.containsKey(player.getUniqueId()) && !config.dreamSkill.getOrDefault(player.getUniqueId(), "").equals("R"));
+        double damage = diff ? config.r_Skill_damage * 3 : config.r_Skill_damage;
 
         new BukkitRunnable() {
             private double ticks = 0;
@@ -81,9 +83,15 @@ public class R implements SkillBase {
                 List<Entity> nearbyEntities = player.getNearbyEntities(0.6, 0.6, 0.6);
                 for (Entity entity : nearbyEntities) {
                     if (entity instanceof LivingEntity target && entity != player && !config.damaged.getOrDefault(player.getUniqueId(), new HashSet<>()).contains(entity)) {
-                        ForceDamage forceDamage = new ForceDamage(target, config.r_Skill_damage);
+
+                        if(diff) {
+                            world.spawnParticle(Particle.ENCHANTED_HIT, target.getLocation().clone().add(0, 1.2, 0), 33, 0.6, 0.6, 0.6, 1);
+                        }
+
+                        ForceDamage forceDamage = new ForceDamage(target, damage);
                         forceDamage.applyEffect(player);
                         target.setVelocity(new Vector(0, 0, 0));
+
                         config.damaged.getOrDefault(player.getUniqueId(), new HashSet<>()).add(target);
                     }
                 }

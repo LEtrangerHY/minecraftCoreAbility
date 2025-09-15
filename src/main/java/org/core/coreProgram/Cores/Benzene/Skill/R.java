@@ -59,7 +59,7 @@ public class R implements SkillBase {
         config.damaged_2.put(player.getUniqueId(), new HashSet<>());
 
         config.atkCount.put(player.getUniqueId(), 0);
-        player.sendActionBar(Component.text("Count : " + config.atkCount.getOrDefault(player.getUniqueId(), 0)).color(NamedTextColor.GRAY));
+        player.sendActionBar(Component.text("Forever").color(NamedTextColor.GRAY));
 
         Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(111, 111, 111), 0.6f);
         Particle.DustOptions dustOptions_small = new Particle.DustOptions(Color.fromRGB(66, 66, 66), 0.6f);

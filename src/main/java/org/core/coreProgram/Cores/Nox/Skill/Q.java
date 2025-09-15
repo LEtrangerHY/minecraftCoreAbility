@@ -98,7 +98,7 @@ public class Q implements SkillBase {
 
                             @Override
                             public void run() {
-                                if (tick > atk || player.isDead()) {
+                                if (tick >= atk || player.isDead()) {
                                     this.cancel();
                                     return;
                                 }

@@ -38,14 +38,14 @@ public class Dream implements Listener {
     public void dreamPoint(Player player, long coolTime, String skill) {
         int point = config.dreamPoint.getOrDefault(player.getUniqueId(), 0);
 
+        long cools = (long) Math.min(coolTime * Math.pow(3, point), 6000);
+        cool.updateCooldown(player, skill, cools);
+
         if(point < 6) {
 
             World world = player.getWorld();
             Location playerLoc = player.getLocation();
             BlockData chain = Material.CHAIN.createBlockData();
-
-            long cools = (long) Math.min(coolTime * Math.pow(3, point), 6000);
-            cool.updateCooldown(player, skill, cools);
 
             int addPoint = (config.dreamSkill.containsKey(player.getUniqueId()) && !config.dreamSkill.getOrDefault(player.getUniqueId(), "").equals(skill)) ? 2 : 1;
 
@@ -63,7 +63,6 @@ public class Dream implements Listener {
                     chain);
             if(addPoint == 2){
                 world.spawnParticle(Particle.ENCHANTED_HIT, playerLoc.clone().add(0, 1.2, 0), 33, 0.6, 0.6, 0.6, 1);
-
             }
 
             if (config.dreamPoint.getOrDefault(player.getUniqueId(), 0) < 6) {
@@ -87,7 +86,7 @@ public class Dream implements Listener {
         config.dreamPoint.remove(player.getUniqueId());
         config.dreamSkill.remove(player.getUniqueId());
 
-        player.sendActionBar(Component.text("Oblivion").color(NamedTextColor.DARK_GRAY));
+        player.sendActionBar(Component.text("Oblivion").color(NamedTextColor.GRAY));
 
     }
 }

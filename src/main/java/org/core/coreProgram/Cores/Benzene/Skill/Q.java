@@ -45,7 +45,6 @@ public class Q implements SkillBase {
 
         Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(30, 30, 30), 0.6f);
         BlockData chain = Material.CHAIN.createBlockData();
-        PotionEffect glow = new PotionEffect(PotionEffectType.GLOWING, 10, 2, false, false);
 
         player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1.0f, 1.0f);
 
@@ -56,6 +55,7 @@ public class Q implements SkillBase {
             entity.setVelocity(new Vector(0, 0, 0));
             grounding.applyEffect(entity);
 
+            PotionEffect glow = new PotionEffect(PotionEffectType.GLOWING, 40, 2, false, false);
             entity.addPotionEffect(glow);
 
             config.q_Skill_effect_1.put(player.getUniqueId(), entity);
@@ -79,6 +79,9 @@ public class Q implements SkillBase {
                 }
             }.runTaskTimer(plugin, 0L, 1L);
 
+            config.atkCount.put(player.getUniqueId(), 3);
+            player.sendActionBar(Component.text("Eternity").color(NamedTextColor.DARK_GRAY));
+
         }else{
             world.spawnParticle(Particle.DUST, player.getLocation().add(0, 0.6, 0), 222, 3, 0, 3, 0, dustOptions);
             player.getWorld().playSound(player.getLocation(), Sound.ITEM_TRIDENT_HIT_GROUND, 1.0f, 1.0f);
@@ -96,9 +99,19 @@ public class Q implements SkillBase {
                     grounding.applyEffect(rangeTarget);
                     target.setVelocity(new Vector(0, 0, 0));
 
+                    PotionEffect glow = new PotionEffect(PotionEffectType.GLOWING, 40, 2, false, false);
                     target.addPotionEffect(glow);
 
                     config.q_Skill_effect_2.put(player.getUniqueId(), rangeTarget);
+
+                    int count = config.atkCount.getOrDefault(player.getUniqueId(), 0);
+                    config.atkCount.put(player.getUniqueId(), count + 1);
+
+                    if(count < 2){
+                        player.sendActionBar(Component.text("Memory : " + config.atkCount.getOrDefault(player.getUniqueId(), 0)).color(NamedTextColor.GRAY));
+                    }else{
+                        player.sendActionBar(Component.text("Eternity").color(NamedTextColor.DARK_GRAY));
+                    }
 
                 }
             }
