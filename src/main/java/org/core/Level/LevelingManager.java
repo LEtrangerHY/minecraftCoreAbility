@@ -219,7 +219,7 @@ public class LevelingManager implements Listener {
         if (level < 0) return;
         if (level > 10) level = 10;
 
-        double[] cumulativeP = {0.0, 0.6, 0.13, 0.21, 0.30, 0.40, 0.51, 0.63, 0.76, 0.90, 1.05};
+        double[] cumulativeP = {0.0, 0.06, 0.13, 0.21, 0.30, 0.40, 0.51, 0.63, 0.76, 0.90, 1.05};
 
         double p = cumulativeP[(int)level];
 
