@@ -45,7 +45,7 @@ public class noxInventory extends absInventory {
         return switch (skill) {
             case "R" -> Component.text("Memory");
             case "Q" -> Component.text("Process");
-            case "F" -> Component.text("OBLIVION");
+            case "F" -> Component.text("ENLIGHTEN");
             default -> Component.text("???");
         };
     }
@@ -54,8 +54,8 @@ public class noxInventory extends absInventory {
     protected Material getTotem(Player player, String skill) {
         return switch (skill) {
             case "R" -> Material.FEATHER;
-            case "Q" -> Material.ENDER_PEARL;
-            case "F" -> Material.WIND_CHARGE;
+            case "Q" -> Material.WIND_CHARGE;
+            case "F" -> Material.ENDER_PEARL;
             default -> Material.BARRIER;
         };
     }

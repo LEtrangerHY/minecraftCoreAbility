@@ -51,9 +51,9 @@ public class knightInventory extends absInventory {
     @Override
     protected Material getTotem(Player player, String skill) {
         return switch (skill) {
-            case "R" -> Material.DIAMOND_SWORD;
-            case "Q" -> Material.NETHERITE_SWORD;
-            case "F" -> Material.NETHERITE_BLOCK;
+            case "R" -> Material.DIAMOND;
+            case "Q" -> Material.NETHERITE_SCRAP;
+            case "F" -> Material.NETHERITE_INGOT;
             default -> Material.BARRIER;
         };
     }

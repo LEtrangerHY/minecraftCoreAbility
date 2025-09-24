@@ -49,7 +49,7 @@ public class benzInventory extends absInventory {
         return switch (skill) {
             case "R" -> Component.text("Eternity");
             case "Q" -> Component.text("Resonance");
-            case "F" -> Component.text("OBLIVION");
+            case "F" -> Component.text("ENLIGHTEN");
             default -> Component.text("???");
         };
     }
@@ -58,8 +58,8 @@ public class benzInventory extends absInventory {
     protected Material getTotem(Player player, String skill) {
         return switch (skill) {
             case "R" -> Material.CHAIN;
-            case "Q" -> Material.ENDER_EYE;
-            case "F" -> Material.WIND_CHARGE;
+            case "Q" -> Material.IRON_BARS;
+            case "F" -> Material.ENDER_EYE;
             default -> Material.BARRIER;
         };
     }
