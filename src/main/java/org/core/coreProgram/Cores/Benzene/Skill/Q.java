@@ -80,7 +80,7 @@ public class Q implements SkillBase {
             }.runTaskTimer(plugin, 0L, 1L);
 
             config.atkCount.put(player.getUniqueId(), 3);
-            player.sendActionBar(Component.text("Eternity").color(NamedTextColor.DARK_GRAY));
+            player.sendActionBar(Component.text("⌬ ⌬ ⌬").color(NamedTextColor.DARK_GRAY));
 
         }else{
             world.spawnParticle(Particle.DUST, player.getLocation().add(0, 0.6, 0), 222, 3, 0, 3, 0, dustOptions);
@@ -107,10 +107,12 @@ public class Q implements SkillBase {
                     int count = config.atkCount.getOrDefault(player.getUniqueId(), 0);
                     config.atkCount.put(player.getUniqueId(), count + 1);
 
-                    if(count < 2){
-                        player.sendActionBar(Component.text("Memory : " + config.atkCount.getOrDefault(player.getUniqueId(), 0)).color(NamedTextColor.GRAY));
-                    }else{
-                        player.sendActionBar(Component.text("Eternity").color(NamedTextColor.DARK_GRAY));
+                    if (config.atkCount.getOrDefault(player.getUniqueId(), 0) == 3) {
+                        player.sendActionBar(Component.text("⌬ ⌬ ⌬").color(NamedTextColor.DARK_GRAY));
+                    } else if (config.atkCount.getOrDefault(player.getUniqueId(), 0) == 2){
+                        player.sendActionBar(Component.text("⬡ ⬡").color(NamedTextColor.GRAY));
+                    } else if (config.atkCount.getOrDefault(player.getUniqueId(), 0) == 1){
+                        player.sendActionBar(Component.text("⬡").color(NamedTextColor.GRAY));
                     }
 
                 }

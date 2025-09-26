@@ -86,7 +86,7 @@ public class Dream implements Listener {
         config.dreamPoint.remove(player.getUniqueId());
         config.dreamSkill.remove(player.getUniqueId());
 
-        player.sendActionBar(Component.text("Oblivion").color(NamedTextColor.GRAY));
+        player.sendActionBar(Component.text("Dreams : " + config.dreamPoint.getOrDefault(player.getUniqueId(), 0)).color(NamedTextColor.GRAY));
 
     }
 }

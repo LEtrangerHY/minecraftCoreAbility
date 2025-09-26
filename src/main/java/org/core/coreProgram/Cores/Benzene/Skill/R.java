@@ -63,7 +63,7 @@ public class R implements SkillBase {
         double damage = config.r_Skill_damage * (1 + amp);
 
         config.atkCount.put(player.getUniqueId(), 0);
-        player.sendActionBar(Component.text("Forever").color(NamedTextColor.GRAY));
+        player.sendActionBar(Component.text("⌬").color(NamedTextColor.GRAY));
 
         Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(111, 111, 111), 0.6f);
         Particle.DustOptions dustOptions_small = new Particle.DustOptions(Color.fromRGB(66, 66, 66), 0.6f);

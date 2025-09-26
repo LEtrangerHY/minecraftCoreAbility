@@ -72,16 +72,28 @@ public class comInventory extends absInventory {
 
         lore.add(Component.text("Lv." + level + "/" + maxLevel).color(NamedTextColor.YELLOW));
 
-        lore.add(Component.text("------------").color(NamedTextColor.WHITE));
+        Component requireXp;
 
         switch (skill) {
             case "R":
+                requireXp = (level < 6) ? Component.text("Require CORE EXP : " + requireExpOfR.get((int) level)) : Component.text("Require CORE EXP : MAX");
+                lore.add(requireXp.color(NamedTextColor.AQUA));
+
+                lore.add(Component.text("------------").color(NamedTextColor.WHITE));
                 lore.add(Component.text("R 스킬 설명임 누가 좀 적어주셈").color(NamedTextColor.GREEN));
                 break;
             case "Q":
+                requireXp = (level < 6) ? Component.text("Require CORE EXP : " + requireExpOfR.get((int) level)) : Component.text("Require CORE EXP : MAX");
+                lore.add(requireXp.color(NamedTextColor.AQUA));
+
+                lore.add(Component.text("------------").color(NamedTextColor.WHITE));
                 lore.add(Component.text("Q 스킬 설명임 누가 좀 적어주셈").color(NamedTextColor.GREEN));
                 break;
             case "F":
+                requireXp = (level < 6) ? Component.text("Require CORE EXP : " + requireExpOfR.get((int) level)) : Component.text("Require CORE EXP : MAX");
+                lore.add(requireXp.color(NamedTextColor.AQUA));
+
+                lore.add(Component.text("------------").color(NamedTextColor.WHITE));
                 lore.add(Component.text("F 스킬 설명임 누가 좀 적어주셈").color(NamedTextColor.GREEN));
                 break;
             default:

@@ -184,9 +184,11 @@ public class benzCore extends absCore {
 
         if(tag.Benzene.contains(player) && !config.rskill_using.getOrDefault(player.getUniqueId(), false)) {
             if (config.atkCount.getOrDefault(player.getUniqueId(), 0) == 3) {
-                player.sendActionBar(Component.text("Eternity").color(NamedTextColor.DARK_GRAY));
+                player.sendActionBar(Component.text("⌬ ⌬ ⌬").color(NamedTextColor.DARK_GRAY));
+            } else if (config.atkCount.getOrDefault(player.getUniqueId(), 0) == 2){
+                player.sendActionBar(Component.text("⬡ ⬡").color(NamedTextColor.GRAY));
             } else {
-                player.sendActionBar(Component.text("Memory : " + config.atkCount.getOrDefault(player.getUniqueId(), 0)).color(NamedTextColor.GRAY));
+                player.sendActionBar(Component.text("⬡").color(NamedTextColor.GRAY));
             }
         }
 
