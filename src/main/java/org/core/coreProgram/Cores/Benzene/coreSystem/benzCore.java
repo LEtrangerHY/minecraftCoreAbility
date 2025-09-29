@@ -16,6 +16,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.block.TNTPrimeEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
@@ -201,7 +202,7 @@ public class benzCore extends absCore {
 
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOW)
     public void passiveEffect(EntityDamageByEntityEvent event) {
 
         if (!(event.getDamager() instanceof Player player)) return;
@@ -240,7 +241,7 @@ public class benzCore extends absCore {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOW)
     public void chainDelete(EntityDeathEvent event) {
         Entity death = event.getEntity();
 
@@ -251,7 +252,7 @@ public class benzCore extends absCore {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOW)
     public void chainedCreeperExplode(EntityExplodeEvent event) {
         Entity ex = event.getEntity();
 

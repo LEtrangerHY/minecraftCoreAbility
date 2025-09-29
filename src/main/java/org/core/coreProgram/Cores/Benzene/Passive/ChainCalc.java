@@ -212,12 +212,13 @@ public class ChainCalc {
         BukkitRunnable task = new BukkitRunnable() {
             @Override
             public void run() {
-                if (!player.isOnline() || !tag.Benzene.contains(player)) {
-                    player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
-                    activeTasks.remove(playerUUID);
+                if (!player.isOnline() || !tag.Benzene.contains(player) || player.isDead()) {
 
                     config.Chain.remove(player.getUniqueId());
                     config.Chain_Count.remove(player.getUniqueId());
+
+                    activeTasks.remove(playerUUID);
+                    player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
                     this.cancel();
                     return;
                 }
