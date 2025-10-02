@@ -19,7 +19,7 @@ public class Dagger {
     //R
     public HashMap<UUID, Boolean> r_damaged = new HashMap<>();
     public double r_Skill_amp = 0.11;
-    public double r_Skill_damage = 10;
+    public double r_Skill_damage = 6;
     public long r_Skill_Cool = 4000;
     public long r_Stun = 2000;
 

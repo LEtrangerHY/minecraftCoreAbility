@@ -88,7 +88,7 @@ public class R implements SkillBase {
                     return;
                 }
 
-                player.getWorld().spawnParticle(Particle.DUST, player.getLocation().add(0, 1, 0), 111, 0.3, 0, 0.3, 0.08, dustOptions);
+                player.getWorld().spawnParticle(Particle.DUST, player.getLocation().add(0, 1, 0), 66, 0.3, 0, 0.3, 0.08, dustOptions);
                 player.getWorld().spawnParticle(Particle.DUST, player.getLocation().add(0, 1, 0), 66, 0.3, 0, 0.3, 0.08, dustOptions_small);
 
                 List<Entity> nearbyEntities = player.getNearbyEntities(1.2, 1.2, 1.2);

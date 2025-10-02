@@ -44,7 +44,7 @@ public class F implements SkillBase {
         world.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1, 1);
 
         double slashLength = 4.8;
-        double maxAngle = Math.toRadians(50);
+        double maxAngle = Math.toRadians(45);
         long tickDelay = 0L;
         int maxTicks = 5;
         double innerRadius = 2.6;
@@ -306,6 +306,11 @@ public class F implements SkillBase {
         Location origin = player.getEyeLocation().add(0, 0, 0);
         Vector direction = player.getLocation().getDirection().clone().setY(0).normalize();
 
+        Particle.DustOptions dustOptions1 = new Particle.DustOptions(Color.fromRGB(111, 111, 111), 0.5f);
+        Particle.DustOptions dustOptions2 = new Particle.DustOptions(Color.fromRGB(101, 101, 101), 0.5f);
+        Particle.DustOptions dustOptions3 = new Particle.DustOptions(Color.fromRGB(99, 99, 99), 0.6f);
+        Particle.DustOptions dustOptions_gra = new Particle.DustOptions(Color.fromRGB(66, 66, 66), 0.6f);
+
         new BukkitRunnable() {
             int ticks = 0;
 
@@ -336,19 +341,16 @@ public class F implements SkillBase {
                         particleOffset.setY(tiltedY);
                         particleOffset.setZ(tiltedZ);
 
-                        Location particleLocation = origin.clone().add(particleOffset);
+                        Location particleLocation = origin.clone().add(particleOffset).clone().add(0, height, 0);
 
                         if(length < innerRadius + 0.2){
-                            Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(111, 111, 111), 0.4f);
-                            world.spawnParticle(Particle.DUST, particleLocation.add(0, height, 0), 1, 0, 0, 0, 0, dustOptions);
+                            world.spawnParticle(Particle.DUST, particleLocation, 1, 0, 0, 0, 0, dustOptions1);
                         }else if(length < innerRadius + 0.3){
-                            Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(88, 88, 88), 0.5f);
-                            world.spawnParticle(Particle.DUST, particleLocation.add(0, height, 0), 1, 0, 0, 0, 0, dustOptions);
+                            world.spawnParticle(Particle.DUST, particleLocation, 1, 0, 0, 0, 0, dustOptions2);
                         }else{
-                            Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(66, 66, 66), 0.6f);
-                            world.spawnParticle(Particle.DUST, particleLocation.add(0, height, 0), 1, 0, 0, 0, 0, dustOptions);
-                            if(Math.random() < 0.11){
-                                Particle.DustOptions dustOptions_gra = new Particle.DustOptions(Color.fromRGB(33, 33, 33), 0.6f);
+                            if(Math.random() < 0.66){
+                                world.spawnParticle(Particle.DUST, particleLocation, 1, 0, 0, 0, 0, dustOptions3);
+                            }else{
                                 world.spawnParticle(Particle.DUST, particleLocation, 1, 0, 0, 0, 0, dustOptions_gra);
                             }
                         }
