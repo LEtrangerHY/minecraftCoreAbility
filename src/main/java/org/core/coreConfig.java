@@ -31,6 +31,7 @@ public class coreConfig {
     public Set<Player> Luster;
     public Set<Player> Blaze;
     public Set<Player> Commander;
+    public Set<Player> Harvester;
 
     public coreConfig(JavaPlugin plugin) {
         this.plugin = plugin;
@@ -46,6 +47,7 @@ public class coreConfig {
         this.Luster = new persistentPlayerSet(plugin, "setting_luster");
         this.Blaze = new persistentPlayerSet(plugin, "setting_blaze");
         this.Commander = new persistentPlayerSet(plugin, "setting_commander");
+        this.Harvester = new persistentPlayerSet(plugin, "setting_harvester");
     }
 
     public String getPlayerCore(Player player) {
@@ -60,6 +62,7 @@ public class coreConfig {
         if (Luster.contains(player)) return "luster";
         if (Blaze.contains(player)) return "blaze";
         if (Commander.contains(player)) return "commander";
+        if (Harvester.contains(player)) return "harvester";
         return "none";
     }
 
@@ -77,6 +80,7 @@ public class coreConfig {
         player.getPersistentDataContainer().set(new NamespacedKey(plugin, "setting_luster"), PersistentDataType.BYTE, (byte) 0);
         player.getPersistentDataContainer().set(new NamespacedKey(plugin, "setting_blaze"), PersistentDataType.BYTE, (byte) 0);
         player.getPersistentDataContainer().set(new NamespacedKey(plugin, "setting_commander"), PersistentDataType.BYTE, (byte) 0);
+        player.getPersistentDataContainer().set(new NamespacedKey(plugin, "setting_harvester"), PersistentDataType.BYTE, (byte) 0);
     }
 
     public void setSetting(Player player, String setting, boolean value) {
@@ -100,6 +104,7 @@ public class coreConfig {
             case "luster" -> new NamespacedKey(plugin, "setting_luster");
             case "blaze" -> new NamespacedKey(plugin, "setting_blaze");
             case "commander" -> new NamespacedKey(plugin, "setting_commander");
+            case "harvester" -> new NamespacedKey(plugin, "setting_harvester");
             default -> null;
         };
     }

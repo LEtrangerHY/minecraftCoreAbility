@@ -32,6 +32,8 @@ public class Burn implements Debuffs{
     public void applyEffect(Entity entity) {
         if (!(entity instanceof LivingEntity)) return;
 
+        if(target.isInvulnerable()) return;
+
         long endTime = System.currentTimeMillis() + duration;
 
         new BukkitRunnable() {

@@ -34,6 +34,9 @@ import org.core.coreProgram.Cores.Commander.coreSystem.comCore;
 import org.core.coreProgram.Cores.Commander.coreSystem.comInventory;
 import org.core.coreProgram.Cores.Dagger.coreSystem.dagInventory;
 import org.core.coreProgram.Cores.Glacier.coreSystem.glaInventory;
+import org.core.coreProgram.Cores.Harvester.coreSystem.Harvester;
+import org.core.coreProgram.Cores.Harvester.coreSystem.harvCore;
+import org.core.coreProgram.Cores.Harvester.coreSystem.harvInventory;
 import org.core.coreProgram.Cores.Knight.coreSystem.knightInventory;
 import org.core.coreProgram.Cores.Luster.coreSystem.lustInventory;
 import org.core.coreProgram.Cores.Nox.coreSystem.Nox;
@@ -79,6 +82,7 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
     private lustCore luster;
     private blazeCore blaze;
     private comCore commander;
+    private harvCore harvester;
 
     private noxInventory noxInv;
     private benzInventory benzInv;
@@ -91,6 +95,7 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
     private lustInventory lustInv;
     private blazeInventory blazeInv;
     private comInventory comInv;
+    private harvInventory harvInv;
 
     private EffectManager effectManager = new EffectManager();
 
@@ -114,6 +119,7 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
         Luster lustConfig = new Luster();
         Blaze blazeConfig = new Blaze();
         Commander comConfig = new Commander();
+        Harvester harvConfig = new Harvester();
 
         Cool cool = new Cool(this);
 
@@ -176,6 +182,11 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
         Bukkit.getPluginManager().registerEvents(this.commander, this);
         this.comInv = new comInventory(this, this.config);
         Bukkit.getPluginManager().registerEvents(this.comInv, this);
+
+        this.harvester = new harvCore(this, config, harvConfig, cool);
+        Bukkit.getPluginManager().registerEvents(this.harvester, this);
+        this.harvInv = new harvInventory(this, this.config);
+        Bukkit.getPluginManager().registerEvents(this.harvInv, this);
 
 
         getCommand("core").setExecutor(this);

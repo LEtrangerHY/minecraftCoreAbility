@@ -18,6 +18,8 @@ public class ForceDamage implements Effects, Listener {
 
     @Override
     public void applyEffect(Entity entity) {
+        if(target.isInvulnerable()) return;
+
         target.setNoDamageTicks(1);
         target.damage(damage, entity);
         target.setNoDamageTicks(10);

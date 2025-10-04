@@ -306,7 +306,7 @@ public class F implements SkillBase {
         Location origin = player.getEyeLocation().add(0, 0, 0);
         Vector direction = player.getLocation().getDirection().clone().setY(0).normalize();
 
-        Particle.DustOptions dustOptions1 = new Particle.DustOptions(Color.fromRGB(111, 111, 111), 0.5f);
+        Particle.DustOptions dustOptions1 = new Particle.DustOptions(Color.fromRGB(111, 111, 111), 0.4f);
         Particle.DustOptions dustOptions2 = new Particle.DustOptions(Color.fromRGB(101, 101, 101), 0.5f);
         Particle.DustOptions dustOptions3 = new Particle.DustOptions(Color.fromRGB(99, 99, 99), 0.6f);
         Particle.DustOptions dustOptions_gra = new Particle.DustOptions(Color.fromRGB(66, 66, 66), 0.6f);

@@ -33,6 +33,8 @@ public class Stun implements Effects, Listener {
     public void applyEffect(Entity entity) {
         if (!(entity instanceof LivingEntity)) return;
 
+        if(target.isInvulnerable()) return;
+
         LivingEntity livingEntity = (LivingEntity) target;
 
         long endTime = System.currentTimeMillis() + duration;

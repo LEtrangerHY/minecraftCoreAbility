@@ -154,6 +154,10 @@ public class F implements SkillBase {
         Location origin = player.getEyeLocation().add(0, 0, 0);
         Vector direction = player.getLocation().getDirection().clone().setY(0).normalize();
 
+        Particle.DustOptions dustOptions1 = new Particle.DustOptions(Color.fromRGB(199, 199, 199), 0.4f);
+        Particle.DustOptions dustOptions2 = new Particle.DustOptions(Color.fromRGB(222, 222, 222), 0.5f);
+        Particle.DustOptions dustOptions3 = new Particle.DustOptions(Color.fromRGB(255, 255, 255), 0.6f);
+
         new BukkitRunnable() {
             int ticks = 0;
 
@@ -183,14 +187,11 @@ public class F implements SkillBase {
                         Location particleLocation = origin.clone().add(particleOffset);
 
                         if(length < innerRadius + 0.2){
-                            Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(199, 199, 199), 0.4f);
-                            world.spawnParticle(Particle.DUST, particleLocation.add(0, height, 0), 1, 0, 0, 0, 0, dustOptions);
+                            world.spawnParticle(Particle.DUST, particleLocation.add(0, height, 0), 1, 0, 0, 0, 0, dustOptions1);
                         }else if(length < innerRadius + 0.3){
-                            Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(222, 222, 222), 0.5f);
-                            world.spawnParticle(Particle.DUST, particleLocation.add(0, height, 0), 1, 0, 0, 0, 0, dustOptions);
+                            world.spawnParticle(Particle.DUST, particleLocation.add(0, height, 0), 1, 0, 0, 0, 0, dustOptions2);
                         }else{
-                            Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(255, 255, 255), 0.6f);
-                            world.spawnParticle(Particle.DUST, particleLocation.add(0, height, 0), 1, 0, 0, 0, 0, dustOptions);
+                            world.spawnParticle(Particle.DUST, particleLocation.add(0, height, 0), 1, 0, 0, 0, 0, dustOptions3);
                         }
 
                         for (Entity entity : world.getNearbyEntities(particleLocation, 1.2, 1.2, 1.2)) {
