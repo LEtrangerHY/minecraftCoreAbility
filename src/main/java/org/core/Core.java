@@ -28,6 +28,9 @@ import org.core.coreProgram.Cores.Benzene.coreSystem.benzInventory;
 import org.core.coreProgram.Cores.Blaze.coreSystem.Blaze;
 import org.core.coreProgram.Cores.Blaze.coreSystem.blazeCore;
 import org.core.coreProgram.Cores.Blaze.coreSystem.blazeInventory;
+import org.core.coreProgram.Cores.Bloom.coreSystem.Bloom;
+import org.core.coreProgram.Cores.Bloom.coreSystem.bloomCore;
+import org.core.coreProgram.Cores.Bloom.coreSystem.bloomInventory;
 import org.core.coreProgram.Cores.Carpenter.coreSystem.carpInventory;
 import org.core.coreProgram.Cores.Commander.coreSystem.Commander;
 import org.core.coreProgram.Cores.Commander.coreSystem.comCore;
@@ -83,6 +86,7 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
     private blazeCore blaze;
     private comCore commander;
     private harvCore harvester;
+    private bloomCore bloom;
 
     private noxInventory noxInv;
     private benzInventory benzInv;
@@ -96,6 +100,7 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
     private blazeInventory blazeInv;
     private comInventory comInv;
     private harvInventory harvInv;
+    private bloomInventory bloomInv;
 
     private EffectManager effectManager = new EffectManager();
 
@@ -120,6 +125,7 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
         Blaze blazeConfig = new Blaze();
         Commander comConfig = new Commander();
         Harvester harvConfig = new Harvester();
+        Bloom bloomConfig = new Bloom();
 
         Cool cool = new Cool(this);
 
@@ -187,6 +193,11 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
         Bukkit.getPluginManager().registerEvents(this.harvester, this);
         this.harvInv = new harvInventory(this, this.config);
         Bukkit.getPluginManager().registerEvents(this.harvInv, this);
+
+        this.bloom = new bloomCore(this, config, bloomConfig, cool);
+        Bukkit.getPluginManager().registerEvents(this.bloom, this);
+        this.bloomInv = new bloomInventory(this, this.config);
+        Bukkit.getPluginManager().registerEvents(this.bloomInv, this);
 
 
         getCommand("core").setExecutor(this);
@@ -402,6 +413,7 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
                 suggestions.add("blaze");
                 suggestions.add("commander");
                 suggestions.add("harvester");
+                suggestions.add("bloom");
             } else if (args.length == 3) {
                 suggestions.add("true");
                 suggestions.add("false");

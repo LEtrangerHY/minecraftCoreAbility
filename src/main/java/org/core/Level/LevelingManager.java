@@ -28,6 +28,7 @@ import org.core.coreConfig;
 import org.core.coreProgram.Cores.Bambo.coreSystem.bambLeveling;
 import org.core.coreProgram.Cores.Benzene.coreSystem.benzLeveling;
 import org.core.coreProgram.Cores.Blaze.coreSystem.blazeLeveling;
+import org.core.coreProgram.Cores.Bloom.coreSystem.bloomLeveling;
 import org.core.coreProgram.Cores.Carpenter.coreSystem.carpLeveling;
 import org.core.coreProgram.Cores.Commander.coreSystem.comLeveling;
 import org.core.coreProgram.Cores.Dagger.coreSystem.dagLeveling;
@@ -150,6 +151,10 @@ public class LevelingManager implements Listener {
                 case "harvester" :
                     harvLeveling harvester = new harvLeveling(plugin, player, exp);
                     harvester.addExp(player);
+                    break;
+                case "bloom" :
+                    bloomLeveling bloom = new bloomLeveling(plugin, player, exp);
+                    bloom.addExp(player);
                     break;
                 default :
                     break;
