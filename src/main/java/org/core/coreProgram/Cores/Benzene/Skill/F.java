@@ -16,6 +16,7 @@ import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 import org.core.Cool.Cool;
 import org.core.Effect.ForceDamage;
+import org.core.Effect.Invulnerable;
 import org.core.coreProgram.Cores.Benzene.Passive.ChainCalc;
 import org.core.coreProgram.Cores.Benzene.coreSystem.Benzene;
 import org.core.coreProgram.AbsCoreSystem.SkillBase;
@@ -237,6 +238,9 @@ public class F implements SkillBase {
 
         long cools = config.f_Skill_Cool * chainNum;
         cool.updateCooldown(player, "F", cools);
+
+        Invulnerable invulnerable = new Invulnerable(player, 150L * chainNum);
+        invulnerable.applyEffect(player);
 
         World world = player.getWorld();
 

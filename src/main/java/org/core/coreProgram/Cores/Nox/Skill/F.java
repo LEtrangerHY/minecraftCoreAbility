@@ -13,6 +13,7 @@ import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 import org.core.Cool.Cool;
 import org.core.Effect.ForceDamage;
+import org.core.Effect.Invulnerable;
 import org.core.coreProgram.AbsCoreSystem.SkillBase;
 import org.core.coreProgram.Cores.Nox.Passive.Dream;
 import org.core.coreProgram.Cores.Nox.coreSystem.Nox;
@@ -84,6 +85,9 @@ public class F implements SkillBase {
         boolean justTeleport = !(slashCount > 1.0);
 
         config.fskill_using.put(player.getUniqueId(), true);
+
+        Invulnerable invulnerable = new Invulnerable(player, 150L * slashCount);
+        invulnerable.applyEffect(player);
 
         new BukkitRunnable() {
             int tick = 0;

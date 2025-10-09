@@ -1,5 +1,7 @@
 package org.core.Debuff;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Particle;
@@ -44,6 +46,15 @@ public class Frost implements Debuffs{
                 entity.getWorld().spawnParticle(Particle.DUST, target.getLocation().clone().add(0, 1.3, 0), 3, 0.4, 0.4, 0.4, 0, dustOptions);
 
                 target.setFreezeTicks((int) duration / 50);
+
+                if (entity instanceof Player player) {
+                    if(System.currentTimeMillis() >= endTime || player.isDead() || !player.isOnline()){
+                        player.sendActionBar(Component.text(" "));
+                        removeEffect(player);
+                        cancel();
+                    }
+                    target.sendActionBar(Component.text("Frost").color(NamedTextColor.AQUA));
+                }
 
                 if (System.currentTimeMillis() >= endTime || target.isDead()) {
                     target.setFreezeTicks(0);

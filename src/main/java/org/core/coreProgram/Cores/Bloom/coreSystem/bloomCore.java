@@ -99,21 +99,19 @@ public class bloomCore extends absCore {
                     if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
 
                         if (cool.isReloading(player, "blossom")) {
-                            player.playSound(player.getLocation(), Sound.BLOCK_SPORE_BLOSSOM_BREAK, 1, 1);
+                            player.playSound(player.getLocation(), Sound.BLOCK_SPORE_BLOSSOM_BREAK, 1.7f, 1.0f);
                             return;
                         }
 
-                        cool.setCooldown(player, 1000L, "blossom");
+                        cool.setCooldown(player, 2700L, "blossom");
 
                         World world = player.getWorld();
-                        Location playerLocation = player.getLocation();
-                        Vector direction = playerLocation.getDirection().normalize().multiply(1.3);
 
-                        player.getAttribute(Attribute.ATTACK_SPEED).setBaseValue(1.0);
-                        player.playSound(player.getLocation(), Sound.BLOCK_GRASS_PLACE, 1, 1);
-                        player.playSound(player.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1, 1);
+                        player.getAttribute(Attribute.ATTACK_SPEED).setBaseValue(1 / 2.7);
+                        player.playSound(player.getLocation(), Sound.BLOCK_GRASS_PLACE, 1.7f, 1.0f);
+                        player.playSound(player.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1.7f, 1.0f);
 
-                        config.collision.put(player.getUniqueId(), false);
+                        player.heal(2.7);
 
                         Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(77, 255, 77), 0.7f);
 
@@ -123,37 +121,35 @@ public class bloomCore extends absCore {
                             @Override
                             public void run() {
 
-                                if (ticks >= 17 || config.collision.getOrDefault(player.getUniqueId(), true)) {
+                                if (ticks >= 27) {
                                     config.collision.remove(player.getUniqueId());
                                     this.cancel();
                                     return;
                                 }
 
+                                Location playerLocation = player.getLocation();
+                                Vector direction = playerLocation.getDirection().normalize().multiply(1.2);
+
                                 Location particleLocation = playerLocation.clone()
-                                        .add(direction.clone().multiply(ticks * 1.5))
+                                        .add(direction.clone().multiply(ticks * 1.1))
                                         .add(0, 1.4, 0);
 
-                                player.spawnParticle(Particle.CHERRY_LEAVES, particleLocation, 3, 0.1, 0.1, 0.1, 0);
-                                player.spawnParticle(Particle.DUST, particleLocation, 4, 0.1, 0.1, 0.1, 0, dustOptions);
+                                player.spawnParticle(Particle.CHERRY_LEAVES, particleLocation, 7, 0.7, 0.7, 0.7, 0);
+                                player.spawnParticle(Particle.DUST, particleLocation, 5, 0.5, 0.5, 0.5, 0, dustOptions);
 
                                 Block block = particleLocation.getBlock();
 
-                                if(!block.isPassable()){
-                                    config.collision.put(player.getUniqueId(), true);
-                                }
-
-                                for (Entity entity : world.getNearbyEntities(particleLocation, 0.5, 0.5, 0.5)) {
+                                for (Entity entity : world.getNearbyEntities(particleLocation, 1.7, 1.7, 1.7)) {
                                     if (entity instanceof LivingEntity target && entity != player) {
-                                        ForceDamage forceDamage = new ForceDamage(target, 3);
+                                        ForceDamage forceDamage = new ForceDamage(target, 1.7);
                                         forceDamage.applyEffect(player);
-                                        config.collision.put(player.getUniqueId(), true);
                                         break;
                                     }
                                 }
 
                                 ticks++;
                             }
-                        }.runTaskTimer(plugin, 0L, 1L);
+                        }.runTaskTimer(plugin, 0L, 2L);
 
                         event.setCancelled(true);
                     }

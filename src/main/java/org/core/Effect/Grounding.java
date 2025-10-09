@@ -43,17 +43,18 @@ public class Grounding implements Effects, Listener {
             @Override
             public void run() {
 
-                if (System.currentTimeMillis() >= endTime || target.isDead()) {
-                    removeEffect(target);
-                    cancel();
-                }
-
                 if (entity instanceof Player player) {
-                    if(!player.isOnline()){
+                    if(System.currentTimeMillis() >= endTime || player.isDead() || !player.isOnline()){
+                        player.sendActionBar(Component.text(" "));
                         removeEffect(player);
                         cancel();
                     }
                     target.sendActionBar(Component.text("Grounded").color(NamedTextColor.YELLOW));
+                }
+
+                if (System.currentTimeMillis() >= endTime || target.isDead()) {
+                    removeEffect(target);
+                    cancel();
                 }
 
                 groundedEntities.put(target, endTime);

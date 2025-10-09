@@ -109,7 +109,7 @@ public class coreConfig {
             case "blaze" -> new NamespacedKey(plugin, "setting_blaze");
             case "commander" -> new NamespacedKey(plugin, "setting_commander");
             case "harvester" -> new NamespacedKey(plugin, "setting_harvester");
-            case "bloom" -> new NamespacedKey(plugin, "bloom");
+            case "bloom" -> new NamespacedKey(plugin, "setting_bloom");
             default -> null;
         };
     }
