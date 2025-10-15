@@ -44,7 +44,7 @@ public class EntityLevelingManager implements Listener {
 
         if (type == EntityType.FALLING_BLOCK || type == EntityType.ITEM
                 || type == EntityType.ARMOR_STAND || type == EntityType.VILLAGER
-                || type == EntityType.BAT) return;
+                || type == EntityType.BAT || type == EntityType.SQUID || type == EntityType.GLOW_SQUID) return;
 
         spawnQueue.add(entity);
     }
