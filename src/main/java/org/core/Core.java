@@ -216,8 +216,6 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
         this.swordInv = new swordInventory(this, this.config);
         Bukkit.getPluginManager().registerEvents(this.swordInv, this);
 
-
-
         this.Elevel = new EntityLevelingManager(this);
         Bukkit.getPluginManager().registerEvents(this.Elevel, this);
 
@@ -436,6 +434,7 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
                 suggestions.add("harvester");
                 suggestions.add("bloom");
                 suggestions.add("blue");
+                suggestions.add("swordsman");
             } else if (args.length == 3) {
                 suggestions.add("true");
                 suggestions.add("false");

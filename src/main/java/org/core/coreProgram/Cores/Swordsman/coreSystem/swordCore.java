@@ -1,17 +1,20 @@
 package org.core.coreProgram.Cores.Swordsman.coreSystem;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -32,10 +35,7 @@ import org.core.coreProgram.Cores.Swordsman.Skill.Q;
 import org.core.coreProgram.Cores.Swordsman.Skill.R;
 import org.core.coreProgram.Cores.Swordsman.Passive.Laido;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static org.bukkit.Bukkit.getLogger;
 
@@ -166,6 +166,29 @@ public class swordCore extends absCore {
 
         task.runTaskTimer(plugin, 0L, 1L);
         activeChargeTasks.put(player.getUniqueId(), task);
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
+    public void passiveEffect(EntityDamageByEntityEvent event) {
+
+        if (!(event.getDamager() instanceof Player player)) return;
+        if (!(event.getEntity() instanceof LivingEntity target)) return;
+
+        World world = player.getWorld();
+
+        BlockData blood = Material.REDSTONE_BLOCK.createBlockData();
+
+        if(tag.Swordsman.contains(player) && !config.skillUsing.getOrDefault(player.getUniqueId(), false) && hasProperItems_Draw(player) && config.laidoSlash.getOrDefault(player.getUniqueId(), false)) {
+            double originalDamage = event.getDamage();
+            event.setDamage(originalDamage * 10);
+
+            world.spawnParticle(Particle.CRIT, target.getLocation().clone().add(0, 1.2, 0), 20, 0.4, 0.4, 0.4, 1);
+            world.spawnParticle(Particle.SWEEP_ATTACK, target.getLocation().clone().add(0, 1.2, 0), 1, 0, 0, 0, 1);
+            world.spawnParticle(Particle.BLOCK, target.getLocation().clone().add(0, 1.2, 0), 10, 0.3, 0.3, 0.3,
+                    blood);
+
+            laido.Draw(player);
+        }
     }
 
     @Override

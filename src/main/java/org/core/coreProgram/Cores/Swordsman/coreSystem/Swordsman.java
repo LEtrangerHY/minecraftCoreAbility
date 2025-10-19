@@ -33,7 +33,7 @@ public class Swordsman {
     public HashMap<UUID, HashSet<Entity>> q_damaged = new HashMap<>();
 
     //F
-    public long f_Skill_Cool = 15500;
+    public long f_Skill_Cool = 14500;
     public double f_Skill_amp = 0.2;
 
     public void variableReset(Player player){
