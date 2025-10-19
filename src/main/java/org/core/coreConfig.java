@@ -10,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.core.playerSettings.persistentPlayerSet;
 import org.jetbrains.annotations.NotNull;
 
+import javax.naming.Name;
 import java.util.AbstractSet;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -34,6 +35,7 @@ public class coreConfig {
     public Set<Player> Harvester;
     public Set<Player> Bloom;
     public Set<Player> Blue;
+    public Set<Player> Swordsman;
 
     public coreConfig(JavaPlugin plugin) {
         this.plugin = plugin;
@@ -52,24 +54,26 @@ public class coreConfig {
         this.Harvester = new persistentPlayerSet(plugin, "setting_harvester");
         this.Bloom = new persistentPlayerSet(plugin, "setting_bloom");
         this.Blue = new persistentPlayerSet(plugin, "setting_blue");
+        this.Swordsman = new persistentPlayerSet(plugin, "setting_swordsman");
     }
 
     public String getPlayerCore(Player player) {
-        if (Nightel.contains(player)) return "nightel";
-        if (Benzene.contains(player)) return "benzene";
-        if (Bambo.contains(player)) return "bambo";
-        if (Carpenter.contains(player)) return "carpenter";
-        if (Dagger.contains(player)) return "dagger";
-        if (Pyro.contains(player)) return "pyro";
-        if (Glacier.contains(player)) return "glacier";
-        if (Knight.contains(player)) return "knight";
-        if (Luster.contains(player)) return "luster";
-        if (Blaze.contains(player)) return "blaze";
-        if (Commander.contains(player)) return "commander";
-        if (Harvester.contains(player)) return "harvester";
-        if (Bloom.contains(player)) return "bloom";
-        if (Blue.contains(player)) return "blue";
-        return "none";
+        if (Nightel.contains(player)) return "NIGHTEL";
+        if (Benzene.contains(player)) return "BENZENE";
+        if (Bambo.contains(player)) return "BAMBO";
+        if (Carpenter.contains(player)) return "CARPENTER";
+        if (Dagger.contains(player)) return "DAGGER";
+        if (Pyro.contains(player)) return "PYRO";
+        if (Glacier.contains(player)) return "GLACIER";
+        if (Knight.contains(player)) return "KNIGHT";
+        if (Luster.contains(player)) return "LUSTER";
+        if (Blaze.contains(player)) return "BLAZE";
+        if (Commander.contains(player)) return "COMMANDER";
+        if (Harvester.contains(player)) return "HARVESTER";
+        if (Bloom.contains(player)) return "BLOOM";
+        if (Blue.contains(player)) return "BLUE";
+        if (Swordsman.contains(player)) return "SWORDSMAN";
+        return "NULL";
     }
 
     public void clearPlayerCore(Player player){
@@ -89,6 +93,7 @@ public class coreConfig {
         player.getPersistentDataContainer().set(new NamespacedKey(plugin, "setting_harvester"), PersistentDataType.BYTE, (byte) 0);
         player.getPersistentDataContainer().set(new NamespacedKey(plugin, "setting_bloom"), PersistentDataType.BYTE, (byte) 0);
         player.getPersistentDataContainer().set(new NamespacedKey(plugin, "setting_blue"), PersistentDataType.BYTE, (byte) 0);
+        player.getPersistentDataContainer().set(new NamespacedKey(plugin, "setting_swordsman"), PersistentDataType.BYTE, (byte) 0);
     }
 
     public void setSetting(Player player, String setting, boolean value) {
@@ -115,6 +120,7 @@ public class coreConfig {
             case "harvester" -> new NamespacedKey(plugin, "setting_harvester");
             case "bloom" -> new NamespacedKey(plugin, "setting_bloom");
             case "blue" -> new NamespacedKey(plugin, "setting_blue");
+            case "swordsman" -> new NamespacedKey(plugin, "setting_swordsman");
             default -> null;
         };
     }

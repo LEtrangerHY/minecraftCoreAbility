@@ -200,6 +200,7 @@ public class ChainCalc {
 
         return t;
     }
+
     private final Map<UUID, BukkitRunnable> activeTasks = new HashMap<>();
 
     public void updateChainList(Player player) {
@@ -257,7 +258,9 @@ public class ChainCalc {
                         distances.get(player.getUniqueId()).add(loc1.distance(loc2));
 
                         UUID uuid = entity.getUniqueId();
-                        String baseName = entity.getName();
+                        String baseName = (entity instanceof Player)
+                                ? entity.getName()
+                                : entity.getType().name();
 
                         int globalCount = index.get(player.getUniqueId()).getOrDefault(uuid, 0) + 1;
                         index.get(player.getUniqueId()).put(uuid, globalCount);

@@ -47,7 +47,6 @@ public class R implements SkillBase {
         Boolean invisibility = player.isInvisible();
         double slashLength = (player.isInvisible()) ? 4.4 : 6.6;
         double maxAngle = (player.isInvisible()) ? Math.toRadians(100) : Math.toRadians(26);
-        long tickDelay = 0L;
         double maxTicks = (player.isInvisible()) ? 6 : 4;
         double innerRadius = 2.2;
 
@@ -132,7 +131,7 @@ public class R implements SkillBase {
                 }
                 ticks++;
             }
-        }.runTaskTimer(plugin, tickDelay, 1L);
+        }.runTaskTimer(plugin, 0L, 1L);
     }
 
     private static final Set<Material> UNBREAKABLE_BLOCKS = Set.of(

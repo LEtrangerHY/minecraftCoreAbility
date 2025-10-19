@@ -60,6 +60,9 @@ import org.core.coreProgram.Cores.Nightel.coreSystem.nightInventory;
 import org.core.coreProgram.Cores.Pyro.coreSystem.Pyro;
 import org.core.coreProgram.Cores.Pyro.coreSystem.pyroCore;
 import org.core.coreProgram.Cores.Pyro.coreSystem.pyroInventory;
+import org.core.coreProgram.Cores.Swordsman.coreSystem.Swordsman;
+import org.core.coreProgram.Cores.Swordsman.coreSystem.swordCore;
+import org.core.coreProgram.Cores.Swordsman.coreSystem.swordInventory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,6 +89,7 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
     private harvCore harvester;
     private bloomCore bloom;
     private blueCore blue;
+    private swordCore swordsman;
 
     private nightInventory nightInv;
     private benzInventory benzInv;
@@ -101,6 +105,7 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
     private harvInventory harvInv;
     private bloomInventory bloomInv;
     private blueInventory blueInv;
+    private swordInventory swordInv;
 
     private EntityLevelingManager Elevel;
 
@@ -127,6 +132,7 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
         Harvester harvConfig = new Harvester();
         Bloom bloomConfig = new Bloom();
         Blue blueConfig = new Blue();
+        Swordsman swordConfig = new Swordsman();
 
         Cool cool = new Cool(this);
 
@@ -204,6 +210,13 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
         Bukkit.getPluginManager().registerEvents(this.blue, this);
         this.blueInv = new blueInventory(this, this.config);
         Bukkit.getPluginManager().registerEvents(this.blueInv, this);
+
+        this.swordsman = new swordCore(this, config, swordConfig, cool);
+        Bukkit.getPluginManager().registerEvents(this.swordsman, this);
+        this.swordInv = new swordInventory(this, this.config);
+        Bukkit.getPluginManager().registerEvents(this.swordInv, this);
+
+
 
         this.Elevel = new EntityLevelingManager(this);
         Bukkit.getPluginManager().registerEvents(this.Elevel, this);

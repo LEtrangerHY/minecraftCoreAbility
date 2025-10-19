@@ -31,6 +31,7 @@ import org.core.coreProgram.Cores.Knight.coreSystem.knightLeveling;
 import org.core.coreProgram.Cores.Luster.coreSystem.lustLeveling;
 import org.core.coreProgram.Cores.Nightel.coreSystem.nightLeveling;
 import org.core.coreProgram.Cores.Pyro.coreSystem.pyroLeveling;
+import org.core.coreProgram.Cores.Swordsman.coreSystem.swordLeveling;
 import org.core.playerSettings.persistentPlayerHashMap;
 
 import java.util.*;
@@ -95,61 +96,65 @@ public class LevelingManager implements Listener {
             long exp = event.getAmount();
 
             switch (config.getPlayerCore(player)) {
-                case "benzene" :
+                case "BENZENE" :
                     benzLeveling benzene = new benzLeveling(plugin, player, exp);
                     benzene.addExp(player);
                     break;
-                case "nightel" :
+                case "NIGHTEL" :
                     nightLeveling nox = new nightLeveling(plugin, player, exp);
                     nox.addExp(player);
                     break;
-                case "bambo" :
+                case "BAMBO" :
                     bambLeveling bambo = new bambLeveling(plugin, player, exp);
                     bambo.addExp(player);
                     break;
-                case "carpenter" :
+                case "CARPENTER" :
                     carpLeveling carpenter = new carpLeveling(plugin, player, exp);
                     carpenter.addExp(player);
                     break;
-                case "dagger" :
+                case "DAGGER" :
                     dagLeveling dagger = new dagLeveling(plugin, player, exp);
                     dagger.addExp(player);
                     break;
-                case "pyro" :
+                case "PYRO" :
                     pyroLeveling pyro = new pyroLeveling(plugin, player, exp);
                     pyro.addExp(player);
                     break;
-                case "glacier" :
+                case "GLACIER" :
                     glaLeveling glacier = new glaLeveling(plugin, player, exp);
                     glacier.addExp(player);
                     break;
-                case "knight" :
+                case "KNIGHT" :
                     knightLeveling knight = new knightLeveling(plugin, player, exp);
                     knight.addExp(player);
                     break;
-                case "luster" :
+                case "LUSTER" :
                     lustLeveling luster = new lustLeveling(plugin, player, exp);
                     luster.addExp(player);
                     break;
-                case "blaze" :
+                case "BLAZE" :
                     blazeLeveling blaze = new blazeLeveling(plugin, player, exp);
                     blaze.addExp(player);
                     break;
-                case "commander" :
+                case "COMMANDER" :
                     comLeveling commander = new comLeveling(plugin, player, exp);
                     commander.addExp(player);
                     break;
-                case "harvester" :
+                case "HARVESTER" :
                     harvLeveling harvester = new harvLeveling(plugin, player, exp);
                     harvester.addExp(player);
                     break;
-                case "bloom" :
+                case "BLOOM" :
                     bloomLeveling bloom = new bloomLeveling(plugin, player, exp);
                     bloom.addExp(player);
                     break;
-                case "blue" :
+                case "BLUE" :
                     blueLeveling blue = new blueLeveling(plugin, player, exp);
                     blue.addExp(player);
+                    break;
+                case "SWORDSMAN" :
+                    swordLeveling sword = new swordLeveling(plugin, player, exp);
+                    sword.addExp(player);
                     break;
                 default :
                     break;

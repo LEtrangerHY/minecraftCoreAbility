@@ -46,7 +46,6 @@ public class F implements SkillBase {
 
         double slashLength = 4.8;
         double maxAngle = Math.toRadians(45);
-        long tickDelay = 0L;
         int maxTicks = 5;
         double innerRadius = 2.6;
 
@@ -174,7 +173,7 @@ public class F implements SkillBase {
                 }
                 ticks++;
             }
-        }.runTaskTimer(plugin, tickDelay, 1L);
+        }.runTaskTimer(plugin, 0L, 1L);
     }
 
     private static final Set<Material> UNBREAKABLE_BLOCKS = Set.of(
@@ -289,7 +288,6 @@ public class F implements SkillBase {
 
         double slashLength = 5.4;
         double maxAngle = Math.toRadians(36);
-        long tickDelay = 0L;
         int maxTicks = 3;
         double innerRadius = 5.0;
 
@@ -376,7 +374,7 @@ public class F implements SkillBase {
                 }
                 ticks++;
             }
-        }.runTaskTimer(plugin, tickDelay, 1L);
+        }.runTaskTimer(plugin, 0L, 1L);
     }
 
     public static void teleportBehind(Player player, GameMode playerGameMode, Entity target, double distance) {
