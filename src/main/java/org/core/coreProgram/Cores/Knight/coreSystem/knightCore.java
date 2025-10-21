@@ -165,7 +165,7 @@ public class knightCore extends absCore {
     public void passiveAttackEffect(PlayerInteractEvent event) {
 
         if(tag.Knight.contains(event.getPlayer())) {
-            if (!skillUsing.contains(event.getPlayer().getUniqueId()) && !config.q_Skill_Using.getOrDefault(event.getPlayer().getUniqueId(), false)) {
+            if (!pAttackUsing.contains(event.getPlayer().getUniqueId()) && !config.q_Skill_Using.getOrDefault(event.getPlayer().getUniqueId(), false)) {
 
                 Player player = event.getPlayer();
 
@@ -237,7 +237,7 @@ public class knightCore extends absCore {
                     }
                 }
             } else {
-                skillUsing.remove(event.getPlayer().getUniqueId());
+                pAttackUsing.remove(event.getPlayer().getUniqueId());
             }
         }
     }

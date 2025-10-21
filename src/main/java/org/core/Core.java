@@ -353,7 +353,7 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
                 player.getPersistentDataContainer().set(new NamespacedKey(this, "F"), PersistentDataType.LONG, 0L);
                 player.getPersistentDataContainer().set(new NamespacedKey(this, "exp"), PersistentDataType.LONG, 0L);
                 player.getPersistentDataContainer().set(new NamespacedKey(this, "level"), PersistentDataType.LONG, 0L);
-                sender.sendMessage( "§a본인의 경험치, 레벨 리셋 " + this.level.Exp.getOrDefault(player, 0L) + ", " + this.level.Level.getOrDefault(player, 0L));
+                sender.sendMessage( "§a본인의 레벨, 경험치 리셋 " + this.level.Exp.getOrDefault(player, 0L) + ", " + this.level.Level.getOrDefault(player, 0L));
                 return true;
             }else{
                 sender.sendMessage("§c사용법: /corelevelreset <플레이어 닉네임|공백>");
@@ -363,7 +363,7 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
 
         if (command.getName().equalsIgnoreCase("corelevelset")) {
             if (args.length != 3) {
-                sender.sendMessage("§c사용법: /corelevelset <플레이어 닉네임> <경험치(음이 아닌 정수)> <레벨(0~10)>");
+                sender.sendMessage("§c사용법: /corelevelset <플레이어 닉네임> <레벨(0~10)> <경험치(음이 아닌 정수)>");
                 return true;
             }
 
@@ -441,7 +441,7 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
             }
         }
 
-        if (command.getName().equalsIgnoreCase("corecheck") || command.getName().equalsIgnoreCase("coreclear") || command.getName().equalsIgnoreCase("corelevelsetr")) {
+        if (command.getName().equalsIgnoreCase("corecheck") || command.getName().equalsIgnoreCase("coreclear") || command.getName().equalsIgnoreCase("corelevelset")) {
             if (args.length == 1) {
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     suggestions.add(p.getName());

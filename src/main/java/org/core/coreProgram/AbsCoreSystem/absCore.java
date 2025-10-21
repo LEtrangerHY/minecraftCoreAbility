@@ -8,6 +8,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.core.Cool.Cool;
+import org.core.Effect.Stun;
 import org.core.coreConfig;
 
 import java.util.*;
@@ -47,20 +48,20 @@ public abstract class absCore implements Listener {
         getConfigWrapper().cooldownReset(player);
     }
 
-    public static HashSet<UUID> skillUsing = new HashSet<>();
+    public static HashSet<UUID> pAttackUsing = new HashSet<>();
 
     @EventHandler(priority = EventPriority.HIGH)
     public void rSkillTrigger(PlayerInteractEvent event) {
         Player player = event.getPlayer();
 
-        if (!contains(player) || !isItemRequired(player)) return;
+        if (!(contains(player) && isItemRequired(player) && !Stun.isStunned(player))) return;
 
         if (event.getAction() != Action.LEFT_CLICK_AIR && event.getAction() != Action.LEFT_CLICK_BLOCK) {
             if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                 event.setCancelled(true);
 
-                if(!skillUsing.contains(player.getUniqueId())) {
-                    skillUsing.add(player.getUniqueId());
+                if(!pAttackUsing.contains(player.getUniqueId())) {
+                    pAttackUsing.add(player.getUniqueId());
                 }
 
                 if (this.cool.isReloading(player, "R") || !this.isRCondition(player)) {
@@ -79,12 +80,12 @@ public abstract class absCore implements Listener {
 
         ItemStack dropped = event.getItemDrop().getItemStack();
 
-        if (contains(player) && isQCondition(player, dropped)) {
+        if (contains(player) && isQCondition(player, dropped) && !Stun.isStunned(player)) {
 
             event.setCancelled(true);
 
-            if(!skillUsing.contains(player.getUniqueId())) {
-                skillUsing.add(player.getUniqueId());
+            if(!pAttackUsing.contains(player.getUniqueId())) {
+                pAttackUsing.add(player.getUniqueId());
             }
 
             if (cool.isReloading(player, "Q")) return;
@@ -99,12 +100,12 @@ public abstract class absCore implements Listener {
 
         Player player = event.getPlayer();
 
-        if (!(contains(player) && isItemRequired(player))) return;
+        if (!(contains(player) && isItemRequired(player) && !Stun.isStunned(player))) return;
 
         event.setCancelled(true);
 
-        if(!skillUsing.contains(player.getUniqueId())) {
-            skillUsing.add(player.getUniqueId());
+        if(!pAttackUsing.contains(player.getUniqueId())) {
+            pAttackUsing.add(player.getUniqueId());
         }
 
         if (cool.isReloading(player, "F") || !isFCondition(player)) return;

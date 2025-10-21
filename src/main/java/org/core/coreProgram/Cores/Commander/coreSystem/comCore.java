@@ -92,7 +92,7 @@ public class comCore extends absCore {
     public void passiveAttackEffect(PlayerInteractEvent event) {
 
         if(tag.Commander.contains(event.getPlayer())) {
-            if (!skillUsing.contains(event.getPlayer().getUniqueId())) {
+            if (pAttackUsing.contains(event.getPlayer().getUniqueId())) {
 
                 Player player = event.getPlayer();
 
@@ -161,7 +161,7 @@ public class comCore extends absCore {
                     player.getAttribute(Attribute.ATTACK_SPEED).setBaseValue(4.0);
                 }
             } else {
-                skillUsing.remove(event.getPlayer().getUniqueId());
+                pAttackUsing.remove(event.getPlayer().getUniqueId());
             }
         }
     }

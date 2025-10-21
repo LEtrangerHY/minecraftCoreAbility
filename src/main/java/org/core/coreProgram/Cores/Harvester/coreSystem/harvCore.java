@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -57,7 +58,6 @@ public class harvCore extends absCore {
         getLogger().info("Harvester downloaded...");
     }
 
-
     @EventHandler(priority = EventPriority.NORMAL)
     public void onJoin(PlayerJoinEvent event) {
         if(!contains(event.getPlayer())) return;
@@ -95,6 +95,14 @@ public class harvCore extends absCore {
         }
     }
 
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void passiveAttackEffect(PlayerInteractEvent event) {
+        if(tag.Harvester.contains(event.getPlayer())){
+            if (pAttackUsing.contains(event.getPlayer().getUniqueId())) {
+                pAttackUsing.remove(event.getPlayer().getUniqueId());
+            }
+        }
+    }
 
     @EventHandler
     public void passiveDamage(EntityDamageByEntityEvent event) {

@@ -113,8 +113,8 @@ public class benzCore extends absCore {
     @EventHandler(priority = EventPriority.NORMAL)
     public void passiveAttackEffect(PlayerInteractEvent event) {
         if(tag.Benzene.contains(event.getPlayer())){
-            if (skillUsing.contains(event.getPlayer().getUniqueId())) {
-                skillUsing.remove(event.getPlayer().getUniqueId());
+            if (pAttackUsing.contains(event.getPlayer().getUniqueId())) {
+                pAttackUsing.remove(event.getPlayer().getUniqueId());
             }
         }
     }
