@@ -99,9 +99,9 @@ public class knightInventory extends absInventory {
                 lore.add(Component.text("시스템 : 선딜레이").color(NamedTextColor.LIGHT_PURPLE));
                 lore.add(Component.text("대상 : 적 오브젝트").color(NamedTextColor.LIGHT_PURPLE));
                 lore.add(Component.text("------------").color(NamedTextColor.WHITE));
-                lore.add(Component.text("선딜레이 : 시전 시 3초간 선딜레이가 발생한다.").color(NamedTextColor.GREEN));
+                lore.add(Component.text("선딜레이 : 시전 시 3초간 선딜레이가 발생한다. 피격당할시 선딜레이가 해제된다.").color(NamedTextColor.GREEN));
                 lore.add(Component.text("선딜레이 이후 : 전방을 중심으로 십자 참격을 가한다.").color(NamedTextColor.GREEN));
-                lore.add(Component.text("선딜레이 이전 : ").color(NamedTextColor.GREEN));
+                lore.add(Component.text("선딜레이 이전 : 피격한 대상을 밀쳐낸다.").color(NamedTextColor.GREEN));
                 break;
             case "F":
                 requireXp = (level < 6) ? Component.text("Require EXP : " + requireExpOfF.get((int) level)) : Component.text("Require EXP : MAX");

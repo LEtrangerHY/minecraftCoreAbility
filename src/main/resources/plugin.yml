@@ -14,7 +14,7 @@ commands:
     usage: "/coreclear"
   corelevelreset:
     description: "corelevelreset"
-    usage: "/coreLevelReset"
+    usage: "/corelevelreset"
   corelevelset:
     description: "corelevelset"
     usage: "/corelevelset"

@@ -247,15 +247,15 @@ public class swordCore extends absCore {
     }
 
     private boolean canUseRSkill(Player player) {
-        return true;
+        return !config.skillUsing.getOrDefault(player.getUniqueId(), false);
     }
 
     private boolean canUseQSkill(Player player) {
-        return true;
+        return !config.skillUsing.getOrDefault(player.getUniqueId(), false);
     }
 
     private boolean canUseFSkill(Player player) {
-        return true;
+        return !config.skillUsing.getOrDefault(player.getUniqueId(), false);
     }
 
     @Override

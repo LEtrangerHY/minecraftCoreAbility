@@ -23,7 +23,7 @@ public class Swordsman {
     //R
     public long r_Skill_Cool = 550;
     public double r_Skill_damage = 3;
-    public double r_Skill_amp = 0.15;
+    public double r_Skill_amp = 0.1;
     public double r_Skill_dash = 1.6;
     public double r_Skill_add_damage = 12;
     public long r_Skill_stun = 2000;
@@ -33,13 +33,17 @@ public class Swordsman {
 
     //Q
     public long q_Skill_Cool = 5500;
-    public double q_Skill_damage = 4;
+    public double q_Skill_damage = 5;
     public double q_Skill_amp = 0.1;
     public HashMap<UUID, HashSet<Entity>> q_damaged = new HashMap<>();
 
     //F
     public long f_Skill_Cool = 14500;
-    public double f_Skill_amp = 0.2;
+    public double f_Skill_damage = 5;
+    public double f_Skill_amp = 0.1;
+    public double f_Skill_dash = 1.4;
+    public long f_Skill_stun = 2000;
+    public HashMap<UUID, HashSet<Entity>> f_damaged = new HashMap<>();
 
     public void variableReset(Player player){
 

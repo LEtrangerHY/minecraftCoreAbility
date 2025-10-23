@@ -87,7 +87,7 @@ public class dagInventory extends absInventory {
                 lore.add(Component.text("시스템 : 지정형").color(NamedTextColor.LIGHT_PURPLE));
                 lore.add(Component.text("대상 : 적 오브젝트").color(NamedTextColor.LIGHT_PURPLE));
                 lore.add(Component.text("------------").color(NamedTextColor.WHITE));
-                lore.add(Component.text("").color(NamedTextColor.GREEN));
+                lore.add(Component.text("지정 : 대상에게 피해를 가하고 기절시킨다.").color(NamedTextColor.GREEN));
                 break;
             case "Q":
                 requireXp = (level < 6) ? Component.text("Require EXP : " + requireExpOfQ.get((int) level)) : Component.text("Require EXP : MAX");

@@ -1,7 +1,7 @@
 name: Core
 version: '1.0'
 main: org.core.Core
-api-version: '1.21.6'
+api-version: '1.21.8'
 commands:
   core:
     description: "core"
@@ -14,7 +14,7 @@ commands:
     usage: "/coreclear"
   corelevelreset:
     description: "corelevelreset"
-    usage: "/coreLevelReset"
+    usage: "/corelevelreset"
   corelevelset:
     description: "corelevelset"
     usage: "/corelevelset"

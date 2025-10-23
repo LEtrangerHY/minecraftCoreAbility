@@ -9,6 +9,8 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
@@ -48,6 +50,9 @@ public class Q implements SkillBase {
         player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1.0f, 1.0f);
 
         cool.setCooldown(player, config.q_Skill_Load, "q -normal distribution-");
+
+        PotionEffect resistance = new PotionEffect(PotionEffectType.RESISTANCE, 20 * 5, 1, false, false, false);
+        player.addPotionEffect(resistance);
 
         new BukkitRunnable() {
             int ticks = 0;
