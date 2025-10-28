@@ -1,10 +1,15 @@
-package org.core.coreProgram.Cores.Harvester.coreSystem;
+package org.core.coreProgram.Cores.Saboteur.coreSystem;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,50 +17,49 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.util.Vector;
+import org.bukkit.inventory.meta.BundleMeta;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.core.Cool.Cool;
 import org.core.Core;
 import org.core.coreConfig;
 import org.core.coreProgram.AbsCoreSystem.ConfigWrapper;
 import org.core.coreProgram.AbsCoreSystem.SkillBase;
 import org.core.coreProgram.AbsCoreSystem.absCore;
-import org.core.coreProgram.Cores.Harvester.Passive.Bountiful;
-import org.core.coreProgram.Cores.Harvester.coreSystem.Harvester;
-import org.core.coreProgram.Cores.Harvester.Skill.F;
-import org.core.coreProgram.Cores.Harvester.Skill.Q;
-import org.core.coreProgram.Cores.Harvester.Skill.R;
+import org.core.coreProgram.Cores.Saboteur.Skill.F;
+import org.core.coreProgram.Cores.Saboteur.Skill.Q;
+import org.core.coreProgram.Cores.Saboteur.Skill.R;
+import org.core.coreProgram.Cores.Saboteur.coreSystem.Saboteur;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import static org.bukkit.Bukkit.getLogger;
 
-public class harvCore extends absCore {
-
+public class sabCore extends absCore {
     private final Core plugin;
-    private final Harvester config;
-
-    private final Bountiful bountiful;
+    private final Saboteur config;
 
     private final R Rskill;
     private final Q Qskill;
     private final F Fskill;
 
-    public harvCore(Core plugin, coreConfig tag, Harvester config, Cool cool) {
+    public sabCore(Core plugin, coreConfig tag, Saboteur config, Cool cool) {
         super(tag, cool);
 
         this.plugin = plugin;
         this.config = config;
 
-        this.bountiful = new Bountiful(tag, config, plugin, cool);
-
         this.Rskill = new R(config, plugin, cool);
         this.Qskill = new Q(config, plugin, cool);
         this.Fskill = new F(config, plugin, cool);
 
-
-        getLogger().info("Harvester downloaded...");
+        getLogger().info("Saboteur downloaded...");
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -77,8 +81,7 @@ public class harvCore extends absCore {
     }
 
     private void applyAdditionalHealth(Player player, boolean healFull) {
-        long addHP = player.getPersistentDataContainer().getOrDefault(
-                new NamespacedKey(plugin, "Q"), PersistentDataType.LONG, 0L);
+        long addHP = 0;
 
         AttributeInstance maxHealth = player.getAttribute(Attribute.MAX_HEALTH);
         if (maxHealth != null) {
@@ -97,49 +100,16 @@ public class harvCore extends absCore {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void passiveAttackEffect(PlayerInteractEvent event) {
-        if(tag.Harvester.contains(event.getPlayer())){
+        if(tag.Saboteur.contains(event.getPlayer())){
             if (pAttackUsing.contains(event.getPlayer().getUniqueId())) {
                 pAttackUsing.remove(event.getPlayer().getUniqueId());
             }
         }
     }
 
-    @EventHandler
-    public void passiveDamage(EntityDamageByEntityEvent event) {
-
-        if (!(event.getDamager() instanceof Player player)) return;
-        if (!(event.getEntity() instanceof LivingEntity target)) return;
-
-        if(tag.Harvester.contains(player) && hasProperItems(player)){
-            if(!config.rskill_using.getOrDefault(player.getUniqueId(), false) && !config.fskill_using.getOrDefault(player.getUniqueId(), false)) {
-
-                Vector direction = player.getEyeLocation().add(0, -0.5, 0).getDirection().normalize();
-                Location particleLocation = player.getEyeLocation().clone()
-                        .add(direction.clone().multiply(2.6));
-
-                player.spawnParticle(Particle.SWEEP_ATTACK, particleLocation, 1, 0, 0, 0, 0);
-
-                player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1, 1);
-                event.setDamage(4.0);
-
-            }
-        }
-    }
-
-    @EventHandler
-    public void invisibleInBush(PlayerMoveEvent event){
-        Player player = event.getPlayer();
-
-        if(contains(player)) {
-            if(player.isInvisible()) player.sendActionBar(Component.text("Invisible").color(NamedTextColor.DARK_GREEN));
-            player.setInvisible(bountiful.bushCheck(player));
-        }
-
-    }
-
     @Override
     protected boolean contains(Player player) {
-        return tag.Harvester.contains(player);
+        return tag.Saboteur.contains(player);
     }
 
     @Override
@@ -157,10 +127,11 @@ public class harvCore extends absCore {
         return Fskill;
     }
 
+
     private boolean hasProperItems(Player player) {
         ItemStack main = player.getInventory().getItemInMainHand();
         ItemStack off = player.getInventory().getItemInOffHand();
-        return main.getType() == Material.IRON_HOE && off.getType() == Material.AIR;
+        return main.getType() == Material.BLAZE_ROD && off.getType() == Material.BLAZE_POWDER;
     }
 
     private boolean canUseRSkill(Player player) {
@@ -174,6 +145,7 @@ public class harvCore extends absCore {
     private boolean canUseFSkill(Player player) {
         return true;
     }
+
     @Override
     protected boolean isItemRequired(Player player){
         return hasProperItems(player);
@@ -187,8 +159,8 @@ public class harvCore extends absCore {
     @Override
     protected boolean isQCondition(Player player, ItemStack droppedItem) {
         ItemStack off = player.getInventory().getItemInOffHand();
-        return droppedItem.getType() == Material.IRON_HOE &&
-                off.getType() == Material.AIR &&
+        return droppedItem.getType() == Material.BLAZE_ROD &&
+                off.getType() == Material.BLAZE_POWDER &&
                 canUseQSkill(player);
     }
 

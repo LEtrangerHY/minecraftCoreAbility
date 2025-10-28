@@ -26,8 +26,6 @@ public class Bountiful {
         this.cool = cool;
     }
 
-
-
     public boolean bushCheck(Player player) {
         int baseX = player.getLocation().getBlockX();
         int baseY = player.getLocation().getBlockY();

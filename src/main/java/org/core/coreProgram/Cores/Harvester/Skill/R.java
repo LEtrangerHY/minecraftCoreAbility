@@ -45,10 +45,10 @@ public class R implements SkillBase {
         world.playSound(player.getLocation(), Sound.ITEM_TRIDENT_THROW, 1, 1);
 
         Boolean invisibility = player.isInvisible();
-        double slashLength = (player.isInvisible()) ? 4.4 : 6.6;
+        double slashLength = (player.isInvisible()) ? 4 : 6.6;
         double maxAngle = (player.isInvisible()) ? Math.toRadians(100) : Math.toRadians(26);
         double maxTicks = (player.isInvisible()) ? 6 : 4;
-        double innerRadius = 2.2;
+        double innerRadius = 2;
 
         config.damaged.put(player.getUniqueId(), new HashSet<>());
 

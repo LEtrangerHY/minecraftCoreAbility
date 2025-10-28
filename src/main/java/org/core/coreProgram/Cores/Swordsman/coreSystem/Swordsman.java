@@ -38,7 +38,7 @@ public class Swordsman {
     public HashMap<UUID, HashSet<Entity>> q_damaged = new HashMap<>();
 
     //F
-    public long f_Skill_Cool = 14500;
+    public long f_Skill_Cool = 16200;
     public double f_Skill_damage = 5;
     public double f_Skill_amp = 0.1;
     public double f_Skill_dash = 1.4;

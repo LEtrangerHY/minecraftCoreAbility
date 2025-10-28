@@ -1,5 +1,6 @@
 package org.core.coreProgram.Cores.Harvester.coreSystem;
 
+import net.kyori.adventure.text.event.ClickEvent;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
@@ -27,10 +28,12 @@ public class Harvester {
 
     //F
     public HashMap<UUID, Boolean> fskill_using = new HashMap<>();
+    public HashMap<UUID, HashSet<Entity>> f_damaged = new HashMap<>();
+    public HashMap<UUID, Integer> grass = new HashMap<>();
+    public HashMap<UUID, Integer> repeat = new HashMap<>();
     public long f_Skill_Cool = 26000;
-    public double f_Skill_dash = 1.3;
-    public double f_Skill_amp = 0.2;
-    public double f_Skill_damage = 1.3;
+    public double f_Skill_amp = 0.13;
+    public double f_Skill_damage = 2;
 
     public void variableReset(Player player) {
 

@@ -45,7 +45,7 @@ public class swordInventory extends absInventory {
         return switch (skill) {
             case "R" -> Component.text("RapidSlash/QuickDraw");
             case "Q" -> Component.text("SwallowSweep/SwallowCounter");
-            case "F" -> Component.text("");
+            case "F" -> Component.text("CONVERGENCE");
             default -> Component.text("???");
         };
     }
