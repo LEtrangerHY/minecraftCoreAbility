@@ -40,7 +40,7 @@ public class R implements SkillBase {
             Location playerLocation = player.getLocation();
             Vector direction = playerLocation.getDirection().normalize().multiply(1.4);
 
-            player.playSound(player.getLocation(), Sound.BLOCK_AMETHYST_BLOCK_BREAK, 1, 1);
+            world.playSound(player.getLocation(), Sound.BLOCK_AMETHYST_BLOCK_BREAK, 1, 1);
             config.Rcollision.put(player.getUniqueId(), false);
             config.entityCollision.put(player.getUniqueId(), false);
 
@@ -90,7 +90,7 @@ public class R implements SkillBase {
                     }
 
                     Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(0, 255, 255), 0.6f);
-                    player.spawnParticle(Particle.DUST, particleLocation, 5, 0.1, 0.1, 0.1, 0, dustOptions);
+                    world.spawnParticle(Particle.DUST, particleLocation, 5, 0.1, 0.1, 0.1, 0, dustOptions);
 
                     ticks++;
                 }
@@ -98,7 +98,7 @@ public class R implements SkillBase {
 
             offhandItem.setAmount(offhandItem.getAmount() - 1);
         }else{
-            player.playSound(player.getLocation(), Sound.BLOCK_GLASS_PLACE, 1, 1);
+            player.getWorld().playSound(player.getLocation(), Sound.BLOCK_GLASS_PLACE, 1, 1);
             player.sendActionBar(Component.text("Blue Ice needed").color(NamedTextColor.RED));
             long cools = 100L;
             cool.updateCooldown(player, "R", cools);

@@ -1,11 +1,11 @@
 package org.core.coreProgram.Cores.Saboteur.coreSystem;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.UUID;
+import java.util.*;
 
 public class Saboteur {
     //CoolHashmap
@@ -20,13 +20,22 @@ public class Saboteur {
     public HashMap<UUID, Boolean> isHackAway = new HashMap<>();
     public HashMap<UUID, Boolean> collision = new HashMap<>();
 
+    public HashMap<UUID, List<Location>> trapSpikePos = new HashMap<>();
+    public HashMap<UUID, Boolean> trapSpikeDamage = new HashMap<>();
+
+    public HashMap<UUID, List<Location>> trapThrowPos = new HashMap<>();
+    public HashMap<UUID, LivingEntity> trapTarget = new HashMap<>();
+
+    public HashMap<UUID, Location> trapPedalPos = new HashMap<>();
+    public HashMap<UUID, Boolean> trapActive = new HashMap<>();
+
     public HashMap<UUID, Boolean> skillUsing = new HashMap<>();
 
     //R
-    public long r_Skill_Cool = 500;
+    public long r_Skill_Cool = 2000;
 
     //Q
-    public long q_Skill_Cool = 4000;
+    public long q_Skill_Cool = 12000;
 
     //F
     public long f_Skill_Cool = 44440;

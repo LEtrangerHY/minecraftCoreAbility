@@ -119,7 +119,7 @@ public class glaCore extends absCore {
                         Vector direction = playerLocation.getDirection().normalize().multiply(1.3);
 
                         player.getAttribute(Attribute.ATTACK_SPEED).setBaseValue(1.25);
-                        player.playSound(player.getLocation(), Sound.BLOCK_AMETHYST_BLOCK_BREAK, 1, 1);
+                        world.playSound(player.getLocation(), Sound.BLOCK_AMETHYST_BLOCK_BREAK, 1, 1);
 
                         config.collision.put(player.getUniqueId(), false);
 
@@ -139,13 +139,13 @@ public class glaCore extends absCore {
                                         .add(0, 1.4, 0);
 
                                 Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(0, 255, 255), 0.6f);
-                                player.spawnParticle(Particle.SNOWFLAKE, particleLocation, 3, 0.1, 0.1, 0.1, 0);
-                                player.spawnParticle(Particle.DUST, particleLocation, 2, 0.1, 0.1, 0.1, 0, dustOptions);
+                                world.spawnParticle(Particle.SNOWFLAKE, particleLocation, 3, 0.1, 0.1, 0.1, 0);
+                                world.spawnParticle(Particle.DUST, particleLocation, 2, 0.1, 0.1, 0.1, 0, dustOptions);
 
                                 for (Entity entity : world.getNearbyEntities(particleLocation, 0.5, 0.5, 0.5)) {
                                     if (entity instanceof LivingEntity target && entity != player) {
 
-                                        player.playSound(player.getLocation(), Sound.BLOCK_GLASS_BREAK, 1, 1);
+                                        world.playSound(player.getLocation(), Sound.BLOCK_GLASS_BREAK, 1, 1);
 
                                         ForceDamage forceDamage = new ForceDamage(target, 3);
                                         forceDamage.applyEffect(player);

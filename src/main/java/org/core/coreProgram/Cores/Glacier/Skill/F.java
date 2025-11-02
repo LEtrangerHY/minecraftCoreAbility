@@ -40,17 +40,17 @@ public class F implements SkillBase {
             SetBiome(world, center, 15);
 
             Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(0, 255, 255), 0.6f);
-            player.spawnParticle(Particle.DUST, center.add(0, 1, 0), 1000, 8, 8, 8, 0, dustOptions);
+            world.spawnParticle(Particle.DUST, center.add(0, 1, 0), 1000, 8, 8, 8, 0, dustOptions);
 
-            player.playSound(player.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1.0f, 1.0f);
-            player.playSound(player.getLocation(), Sound.BLOCK_AMETHYST_BLOCK_BREAK, 1, 1);
+            world.playSound(player.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1.0f, 1.0f);
+            world.playSound(player.getLocation(), Sound.BLOCK_AMETHYST_BLOCK_BREAK, 1, 1);
 
-            player.playSound(player.getLocation(), Sound.ENTITY_BREEZE_SHOOT, 1.0f, 1.0f);
+            world.playSound(player.getLocation(), Sound.ENTITY_BREEZE_SHOOT, 1.0f, 1.0f);
 
             for (Entity entity : world.getNearbyEntities(center, 4, 4, 4)) {
                 if (entity.equals(player) || !(entity instanceof LivingEntity)) continue;
 
-                player.spawnParticle(Particle.EXPLOSION, entity.getLocation().clone().add(0, 1, 0), 1, 0, 0, 0, 0);
+                world.spawnParticle(Particle.EXPLOSION, entity.getLocation().clone().add(0, 1, 0), 1, 0, 0, 0, 0);
 
                 Vector direction = entity.getLocation().toVector().subtract(center.toVector()).normalize().multiply(2.2);
                 direction.setY(0.4);
@@ -64,7 +64,7 @@ public class F implements SkillBase {
 
             offhandItem.setAmount(offhandItem.getAmount() - 20);
         }else{
-            player.playSound(player.getLocation(), Sound.BLOCK_GLASS_PLACE, 1, 1);
+            player.getWorld().playSound(player.getLocation(), Sound.BLOCK_GLASS_PLACE, 1, 1);
             player.sendActionBar(Component.text("Blue Ice needed").color(NamedTextColor.RED));
             long cools = 100L;
             cool.updateCooldown(player, "F", cools);

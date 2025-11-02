@@ -28,16 +28,18 @@ public class Q implements SkillBase {
     public void Trigger(Player player) {
         ItemStack offhandItem = player.getInventory().getItem(EquipmentSlot.OFF_HAND);
 
+        World world = player.getWorld();
+
         if (offhandItem.getType() == Material.BLUE_ICE && offhandItem.getAmount() >= 7) {
 
-            player.spawnParticle(Particle.SNOWFLAKE, player.getLocation().clone().add(0, 1, 0), 80, 1.5, 1.5, 1.5, 0.1);
-            player.playSound(player.getLocation(), Sound.BLOCK_AMETHYST_BLOCK_BREAK, 1, 1);
-            player.playSound(player.getLocation(), Sound.BLOCK_SNOW_BREAK, 1, 1);
+            world.spawnParticle(Particle.SNOWFLAKE, player.getLocation().clone().add(0, 1, 0), 80, 1.5, 1.5, 1.5, 0.1);
+            world.playSound(player.getLocation(), Sound.BLOCK_AMETHYST_BLOCK_BREAK, 1, 1);
+            world.playSound(player.getLocation(), Sound.BLOCK_SNOW_BREAK, 1, 1);
             placePowderSnowCone(player, 8.0, 60.0);
 
             offhandItem.setAmount(offhandItem.getAmount() - 6);
         }else{
-            player.playSound(player.getLocation(), Sound.BLOCK_GLASS_PLACE, 1, 1);
+            world.playSound(player.getLocation(), Sound.BLOCK_GLASS_PLACE, 1, 1);
             player.sendActionBar(Component.text("Blue Ice needed").color(NamedTextColor.RED));
             long cools = 100L;
             cool.updateCooldown(player, "Q", cools);
