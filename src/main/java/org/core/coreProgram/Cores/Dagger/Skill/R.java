@@ -55,24 +55,24 @@ public class R implements SkillBase {
             target.setVelocity(new Vector(0, 0, 0));
             config.r_damaged.remove(player.getUniqueId());
 
-            player.playSound(player.getLocation(), Sound.ITEM_TRIDENT_THROW, 1, 1);
-            player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_CRIT, 1, 1);
+            world.playSound(player.getLocation(), Sound.ITEM_TRIDENT_THROW, 1, 1);
+            world.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_CRIT, 1, 1);
 
             Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(255, 0, 0), 1.0f);
             world.spawnParticle(Particle.DUST, target.getLocation().add(0, 1.5, 0), 24, 0.4, 0.4, 0.4, 0, dustOptions);
-            player.spawnParticle(Particle.CRIT, target.getLocation().add(0, 1.5, 0), 8, 0.2, 0.2, 0.2, 0);
+            world.spawnParticle(Particle.CRIT, target.getLocation().add(0, 1.5, 0), 8, 0.2, 0.2, 0.2, 0);
 
         }else {
 
-            player.playSound(player.getLocation(), Sound.ITEM_TRIDENT_THROW, 1, 1);
+            world.playSound(player.getLocation(), Sound.ITEM_TRIDENT_THROW, 1, 1);
 
             Vector direction = player.getEyeLocation().getDirection().normalize();
             Location particleLocation = player.getEyeLocation().clone()
                     .add(direction.clone().multiply(2.0));
 
-            player.spawnParticle(Particle.CRIT, particleLocation, 8, 0.08, 0.08, 0.08, 0);
+            world.spawnParticle(Particle.CRIT, particleLocation, 8, 0.08, 0.08, 0.08, 0);
 
-            player.sendActionBar(Component.text("not designated").color(NamedTextColor.DARK_RED));
+            world.sendActionBar(Component.text("not designated").color(NamedTextColor.DARK_RED));
 
             long cools = 250L;
             cool.updateCooldown(player, "R", cools);

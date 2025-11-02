@@ -146,8 +146,8 @@ public class F implements SkillBase {
                     return;
                 }
 
-                player.spawnParticle(Particle.CRIT, player.getLocation().add(0, 1.0, 0), 7, 0.4, 0.4, 0.4, 0);
-                player.spawnParticle(Particle.SMOKE, player.getLocation().add(0, 1.0, 0), 20, 0.5, 0.1, 0.5, 0);
+                player.getWorld().spawnParticle(Particle.CRIT, player.getLocation().add(0, 1.0, 0), 7, 0.4, 0.4, 0.4, 0);
+                player.getWorld().spawnParticle(Particle.SMOKE, player.getLocation().add(0, 1.0, 0), 20, 0.5, 0.1, 0.5, 0);
 
                 List<Entity> nearbyEntities = player.getNearbyEntities(0.6, 0.6, 0.6);
                 for (Entity entity : nearbyEntities) {

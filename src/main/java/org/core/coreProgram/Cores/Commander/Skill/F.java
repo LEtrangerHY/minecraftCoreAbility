@@ -33,13 +33,13 @@ public class F implements SkillBase {
     @Override
     public void Trigger(Player player){
         if(!config.comBlocks.getOrDefault(player.getUniqueId(), new HashSet<>()).isEmpty()){
-            player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+            player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
             for(FallingBlock fb : config.comBlocks.getOrDefault(player.getUniqueId(), new HashSet<>())){
                 circleParticle(player, fb.getLocation().clone().add(0, 0.5, 0));
                 commandReceiver_1(player, fb);
             }
         }else{
-            player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
+            player.getWorld().playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
             player.sendActionBar(Component.text("com-block uninstalled").color(NamedTextColor.RED));
             long cools = 100L;
             cool.updateCooldown(player, "F", cools);

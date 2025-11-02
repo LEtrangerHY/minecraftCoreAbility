@@ -111,7 +111,7 @@ public class pyroCore extends absCore {
                     if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
 
                         if (cool.isReloading(player, "flame")) {
-                            player.playSound(player.getLocation(), Sound.ITEM_FLINTANDSTEEL_USE, 1, 1);
+                            player.getWorld().playSound(player.getLocation(), Sound.ITEM_FLINTANDSTEEL_USE, 1, 1);
                             return;
                         }
 
@@ -122,7 +122,7 @@ public class pyroCore extends absCore {
                         Vector direction = playerLocation.getDirection().normalize().multiply(1.3);
 
                         player.getAttribute(Attribute.ATTACK_SPEED).setBaseValue(0.5);
-                        player.playSound(player.getLocation(), Sound.ITEM_FIRECHARGE_USE, 1, 1);
+                        world.playSound(player.getLocation(), Sound.ITEM_FIRECHARGE_USE, 1, 1);
 
                         config.collision.put(player.getUniqueId(), false);
 
@@ -142,8 +142,8 @@ public class pyroCore extends absCore {
                                         .add(direction.clone().multiply(ticks * 1.5))
                                         .add(0, 1.4, 0);
 
-                                player.spawnParticle(Particle.FLAME, particleLocation, 3, 0.1, 0.1, 0.1, 0);
-                                player.spawnParticle(Particle.SMOKE, particleLocation, 2, 0.1, 0.1, 0.1, 0);
+                                world.spawnParticle(Particle.FLAME, particleLocation, 3, 0.1, 0.1, 0.1, 0);
+                                world.spawnParticle(Particle.SMOKE, particleLocation, 2, 0.1, 0.1, 0.1, 0);
 
                                 Block block = particleLocation.getBlock();
 
@@ -195,9 +195,9 @@ public class pyroCore extends absCore {
 
         World world = player.getWorld();
 
-        player.playSound(player.getLocation(), Sound.ENTITY_DRAGON_FIREBALL_EXPLODE, 1, 1);
-        player.spawnParticle(Particle.FLAME, burstLoction, 21, 0.1, 0.1, 0.1, 0.9);
-        player.spawnParticle(Particle.SOUL_FIRE_FLAME, burstLoction, 14, 0.1, 0.1, 0.1, 0.9);
+        world.playSound(player.getLocation(), Sound.ENTITY_DRAGON_FIREBALL_EXPLODE, 1, 1);
+        world.spawnParticle(Particle.FLAME, burstLoction, 21, 0.1, 0.1, 0.1, 0.9);
+        world.spawnParticle(Particle.SOUL_FIRE_FLAME, burstLoction, 14, 0.1, 0.1, 0.1, 0.9);
 
         for (Entity entity : world.getNearbyEntities(burstLoction, 3, 3, 3)) {
             if (entity instanceof LivingEntity target && entity != player) {

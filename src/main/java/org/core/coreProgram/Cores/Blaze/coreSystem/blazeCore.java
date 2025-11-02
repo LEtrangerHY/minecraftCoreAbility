@@ -137,7 +137,7 @@ public class blazeCore extends absCore {
                     if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
 
                         if (cool.isReloading(player, "blaze")) {
-                            player.playSound(player.getLocation(), Sound.ITEM_FLINTANDSTEEL_USE, 1, 1);
+                            player.getWorld().playSound(player.getLocation(), Sound.ITEM_FLINTANDSTEEL_USE, 1, 1);
                             return;
                         }
 
@@ -157,8 +157,8 @@ public class blazeCore extends absCore {
                         Location origin = player.getLocation().add(0, 1.3, 0);
                         Vector forward = origin.getDirection().normalize();
 
-                        player.playSound(player.getLocation(), Sound.ITEM_FIRECHARGE_USE, 1, 1);
-                        player.playSound(player.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 1, 1);
+                        player.getWorld().playSound(player.getLocation(), Sound.ITEM_FIRECHARGE_USE, 1, 1);
+                        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 1, 1);
 
                         double maxDistance = (config.BurstBlaze.getOrDefault(player.getUniqueId(), false)) ? 11.0 : 9.0;
                         double coneAngle = (config.BurstBlaze.getOrDefault(player.getUniqueId(), false)) ? 360.0 : 60.0;

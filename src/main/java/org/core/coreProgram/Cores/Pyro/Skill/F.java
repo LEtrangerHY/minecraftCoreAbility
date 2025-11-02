@@ -81,8 +81,8 @@ public class F implements SkillBase {
                         config.F_collision.put(player.getUniqueId(), true);
                     }
 
-                    player.spawnParticle(Particle.FLAME, particleLocation, 3, 0.1, 0.1, 0.1, 0);
-                    player.spawnParticle(Particle.SMOKE, particleLocation, 2, 0.1, 0.1, 0.1, 0);
+                    player.getWorld().spawnParticle(Particle.FLAME, particleLocation, 3, 0.1, 0.1, 0.1, 0);
+                    player.getWorld().spawnParticle(Particle.SMOKE, particleLocation, 2, 0.1, 0.1, 0.1, 0);
 
                     for (Entity entity : world.getNearbyEntities(particleLocation, 0.5, 0.5, 0.5)) {
                         if (entity instanceof LivingEntity target && entity != player) {
@@ -99,7 +99,7 @@ public class F implements SkillBase {
 
             offhandItem.setAmount(offhandItem.getAmount() - 20);
         }else{
-            player.playSound(player.getLocation(), Sound.ITEM_FLINTANDSTEEL_USE, 1, 1);
+            player.getWorld().playSound(player.getLocation(), Sound.ITEM_FLINTANDSTEEL_USE, 1, 1);
             player.sendActionBar(Component.text("powder needed").color(NamedTextColor.RED));
             long cools = 100L;
             cool.updateCooldown(player, "F", cools);
@@ -133,14 +133,14 @@ public class F implements SkillBase {
 
         World world = player.getWorld();
 
-        player.playSound(player.getLocation(), Sound.ENTITY_DRAGON_FIREBALL_EXPLODE, 1, 1);
-        player.playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 1, 1);
-        player.spawnParticle(Particle.FLAME, burstLoction, 70, 0.1, 0.1, 0.1, 0.9);
-        player.spawnParticle(Particle.FLASH, burstLoction, 10, 0.3, 0.3, 0.3, 0.9);
-        player.spawnParticle(Particle.END_ROD, burstLoction.clone().add(0, 1.2, 0), 70, 0.7, 0.7, 0.7, 0.7);
-        player.spawnParticle(Particle.TOTEM_OF_UNDYING, burstLoction.clone().add(0, 1.2, 0), 70, 3, 3, 3, 0.7);
-        player.spawnParticle(Particle.SOUL_FIRE_FLAME, burstLoction, 70, 0.1, 0.1, 0.1, 0.9);
-        player.spawnParticle(Particle.SOUL_FIRE_FLAME, burstLoction.clone().add(0, 1, 0), 140, 7, 7, 7, 0);
+        world.playSound(player.getLocation(), Sound.ENTITY_DRAGON_FIREBALL_EXPLODE, 1, 1);
+        world.playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 1, 1);
+        world.spawnParticle(Particle.FLAME, burstLoction, 70, 0.1, 0.1, 0.1, 0.9);
+        world.spawnParticle(Particle.FLASH, burstLoction, 10, 0.3, 0.3, 0.3, 0.9);
+        world.spawnParticle(Particle.END_ROD, burstLoction.clone().add(0, 1.2, 0), 70, 0.7, 0.7, 0.7, 0.7);
+        world.spawnParticle(Particle.TOTEM_OF_UNDYING, burstLoction.clone().add(0, 1.2, 0), 70, 3, 3, 3, 0.7);
+        world.spawnParticle(Particle.SOUL_FIRE_FLAME, burstLoction, 70, 0.1, 0.1, 0.1, 0.9);
+        world.spawnParticle(Particle.SOUL_FIRE_FLAME, burstLoction.clone().add(0, 1, 0), 140, 7, 7, 7, 0);
 
         for (Entity entity : world.getNearbyEntities(burstLoction, 7.7, 7.7, 7.7)) {
             if (entity instanceof LivingEntity target && entity != player) {

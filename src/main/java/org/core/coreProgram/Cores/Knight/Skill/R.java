@@ -36,6 +36,8 @@ public class R implements SkillBase {
 
     @Override
     public void Trigger(Player player) {
+        World world = player.getWorld();
+
         if(config.swordCount.getOrDefault(player.getUniqueId(), 0) < 3) {
             player.playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_LEATHER, 1, 1);
 
@@ -43,7 +45,7 @@ public class R implements SkillBase {
             if (target == null) return;
 
             config.swordCount.put(player.getUniqueId(), config.swordCount.getOrDefault(player.getUniqueId(), 0)+1);
-            player.getWorld().spawnParticle(Particle.ENCHANTED_HIT, target.getLocation().clone().add(0, 1, 0), 49, 0.4, 0.4, 0.4, 1);
+            world.spawnParticle(Particle.ENCHANTED_HIT, target.getLocation().clone().add(0, 1, 0), 49, 0.4, 0.4, 0.4, 1);
             player.sendActionBar(Component.text(config.swordCount.getOrDefault(player.getUniqueId(), 0)).color(NamedTextColor.BLACK));
             TripleSword(player, target);
 
@@ -63,7 +65,7 @@ public class R implements SkillBase {
 
         }else{
             player.sendActionBar(Component.text("Can use 3 times").color(NamedTextColor.RED));
-            player.playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_LEATHER, 1, 1);
+            world.playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_LEATHER, 1, 1);
             long cools = 100L;
             cool.updateCooldown(player, "R", cools);
         }

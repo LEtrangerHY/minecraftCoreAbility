@@ -66,7 +66,7 @@ public class R implements SkillBase {
             Particle.DustOptions dustOptions_gra = new Particle.DustOptions(Color.fromRGB(255, 255, 255), 0.7f);
             BlockData iron = Material.IRON_BLOCK.createBlockData();
 
-            player.spawnParticle(Particle.FLASH, fb.getLocation(), 13, 0, 0, 0, 0.8);
+            world.spawnParticle(Particle.FLASH, fb.getLocation(), 13, 0, 0, 0, 0.8);
 
             world.playSound(fb.getLocation(), Sound.ENTITY_WITHER_DEATH, 1f, 1f);
             world.spawnParticle(Particle.ENCHANTED_HIT, spawnLoc, 30, 0.2, 0.2, 0.2, 1);
@@ -92,8 +92,8 @@ public class R implements SkillBase {
                     }
 
                     world.spawnParticle(Particle.ENCHANTED_HIT, fb.getLocation(), 3, 0.2, 0.2, 0.2, 0);
-                    player.spawnParticle(Particle.DUST, fb.getLocation(), 1, 0.1, 0.1, 0.1, 0, dustOptions);
-                    player.spawnParticle(Particle.DUST, fb.getLocation(), 2, 0.1, 0.1, 0.1, 0, dustOptions_gra);
+                    world.spawnParticle(Particle.DUST, fb.getLocation(), 1, 0.1, 0.1, 0.1, 0, dustOptions);
+                    world.spawnParticle(Particle.DUST, fb.getLocation(), 2, 0.1, 0.1, 0.1, 0, dustOptions_gra);
 
                     for (Entity e : world.getNearbyEntities(fb.getLocation(), 0.7, 0.7, 0.7)) {
                         if (e instanceof LivingEntity le && !le.equals(player)) {
@@ -132,7 +132,7 @@ public class R implements SkillBase {
                 offhandItem.setAmount(offhandItem.getAmount() - 4);
             }
         }else{
-            player.playSound(player.getLocation(), Sound.BLOCK_IRON_PLACE, 1, 1);
+            player.getWorld().playSound(player.getLocation(), Sound.BLOCK_IRON_PLACE, 1, 1);
             player.sendActionBar(Component.text("iron needed").color(NamedTextColor.RED));
             long cools = 100L;
             cool.updateCooldown(player, "R", cools);

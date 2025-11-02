@@ -51,13 +51,13 @@ public class Laido {
                     player.getInventory().setItemInMainHand(off);
                     player.getInventory().setItemInOffHand(new ItemStack(Material.AIR));
 
-                    player.playSound(player.getLocation(), Sound.ITEM_BUNDLE_INSERT, 1.0f, 1.0f);
+                    player.getWorld().playSound(player.getLocation(), Sound.ITEM_BUNDLE_INSERT, 1.0f, 1.0f);
                 }
             }
         }
 
         config.laidoSlash.put(player.getUniqueId(), true);
-        player.spawnParticle(Particle.SMOKE, player.getLocation().clone().add(0, 1.0, 0), 14, 0.4, 0.4, 0.4, 0);
+        player.getWorld().spawnParticle(Particle.SMOKE, player.getLocation().clone().add(0, 1.0, 0), 14, 0.4, 0.4, 0.4, 0);
 
         new BukkitRunnable() {
             @Override
@@ -78,6 +78,8 @@ public class Laido {
     }
 
     public void Draw(Player player) {
+        World world = player.getWorld();
+
         PlayerInventory inv = player.getInventory();
         ItemStack main = inv.getItemInMainHand();
 
@@ -96,14 +98,14 @@ public class Laido {
                     inv.setItemInMainHand(ironSword);
                     inv.setItemInOffHand(main);
 
-                    player.playSound(player.getLocation(), Sound.ITEM_BUNDLE_REMOVE_ONE, 1.0f, 1.0f);
+                    player.getWorld().playSound(player.getLocation(), Sound.ITEM_BUNDLE_REMOVE_ONE, 1.0f, 1.0f);
                 }
             }
         }
 
         config.laidoSlash.remove(player.getUniqueId());
-        player.spawnParticle(Particle.SPIT, player.getLocation().clone().add(0, 1.0, 0), 20, 0.2, 0.3, 0.2, 0.5);
-        player.playSound(player.getLocation(), Sound.ITEM_TRIDENT_THROW, 1.0f, 1.0f);
+        world.spawnParticle(Particle.SPIT, player.getLocation().clone().add(0, 1.0, 0), 20, 0.2, 0.3, 0.2, 0.5);
+        world.playSound(player.getLocation(), Sound.ITEM_TRIDENT_THROW, 1.0f, 1.0f);
         player.sendActionBar(Component.text("Draw").color(NamedTextColor.GREEN));
     }
 

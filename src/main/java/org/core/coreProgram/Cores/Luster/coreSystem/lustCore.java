@@ -138,7 +138,7 @@ public class lustCore extends absCore {
                         Vector direction = playerLocation.getDirection().normalize().multiply(1.4);
 
                         player.getAttribute(Attribute.ATTACK_SPEED).setBaseValue((double) 0.5);
-                        player.playSound(player.getLocation(), Sound.ENTITY_IRON_GOLEM_REPAIR, 1, 1);
+                        world.playSound(player.getLocation(), Sound.ENTITY_IRON_GOLEM_REPAIR, 1, 1);
 
                         config.collision.put(player.getUniqueId(), false);
 
@@ -160,8 +160,8 @@ public class lustCore extends absCore {
                                         .add(direction.clone().multiply(ticks * 1.4))
                                         .add(0, 1.4, 0);
 
-                                player.spawnParticle(Particle.DUST, particleLocation, 1, 0.1, 0.1, 0.1, 0, dustOptions);
-                                player.spawnParticle(Particle.DUST, particleLocation, 2, 0.1, 0.1, 0.1, 0, dustOptions_gra);
+                                world.spawnParticle(Particle.DUST, particleLocation, 1, 0.1, 0.1, 0.1, 0, dustOptions);
+                                world.spawnParticle(Particle.DUST, particleLocation, 2, 0.1, 0.1, 0.1, 0, dustOptions_gra);
 
                                 for (Entity entity : world.getNearbyEntities(particleLocation, 0.5, 0.5, 0.5)) {
                                     if (entity instanceof LivingEntity target && entity != player) {

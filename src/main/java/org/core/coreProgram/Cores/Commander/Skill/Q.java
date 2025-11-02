@@ -137,7 +137,7 @@ public class Q implements SkillBase {
 
         for (double i = 0; i <= maxDistance; i += step) {
             Location point = start.clone().add(direction.clone().multiply(i));
-            player.spawnParticle(Particle.DUST, point, 2, 0.05, 0.05, 0.05, 0, dustOptions_gra);
+            player.getWorld().spawnParticle(Particle.DUST, point, 2, 0.05, 0.05, 0.05, 0, dustOptions_gra);
         }
     }
 }

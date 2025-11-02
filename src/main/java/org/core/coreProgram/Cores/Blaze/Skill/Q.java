@@ -37,11 +37,11 @@ public class Q implements SkillBase {
 
             player.spawnParticle(Particle.SOUL_FIRE_FLAME, player.getLocation().clone().add(0, 0.6, 0), 130, 0.1, 0.1, 0.1, 0.8);
 
-            player.playSound(player.getLocation(), Sound.ENTITY_PARROT_IMITATE_BLAZE, 1, 1);
-            player.playSound(player.getLocation(), Sound.ENTITY_BLAZE_BURN, 1, 1);
-            player.playSound(player.getLocation(), Sound.BLOCK_FIRE_AMBIENT, 1, 1);
-            player.playSound(player.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1, 1);
-            player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_SHOOT, 1, 1);
+            player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PARROT_IMITATE_BLAZE, 1, 1);
+            player.getWorld().playSound(player.getLocation(), Sound.ENTITY_BLAZE_BURN, 1, 1);
+            player.getWorld().playSound(player.getLocation(), Sound.BLOCK_FIRE_AMBIENT, 1, 1);
+            player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1, 1);
+            player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_SHOOT, 1, 1);
 
             config.BurstBlaze.put(player.getUniqueId(), true);
 
@@ -79,7 +79,7 @@ public class Q implements SkillBase {
                 offhandItem.setAmount(offhandItem.getAmount() - 20);
             }
         } else {
-            player.playSound(player.getLocation(), Sound.ENTITY_BLAZE_AMBIENT, 1f, 1f);
+            player.getWorld().playSound(player.getLocation(), Sound.ENTITY_BLAZE_AMBIENT, 1f, 1f);
             player.sendActionBar(Component.text("Soul needed").color(NamedTextColor.RED));
             cool.updateCooldown(player, "Q", 100L);
         }

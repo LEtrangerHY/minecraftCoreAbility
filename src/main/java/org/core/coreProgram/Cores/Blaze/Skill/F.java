@@ -59,10 +59,10 @@ public class F implements SkillBase {
 
             player.spawnParticle(Particle.SOUL_FIRE_FLAME, player.getLocation().clone().add(0, 0.6, 0), 666, 0.1, 0.1, 0.1, 0.8);
 
-            player.playSound(player.getLocation(), Sound.ENTITY_BLAZE_BURN, 1.0f, 1.0f);
-            player.playSound(player.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 1.0f, 1.0f);
-            player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1, 1);
-            player.playSound(player.getLocation(), Sound.ENTITY_WITHER_DEATH, 1, 1);
+            player.getWorld().playSound(player.getLocation(), Sound.ENTITY_BLAZE_BURN, 1.0f, 1.0f);
+            player.getWorld().playSound(player.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 1.0f, 1.0f);
+            player.getWorld().playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1, 1);
+            player.getWorld().playSound(player.getLocation(), Sound.ENTITY_WITHER_DEATH, 1, 1);
 
             for (Entity entity : player.getWorld().getNearbyEntities(player.getLocation().clone().add(0, 0.2, 0), 13, 13, 13)) {
                 if (entity instanceof LivingEntity target && entity != player) {

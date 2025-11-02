@@ -73,6 +73,7 @@ public class Q implements SkillBase {
 
     public void Focus(Player player, LivingEntity target, double originalMax) {
 
+        World world = player.getWorld();
 
         config.isFocusCancel.remove(player.getUniqueId());
 
@@ -87,10 +88,10 @@ public class Q implements SkillBase {
                     if (!isCancelled) {
                         Slice(player, target, originalMax);
                     } else {
-                        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1, 1);
-                        player.playSound(player.getLocation(), Sound.ENTITY_IRON_GOLEM_REPAIR, 1, 1);
-                        player.playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_LEATHER, 1, 1);
-                        player.sendActionBar(Component.text("Focus Cancelled").color(NamedTextColor.BLACK));
+                        world.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1, 1);
+                        world.playSound(player.getLocation(), Sound.ENTITY_IRON_GOLEM_REPAIR, 1, 1);
+                        world.playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_LEATHER, 1, 1);
+                        world.sendActionBar(Component.text("Focus Cancelled").color(NamedTextColor.BLACK));
 
                         ItemStack mainHand = player.getInventory().getItemInMainHand();
                         ItemMeta meta = mainHand.getItemMeta();
@@ -121,9 +122,9 @@ public class Q implements SkillBase {
                     PotionEffect slowness = new PotionEffect(PotionEffectType.SLOWNESS, 10, 2, false, false);
                     player.addPotionEffect(slowness);
 
-                    player.getWorld().spawnParticle(Particle.ENCHANTED_HIT,
+                    world.spawnParticle(Particle.ENCHANTED_HIT,
                             player.getLocation().clone().add(0, 1.3, 0), 14, 0.4, 0.4, 0.4, 1);
-                    player.getWorld().spawnParticle(Particle.DAMAGE_INDICATOR,
+                    world.spawnParticle(Particle.DAMAGE_INDICATOR,
                             target.getLocation().clone().add(0, 1.3, 0), 2, 0.2, 0.2, 0.2, 1);
 
                     AttributeInstance maxHealth = target.getAttribute(Attribute.MAX_HEALTH);

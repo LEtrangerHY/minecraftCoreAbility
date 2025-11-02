@@ -139,8 +139,8 @@ public class Q implements SkillBase {
 
                 Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(255, 255, 255), 0.8f);
                 player.getWorld().spawnParticle(Particle.DUST, player.getLocation().add(0, 1, 0), 25, 0.6, 0.1, 0.6, 0.08, dustOptions);
-                player.spawnParticle(Particle.CRIT, player.getLocation().add(0, 1.0, 0), 25, 0.4, 0.1, 0.4, 0);
-                player.spawnParticle(Particle.SMOKE, player.getLocation().add(0, 1.0, 0), 100, 1.0, 0, 1.0, 0);
+                player.getWorld().spawnParticle(Particle.CRIT, player.getLocation().add(0, 1.0, 0), 25, 0.4, 0.1, 0.4, 0);
+                player.getWorld().spawnParticle(Particle.SMOKE, player.getLocation().add(0, 1.0, 0), 100, 1.0, 0, 1.0, 0);
 
                 List<Entity> nearbyEntities = player.getNearbyEntities(1.0, 1.0, 1.0);
                 for (Entity entity : nearbyEntities) {

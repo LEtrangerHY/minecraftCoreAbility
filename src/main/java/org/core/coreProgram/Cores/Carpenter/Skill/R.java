@@ -82,7 +82,7 @@ public class R implements SkillBase {
 
                 double velocity = Math.sqrt(Math.pow(velocity_x, 2) + Math.pow(velocity_y, 2) + Math.pow(velocity_z, 2));
 
-                player.spawnParticle(Particle.SMOKE, player.getLocation().add(0, 1.0, 0), 20, 0.3, 0.2, 0.3, 0);
+                player.getWorld().spawnParticle(Particle.SMOKE, player.getLocation().add(0, 1.0, 0), 20, 0.3, 0.2, 0.3, 0);
 
                 List<Entity> nearbyEntities = player.getNearbyEntities(0.5, 0.5, 0.5);
                 for (Entity entity : nearbyEntities) {

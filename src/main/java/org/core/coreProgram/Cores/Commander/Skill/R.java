@@ -60,7 +60,7 @@ public class R implements SkillBase, Listener{
         Particle.DustOptions dustOptions_gra = new Particle.DustOptions(Color.fromRGB(255, 255, 255), 0.7f);
         BlockData command = Material.COMMAND_BLOCK.createBlockData();
 
-        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+        world.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
         world.spawnParticle(Particle.ENCHANTED_HIT, spawnLoc, 30, 0.2, 0.2, 0.2, 1);
 
         config.damaged.put(player.getUniqueId(), new HashSet<>());
@@ -96,8 +96,8 @@ public class R implements SkillBase, Listener{
                 }else {
 
                     world.spawnParticle(Particle.ENCHANTED_HIT, fb.getLocation(), 2, 0.2, 0.2, 0.2, 0);
-                    player.spawnParticle(Particle.DUST, fb.getLocation(), 4, 0.2, 0.2, 0.2, 0, dustOptions);
-                    player.spawnParticle(Particle.DUST, fb.getLocation(), 1, 0, 0, 0, 0, dustOptions_gra);
+                    world.spawnParticle(Particle.DUST, fb.getLocation(), 4, 0.2, 0.2, 0.2, 0, dustOptions);
+                    world.spawnParticle(Particle.DUST, fb.getLocation(), 1, 0, 0, 0, 0, dustOptions_gra);
 
                     for (Entity e : world.getNearbyEntities(fb.getLocation(), 0.7, 0.7, 0.7)) {
                         if (e instanceof LivingEntity le && !le.equals(player) && !config.damaged.getOrDefault(player.getUniqueId(), new HashSet<>()).contains(le)) {

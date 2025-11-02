@@ -81,7 +81,8 @@ public class Q implements SkillBase {
 
     @Override
     public void Trigger(Player player) {
-        player.playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_LEATHER, 1, 1);
+
+        player.getWorld().playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_LEATHER, 1, 1);
 
         Entity target = getTargetedEntity(player, 13, 0.3);
         if (target == null) {
@@ -95,7 +96,7 @@ public class Q implements SkillBase {
     }
 
     public void Upward(Player player, LivingEntity target) {
-        player.playSound(player.getLocation(), Sound.ENTITY_IRON_GOLEM_ATTACK, 1, 1);
+        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_IRON_GOLEM_ATTACK, 1, 1);
 
         int range = 6;
         Location center = player.getLocation();

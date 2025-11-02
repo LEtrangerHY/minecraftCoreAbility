@@ -38,8 +38,8 @@ public class R implements SkillBase {
 
             if (offhandItem.getType() == Material.IRON_NUGGET && offhandItem.getAmount() >= 1) {
                 config.reloaded.put(player.getUniqueId(), true);
-                player.playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_IRON, 1, 1);
-                player.playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_LEATHER, 1, 1);
+                player.getWorld().playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_IRON, 1, 1);
+                player.getWorld().playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_LEATHER, 1, 1);
 
                 long cools = 300L;
 
@@ -49,7 +49,7 @@ public class R implements SkillBase {
 
                 offhandItem.setAmount(offhandItem.getAmount() - 1);
             }else{
-                player.playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_LEATHER, 1, 1);
+                player.getWorld().playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_LEATHER, 1, 1);
                 player.sendActionBar(Component.text("iron needed").color(NamedTextColor.RED));
                 long cools = 100L;
                 cool.updateCooldown(player, "R", cools);
@@ -84,7 +84,7 @@ public class R implements SkillBase {
 
             Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(255, 255, 255),  0.8f);
             world.spawnParticle(Particle.DUST, particleLocation, 6, 0, 0, 0, 0, dustOptions);
-            player.spawnParticle(Particle.ENCHANTED_HIT, particleLocation, 6, 0, 0, 0, 0);
+            player.getWorld().spawnParticle(Particle.ENCHANTED_HIT, particleLocation, 6, 0, 0, 0, 0);
 
             for (Entity entity : world.getNearbyEntities(particleLocation, 0.3, 0.3, 0.3)) {
                 if (entity instanceof LivingEntity target

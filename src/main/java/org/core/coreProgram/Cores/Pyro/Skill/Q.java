@@ -37,14 +37,14 @@ public class Q implements SkillBase {
             World world = player.getWorld();
             Location center = player.getLocation();
 
-            player.getWorld().playSound(center, Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1.0f, 1.0f);
-            player.getWorld().playSound(center, Sound.ITEM_FIRECHARGE_USE, 1.0f, 1.0f);
+            world.playSound(center, Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1.0f, 1.0f);
+            world.playSound(center, Sound.ITEM_FIRECHARGE_USE, 1.0f, 1.0f);
 
-            player.spawnParticle(Particle.FLASH, center, 10, 0.3, 0.3, 0.3, 0.9);
-            player.spawnParticle(Particle.END_ROD, center.clone().add(0, 1.2, 0), 70, 0.7, 0.7, 0.7, 0.7);
-            player.spawnParticle(Particle.SOUL_FIRE_FLAME, center, 21, 0.1, 0.1, 0.1, 0.9);
-            player.spawnParticle(Particle.FLAME, center, 21, 0.1, 0.1, 0.1, 0.9);
-            player.spawnParticle(Particle.SOUL_FIRE_FLAME, center.clone().add(0, 1, 0), 140, 7, 7, 7, 0);
+            world.spawnParticle(Particle.FLASH, center, 10, 0.3, 0.3, 0.3, 0.9);
+            world.spawnParticle(Particle.END_ROD, center.clone().add(0, 1.2, 0), 70, 0.7, 0.7, 0.7, 0.7);
+            world.spawnParticle(Particle.SOUL_FIRE_FLAME, center, 21, 0.1, 0.1, 0.1, 0.9);
+            world.spawnParticle(Particle.FLAME, center, 21, 0.1, 0.1, 0.1, 0.9);
+            world.spawnParticle(Particle.SOUL_FIRE_FLAME, center.clone().add(0, 1, 0), 140, 7, 7, 7, 0);
 
             Random random = new Random();
             int radius = 7;
@@ -78,7 +78,7 @@ public class Q implements SkillBase {
 
             offhandItem.setAmount(offhandItem.getAmount() - 7);
         }else{
-            player.playSound(player.getLocation(), Sound.ITEM_FLINTANDSTEEL_USE, 1, 1);
+            player.getWorld().playSound(player.getLocation(), Sound.ITEM_FLINTANDSTEEL_USE, 1, 1);
             player.sendActionBar(Component.text("powder needed").color(NamedTextColor.RED));
             long cools = 100L;
             cool.updateCooldown(player, "Q", cools);

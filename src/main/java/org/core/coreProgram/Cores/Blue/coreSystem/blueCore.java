@@ -99,7 +99,7 @@ public class blueCore extends absCore {
                     if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
 
                         if (cool.isReloading(player, "soul")) {
-                            player.playSound(player.getLocation(), Sound.ENTITY_BLAZE_AMBIENT, 1.3f, 1.0f);
+                            player.getWorld().playSound(player.getLocation(), Sound.ENTITY_BLAZE_AMBIENT, 1.3f, 1.0f);
                             return;
                         }
 
@@ -110,7 +110,7 @@ public class blueCore extends absCore {
                         Vector direction = playerLocation.getDirection().normalize().multiply(1.3);
 
                         player.getAttribute(Attribute.ATTACK_SPEED).setBaseValue(1/1.3);
-                        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_AMBIENT, 1.3f, 1.0f);
+                        world.playSound(player.getLocation(), Sound.ENTITY_WITHER_AMBIENT, 1.3f, 1.0f);
 
                         new BukkitRunnable() {
                             int ticks = 0;
@@ -127,8 +127,8 @@ public class blueCore extends absCore {
                                         .add(direction.clone().multiply(ticks * 1.3))
                                         .add(0, 1.4, 0);
 
-                                player.spawnParticle(Particle.SOUL, particleLocation, 2, 0.4, 0.4, 0.4, 0);
-                                player.spawnParticle(Particle.SOUL_FIRE_FLAME, particleLocation, 4, 0.4, 0.4, 0.4, 0);
+                                world.spawnParticle(Particle.SOUL, particleLocation, 2, 0.4, 0.4, 0.4, 0);
+                                world.spawnParticle(Particle.SOUL_FIRE_FLAME, particleLocation, 4, 0.4, 0.4, 0.4, 0);
 
                                 for (Entity entity : world.getNearbyEntities(particleLocation, 1.3, 1.3, 1.3)) {
                                     if (entity instanceof LivingEntity target && entity != player) {

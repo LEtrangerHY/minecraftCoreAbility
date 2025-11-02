@@ -121,9 +121,9 @@ public class dagCore extends absCore {
                 Location particleLocation = player.getEyeLocation().clone()
                         .add(direction.clone().multiply(2.6));
 
-                player.spawnParticle(Particle.SWEEP_ATTACK, particleLocation, 1, 0, 0, 0, 0);
+                player.getWorld().spawnParticle(Particle.SWEEP_ATTACK, particleLocation, 1, 0, 0, 0, 0);
 
-                player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1, 1);
+                player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1, 1);
                 event.setDamage(4.0);
 
             }
@@ -175,7 +175,7 @@ public class dagCore extends absCore {
                                 .add(0, 1.5, 0);
 
                         world.spawnParticle(Particle.SWEEP_ATTACK, particleLocation, 1, 0, 0, 0, 0);
-                        player.spawnParticle(Particle.SMOKE, particleLocation, 1, 0, 0, 0, 0);
+                        world.spawnParticle(Particle.SMOKE, particleLocation, 1, 0, 0, 0, 0);
 
                         for (Entity entity : world.getNearbyEntities(particleLocation, 0.6, 0.6, 0.6)) {
                             if (entity instanceof LivingEntity target

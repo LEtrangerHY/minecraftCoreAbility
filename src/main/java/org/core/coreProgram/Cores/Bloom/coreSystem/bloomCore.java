@@ -99,7 +99,7 @@ public class bloomCore extends absCore {
                     if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
 
                         if (cool.isReloading(player, "blossom")) {
-                            player.playSound(player.getLocation(), Sound.BLOCK_SPORE_BLOSSOM_BREAK, 1.7f, 1.0f);
+                            player.getWorld().playSound(player.getLocation(), Sound.BLOCK_SPORE_BLOSSOM_BREAK, 1.7f, 1.0f);
                             return;
                         }
 
@@ -108,8 +108,8 @@ public class bloomCore extends absCore {
                         World world = player.getWorld();
 
                         player.getAttribute(Attribute.ATTACK_SPEED).setBaseValue(1 / 2.7);
-                        player.playSound(player.getLocation(), Sound.BLOCK_GRASS_PLACE, 1.7f, 1.0f);
-                        player.playSound(player.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1.7f, 1.0f);
+                        world.playSound(player.getLocation(), Sound.BLOCK_GRASS_PLACE, 1.7f, 1.0f);
+                        world.playSound(player.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1.7f, 1.0f);
 
                         player.heal(2.7);
 
@@ -134,10 +134,8 @@ public class bloomCore extends absCore {
                                         .add(direction.clone().multiply(ticks * 1.1))
                                         .add(0, 1.4, 0);
 
-                                player.spawnParticle(Particle.CHERRY_LEAVES, particleLocation, 7, 0.7, 0.7, 0.7, 0);
-                                player.spawnParticle(Particle.DUST, particleLocation, 5, 0.5, 0.5, 0.5, 0, dustOptions);
-
-                                Block block = particleLocation.getBlock();
+                                world.spawnParticle(Particle.CHERRY_LEAVES, particleLocation, 7, 0.7, 0.7, 0.7, 0);
+                                world.spawnParticle(Particle.DUST, particleLocation, 5, 0.5, 0.5, 0.5, 0, dustOptions);
 
                                 for (Entity entity : world.getNearbyEntities(particleLocation, 1.7, 1.7, 1.7)) {
                                     if (entity instanceof LivingEntity target && entity != player) {

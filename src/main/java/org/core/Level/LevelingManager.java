@@ -31,6 +31,7 @@ import org.core.coreProgram.Cores.Knight.coreSystem.knightLeveling;
 import org.core.coreProgram.Cores.Luster.coreSystem.lustLeveling;
 import org.core.coreProgram.Cores.Nightel.coreSystem.nightLeveling;
 import org.core.coreProgram.Cores.Pyro.coreSystem.pyroLeveling;
+import org.core.coreProgram.Cores.Saboteur.coreSystem.sabLeveling;
 import org.core.coreProgram.Cores.Swordsman.coreSystem.swordLeveling;
 import org.core.playerSettings.persistentPlayerHashMap;
 
@@ -155,6 +156,10 @@ public class LevelingManager implements Listener {
                 case "SWORDSMAN" :
                     swordLeveling sword = new swordLeveling(plugin, player, exp);
                     sword.addExp(player);
+                    break;
+                case "SABOTEUR" :
+                    sabLeveling saboteur = new sabLeveling(plugin, player, exp);
+                    saboteur.addExp(player);
                     break;
                 default :
                     break;

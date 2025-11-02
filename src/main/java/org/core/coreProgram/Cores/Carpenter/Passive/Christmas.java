@@ -36,8 +36,8 @@ public class Christmas {
         World world = player.getWorld();
 
         world.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 1, 1);
-        player.spawnParticle(Particle.ENCHANT, player.getLocation().add(0, 1.2, 0), 120, 1.2, 1.2, 1.2, 0);
-        player.spawnParticle(Particle.END_ROD, player.getLocation().add(0, 1.2, 0), 70, 1.2, 1.2, 1.2, 0.7);
+        world.spawnParticle(Particle.ENCHANT, player.getLocation().add(0, 1.2, 0), 120, 1.2, 1.2, 1.2, 0);
+        world.spawnParticle(Particle.END_ROD, player.getLocation().add(0, 1.2, 0), 70, 1.2, 1.2, 1.2, 0.7);
         int duration = 430;
 
         PotionEffect resistance = new PotionEffect(PotionEffectType.RESISTANCE, duration, 3);

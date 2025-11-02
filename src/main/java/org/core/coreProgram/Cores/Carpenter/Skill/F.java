@@ -52,9 +52,9 @@ public class F implements SkillBase {
         world.playSound(player.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1, 1);
         world.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 1, 1);
 
-        player.spawnParticle(Particle.HEART, player.getLocation().add(0, 1, 0), 3, 0.3, 0.4, 0.3, 0);
-        player.spawnParticle(Particle.WITCH, player.getLocation().add(0, 1, 0), 43, 0.5, 0.5, 0.5, 0);
-        player.spawnParticle(Particle.ENCHANT, player.getLocation().add(0, 1, 0), 43, 0.7, 0.7, 0.7, 0);
+        world.spawnParticle(Particle.HEART, player.getLocation().add(0, 1, 0), 3, 0.3, 0.4, 0.3, 0);
+        world.spawnParticle(Particle.WITCH, player.getLocation().add(0, 1, 0), 43, 0.5, 0.5, 0.5, 0);
+        world.spawnParticle(Particle.ENCHANT, player.getLocation().add(0, 1, 0), 43, 0.7, 0.7, 0.7, 0);
 
         player.heal(config.f_Skill_heal);
 
@@ -68,10 +68,10 @@ public class F implements SkillBase {
         world.playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_GOLD, 1, 1);
         world.playSound(player.getLocation(), Sound.BLOCK_ANVIL_DESTROY, 1, 1);
 
-        player.spawnParticle(Particle.TOTEM_OF_UNDYING, player.getLocation().add(0, 1.2, 0), 12, 0.3, 0.4, 0.3, 0);
-        player.spawnParticle(Particle.END_ROD, player.getLocation().add(0, 1.2, 0), 24, 0.3, 0.4, 0.3, 0.7);
-        player.spawnParticle(Particle.WITCH, player.getLocation().add(0, 1.2, 0), 43, 0.5, 0.5, 0.5, 0);
-        player.spawnParticle(Particle.ENCHANT, player.getLocation().add(0, 1.2, 0), 43, 0.7, 0.7, 0.7, 0);
+        world.spawnParticle(Particle.TOTEM_OF_UNDYING, player.getLocation().add(0, 1.2, 0), 12, 0.3, 0.4, 0.3, 0);
+        world.spawnParticle(Particle.END_ROD, player.getLocation().add(0, 1.2, 0), 24, 0.3, 0.4, 0.3, 0.7);
+        world.spawnParticle(Particle.WITCH, player.getLocation().add(0, 1.2, 0), 43, 0.5, 0.5, 0.5, 0);
+        world.spawnParticle(Particle.ENCHANT, player.getLocation().add(0, 1.2, 0), 43, 0.7, 0.7, 0.7, 0);
 
         ItemStack offhandItem = player.getInventory().getItem(EquipmentSlot.OFF_HAND);
         ItemStack setItem = ItemStack.of(Material.TOTEM_OF_UNDYING);

@@ -64,7 +64,7 @@ public class R implements SkillBase {
             }
 
         }else{
-            player.playSound(player.getLocation(), Sound.ITEM_FLINTANDSTEEL_USE, 1, 1);
+            player.getWorld().playSound(player.getLocation(), Sound.ITEM_FLINTANDSTEEL_USE, 1, 1);
             player.sendActionBar(Component.text("powder needed").color(NamedTextColor.RED));
             long cools = 100L;
             cool.updateCooldown(player, "R", cools);

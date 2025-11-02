@@ -105,7 +105,7 @@ public class F implements SkillBase {
                         }
                     }
 
-                    player.getWorld().spawnParticle(Particle.ENCHANTED_HIT, spawnLoc, 44, 0.4, 0.4, 0.4, 1);
+                    world.spawnParticle(Particle.ENCHANTED_HIT, spawnLoc, 44, 0.4, 0.4, 0.4, 1);
                     golemEntity.getWorld().spawnParticle(
                             Particle.BLOCK,
                             golemEntity.getLocation().clone().add(0, 1, 0),
@@ -124,7 +124,7 @@ public class F implements SkillBase {
 
                 world.playSound(center, Sound.ENTITY_IRON_GOLEM_REPAIR, 1, 1);
 
-                target.getWorld().spawnParticle(
+                world.spawnParticle(
                         Particle.BLOCK,
                         target.getLocation().clone().add(0, 1, 0),
                         44, 0.4, 0.4, 0.4,

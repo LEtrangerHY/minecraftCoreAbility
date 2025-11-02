@@ -126,7 +126,7 @@ public class sabCore extends absCore {
 
                 player.spawnParticle(Particle.SWEEP_ATTACK, target.getLocation().clone().add(0, 1.2, 0), 1, 0, 0, 0, 0);
 
-                player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1, 1);
+                player.playSound(target.getLocation().clone().add(0, 1.2, 0), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1, 1);
 
                 Location loc1 = player.getLocation().add(0, player.getHeight() / 2 + 0.2, 0);
                 Location loc2 = target.getLocation().add(0, target.getHeight() / 2 + 0.2, 0);
@@ -171,7 +171,7 @@ public class sabCore extends absCore {
                         Location playerLocation = player.getLocation().add(0, 1.5, 0);
                         Vector direction = playerLocation.getDirection().normalize().multiply(2.3);
 
-                        player.playSound(player.getLocation(), Sound.ITEM_TRIDENT_THROW, 1, 1);
+                        world.playSound(player.getLocation(), Sound.ITEM_TRIDENT_THROW, 1, 1);
 
                         Item item = world.dropItem(playerLocation, new ItemStack(Material.IRON_NUGGET));
                         item.setVelocity(direction);
@@ -190,11 +190,11 @@ public class sabCore extends absCore {
 
                                 Location loc = item.getLocation();
 
-                                for (Entity nearby : item.getNearbyEntities(0.6, 0.6, 0.6)) {
+                                for (Entity nearby : item.getNearbyEntities(0.5, 0.5, 0.5)) {
                                     if (nearby instanceof LivingEntity target && nearby != player) {
                                         target.damage(5, player);
-                                        target.getWorld().playSound(target.getLocation().clone(), Sound.ITEM_TRIDENT_HIT, 1.0f, 1.0f);
-                                        player.getWorld().spawnParticle(Particle.BLOCK, target.getLocation().clone().add(0, 1.2, 0), 14, 0.3, 0.3, 0.3,
+                                        world.playSound(target.getLocation().clone(), Sound.ITEM_TRIDENT_HIT, 1.0f, 1.0f);
+                                        world.spawnParticle(Particle.BLOCK, target.getLocation().clone().add(0, 1.2, 0), 14, 0.3, 0.3, 0.3,
                                                 blood);
 
                                         item.remove();
@@ -204,8 +204,8 @@ public class sabCore extends absCore {
                                 }
 
                                 if (!loc.clone().add(direction).getBlock().isPassable()) {
-                                    loc.getWorld().playSound(loc.clone(), Sound.ITEM_TRIDENT_HIT_GROUND, 1.0f, 1.0f);
-                                    player.getWorld().spawnParticle(Particle.BLOCK,loc.clone(), 14, 0.3, 0.3, 0.3,
+                                    world.playSound(loc.clone(), Sound.ITEM_TRIDENT_HIT_GROUND, 1.0f, 1.0f);
+                                    world.spawnParticle(Particle.BLOCK,loc.clone(), 14, 0.3, 0.3, 0.3,
                                             iron);
                                     item.remove();
                                     Bukkit.getScheduler().cancelTask(this.hashCode());

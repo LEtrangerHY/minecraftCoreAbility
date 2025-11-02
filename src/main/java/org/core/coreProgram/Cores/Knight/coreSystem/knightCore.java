@@ -116,6 +116,8 @@ public class knightCore extends absCore {
         if (attacker == null) return;
 
         if (tag.Knight.contains(player)) {
+            World world = player.getWorld();
+
             if (config.isFocusing.getOrDefault(player.getUniqueId(), false)) {
                 event.setCancelled(true);
 
@@ -134,11 +136,11 @@ public class knightCore extends absCore {
                     PotionEffect glowing = new PotionEffect(PotionEffectType.GLOWING, 20 * 3, 1, false, true);
                     ((LivingEntity) attacker).addPotionEffect(glowing);
 
-                    player.spawnParticle(Particle.ENCHANTED_HIT, damager.getLocation().clone().add(0, 1, 0), 21, 0.4, 0.4, 0.4, 1);
-                    player.spawnParticle(Particle.SWEEP_ATTACK, damager.getLocation().clone().add(0, 1, 0), 1, 0., 0, 0, 0);
+                    world.spawnParticle(Particle.ENCHANTED_HIT, damager.getLocation().clone().add(0, 1, 0), 21, 0.4, 0.4, 0.4, 1);
+                    world.spawnParticle(Particle.SWEEP_ATTACK, damager.getLocation().clone().add(0, 1, 0), 1, 0., 0, 0, 0);
 
-                    player.playSound(playerLoc, Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1, 1);
-                    player.playSound(playerLoc, Sound.ENTITY_IRON_GOLEM_REPAIR, 1, 1);
+                    world.playSound(playerLoc, Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1, 1);
+                    world.playSound(playerLoc, Sound.ENTITY_IRON_GOLEM_REPAIR, 1, 1);
 
                     config.isFocusCancel.put(player.getUniqueId(), true);
                 }
@@ -162,6 +164,7 @@ public class knightCore extends absCore {
     public void passiveAttackEffect(PlayerInteractEvent event) {
 
         if(tag.Knight.contains(event.getPlayer())) {
+
             if (!pAttackUsing.contains(event.getPlayer().getUniqueId()) && !config.q_Skill_Using.getOrDefault(event.getPlayer().getUniqueId(), false)) {
 
                 Player player = event.getPlayer();
@@ -180,7 +183,7 @@ public class knightCore extends absCore {
                         Location playerLocation = player.getLocation();
                         Vector direction = playerLocation.getDirection().normalize().multiply(1.3);
 
-                        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1, 1);
+                        world.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1, 1);
 
                         config.collision.put(player.getUniqueId(), false);
 
@@ -199,8 +202,8 @@ public class knightCore extends absCore {
                                         .add(direction.clone().multiply(ticks * 1.4))
                                         .add(0, 1.4, 0);
 
-                                player.spawnParticle(Particle.SWEEP_ATTACK, particleLocation, 1, 0, 0, 0, 0);
-                                player.spawnParticle(Particle.ENCHANTED_HIT, particleLocation, 7, 0.3, 0.1, 0.3, 0);
+                                world.spawnParticle(Particle.SWEEP_ATTACK, particleLocation, 1, 0, 0, 0, 0);
+                                world.spawnParticle(Particle.ENCHANTED_HIT, particleLocation, 7, 0.3, 0.1, 0.3, 0);
 
                                 for (Entity entity : world.getNearbyEntities(particleLocation, 0.7, 0.3, 0.7)) {
                                     if (entity instanceof LivingEntity target && entity != player) {

@@ -61,9 +61,7 @@ public class Q implements SkillBase {
             public void run() {
 
                 if(ticks % 5 == 0){
-
-
-                    player.spawnParticle(Particle.SMOKE, player.getLocation().add(0, 1.0, 0), 13, 0.5, 0.1, 0.5, 0);
+                    player.getWorld().spawnParticle(Particle.SMOKE, player.getLocation().add(0, 1.0, 0), 13, 0.5, 0.1, 0.5, 0);
                 }
 
                 if(ticks >= 100 || config.crash.getOrDefault(player.getUniqueId(), false)){
@@ -107,7 +105,7 @@ public class Q implements SkillBase {
         Location particleLocation = player.getEyeLocation().clone()
                 .add(direction.clone().multiply(2.6));
 
-        player.spawnParticle(Particle.EXPLOSION, particleLocation, 1, 0, 0, 0, 0);
+        world.spawnParticle(Particle.EXPLOSION, particleLocation, 1, 0, 0, 0, 0);
         Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(255, 255, 0), 1.0f);
         world.spawnParticle(Particle.DUST, particleLocation, 70, 0.5, 0.5, 0.5, 0, dustOptions);
 
@@ -115,12 +113,12 @@ public class Q implements SkillBase {
 
         if(config.q_Skill_damage * (1.0 + config.normal_distribution.getOrDefault(player.getUniqueId(), 0.0)) >= 9){
             radius = 3.5;
-            player.spawnParticle(Particle.END_ROD, particleLocation, 24, 0.3, 0.4, 0.3, 0.7);
-            player.spawnParticle(Particle.CRIT, particleLocation, 30, 0.5, 0.5, 0.5, 0);
-            player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
+            world.spawnParticle(Particle.END_ROD, particleLocation, 24, 0.3, 0.4, 0.3, 0.7);
+            world.spawnParticle(Particle.CRIT, particleLocation, 30, 0.5, 0.5, 0.5, 0);
+            world.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
         }
-        player.getWorld().playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_IRON, 1.0f, 1.0f);
-        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_KNOCKBACK, 1, 1);
+        world.playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_IRON, 1.0f, 1.0f);
+        world.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_KNOCKBACK, 1, 1);
 
         for (Entity entity : world.getNearbyEntities(particleLocation, radius, radius, radius)) {
             if (entity instanceof LivingEntity object && entity != player && !config.q_damaged.getOrDefault(player.getUniqueId(), new HashSet<>()).contains(entity)) {
