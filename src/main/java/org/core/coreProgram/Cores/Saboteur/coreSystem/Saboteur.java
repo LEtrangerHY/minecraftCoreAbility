@@ -24,14 +24,14 @@ public class Saboteur {
     public HashMap<UUID, Boolean> trapSpikeDamage = new HashMap<>();
     public HashMap<UUID, List<Location>> trapThrowPos = new HashMap<>();
     public HashMap<UUID, LivingEntity> trapTarget = new HashMap<>();
-    public long r_Skill_Cool = 2000;
+    public long r_Skill_Cool = 1800;
     public double r_Skill_amp = 0.06;
 
     public HashMap<UUID, Boolean> r_skillUsing_Hack = new HashMap<>();
     public HashMap<UUID, HashSet<Entity>> r_damaged_Sweep_Hack = new HashMap<>();
     public HashMap<UUID, Boolean> r_skillUsing_Sweep_Hack = new HashMap<>();
     public long r_Skill_Cool_HACK = 300;
-    public long r_Skill_Damage_Spike_HACK = 6;
+    public long r_Skill_Damage_Spike_HACK = 5;
     public long r_Skill_Damage_Throw_HACK = 4;
 
     //Q
@@ -44,14 +44,14 @@ public class Saboteur {
     public HashMap<UUID, HashSet<Entity>> q_damaged_Sweep_Hack = new HashMap<>();
     public HashMap<UUID, Boolean> q_skillUsing_Hack = new HashMap<>();
     public HashMap<UUID, Boolean> q_skillUsing_Sweep_Hack = new HashMap<>();
-    public long q_Skill_Cool_HACK = 300;
+    public long q_Skill_Cool_HACK = 2000;
     public double q_Skill_Dash_HACK = 1.5;
     public long q_Skill_Damage_HACK = 3;
 
     //F
     public HashMap<UUID, Boolean> isHackAway = new HashMap<>();
     public long f_Skill_Cool = 44440;
-    public double f_Skill_amp = 0.2;
+    public double f_Skill_amp = 0.13;
 
 
     public void variableReset(Player player){

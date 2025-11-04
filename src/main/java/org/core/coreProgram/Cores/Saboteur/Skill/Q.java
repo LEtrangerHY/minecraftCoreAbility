@@ -222,7 +222,7 @@ public class Q implements SkillBase {
 
         Vector forward = player.getLocation().getDirection().normalize();
 
-        config.q_skillCount_Hack.put(player.getUniqueId(), 0);
+        config.q_skillCount_Hack.remove(player.getUniqueId());
 
         double angleStep = 360.0 / count;
 
@@ -349,7 +349,7 @@ public class Q implements SkillBase {
                             hackDashSpike(player, lastLoc.clone(), n);
                         }, 1L);
                     }else{
-                        config.q_skillCount_Hack.put(player.getUniqueId(), 0);
+                        config.q_skillCount_Hack.remove(player.getUniqueId());
                         config.q_skillUsing_Sweep_Hack.remove(player.getUniqueId());
                     }
 
@@ -398,7 +398,7 @@ public class Q implements SkillBase {
                                 PotionEffect poison = new PotionEffect(PotionEffectType.POISON, 20 * 4, 5, false, true);
                                 target.addPotionEffect(poison);
 
-                                ForceDamage forceDamage = new ForceDamage(target, damage);
+                                ForceDamage forceDamage = new ForceDamage(target, damage / 2);
                                 forceDamage.applyEffect(player);
                                 target.setVelocity(new Vector(0, 0, 0));
 

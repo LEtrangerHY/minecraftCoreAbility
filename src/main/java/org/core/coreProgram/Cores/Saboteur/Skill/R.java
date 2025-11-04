@@ -308,6 +308,8 @@ public class R implements SkillBase {
 
         World world = player.getWorld();
 
+        player.swingMainHand();
+
         Particle.DustOptions poisonGreen = new Particle.DustOptions(Color.fromRGB(64, 253, 20), 1.0f);
         BlockData blood = Material.REDSTONE_BLOCK.createBlockData();
         BlockData iron = Material.IRON_BLOCK.createBlockData();
@@ -378,6 +380,8 @@ public class R implements SkillBase {
     public void hackTypeSpike(Player player){
 
         World world = player.getWorld();
+
+        player.swingMainHand();
 
         world.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1, 1);
         world.playSound(player.getLocation(), Sound.ITEM_TRIDENT_THROW, 1, 1);
