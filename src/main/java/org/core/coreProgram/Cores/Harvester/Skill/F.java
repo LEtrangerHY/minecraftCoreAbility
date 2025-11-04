@@ -42,6 +42,11 @@ public class F implements SkillBase {
         player.swingMainHand();
         player.getWorld().playSound(player.getLocation(), Sound.ITEM_TRIDENT_RIPTIDE_3, 1.0f, 1.0f);
         Slash(player, player.getLocation().clone().add(0, 0.8, 0));
+
+        Location startLocation = player.getLocation();
+        Vector direction = startLocation.getDirection().normalize().multiply(-config.f_Skill_dash);
+
+        player.setVelocity(direction);
     }
 
     public void Slash(Player player, Location playerLoc) {
@@ -98,14 +103,13 @@ public class F implements SkillBase {
                     world.playSound(player.getLocation(), Sound.ITEM_TRIDENT_THROW, 1, 1);
                 }
 
-                if (ticks >= maxTicks || player.isDead()) {
+                if (ticks >= maxTicks || player.isDead() || !player.isOnline()) {
 
                     config.f_damaged.remove(player.getUniqueId());
 
                     int r = config.repeat.getOrDefault(player.getUniqueId(), 0);
 
-                    if(r < config.grass.getOrDefault(player.getUniqueId(), 0) / 2) {
-
+                    if(r < config.grass.getOrDefault(player.getUniqueId(), 0) / 2 && player.isOnline()) {
                         Bukkit.getScheduler().runTaskLater(plugin, () -> {
                         config.repeat.put(player.getUniqueId(), r + 1);
                         Slash(player, playerLoc.clone());

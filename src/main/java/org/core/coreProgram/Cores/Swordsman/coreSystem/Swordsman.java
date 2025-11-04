@@ -17,10 +17,10 @@ public class Swordsman {
     public long frozenCool = 10000;
 
     //passive
-    public HashMap<UUID, Boolean> skillUsing = new HashMap<>();
     public HashMap<UUID, Boolean> laidoSlash = new HashMap<>();
 
     //R
+    public HashMap<UUID, Boolean> r_skillUsing = new HashMap<>();
     public long r_Skill_Cool = 550;
     public double r_Skill_damage = 3;
     public double r_Skill_amp = 0.1;
@@ -32,12 +32,14 @@ public class Swordsman {
     public HashMap<UUID, HashSet<Entity>> r_damaged_2 = new HashMap<>();
 
     //Q
+    public HashMap<UUID, Boolean> q_skillUsing = new HashMap<>();
     public long q_Skill_Cool = 5500;
     public double q_Skill_damage = 5;
     public double q_Skill_amp = 0.1;
     public HashMap<UUID, HashSet<Entity>> q_damaged = new HashMap<>();
 
     //F
+    public HashMap<UUID, Boolean> f_skillUsing = new HashMap<>();
     public long f_Skill_Cool = 16200;
     public double f_Skill_damage = 5;
     public double f_Skill_amp = 0.1;

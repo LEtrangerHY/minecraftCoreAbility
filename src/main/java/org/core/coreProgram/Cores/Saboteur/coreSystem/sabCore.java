@@ -76,6 +76,10 @@ public class sabCore extends absCore {
 
         Player player = event.getPlayer();
         applyAdditionalHealth(player, false);
+
+        if(tag.Saboteur.contains(player)){
+            trapType.trapTypeBoard(player);
+        }
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -86,6 +90,10 @@ public class sabCore extends absCore {
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             applyAdditionalHealth(player, true);
         }, 1L);
+
+        if(tag.Saboteur.contains(player)){
+            trapType.trapTypeBoard(player);
+        }
     }
 
     private void applyAdditionalHealth(Player player, boolean healFull) {
@@ -122,7 +130,7 @@ public class sabCore extends absCore {
         if (!(event.getEntity() instanceof LivingEntity target)) return;
 
         if(tag.Saboteur.contains(player) && hasProperItems(player)){
-            if(!config.skillUsing.getOrDefault(player.getUniqueId(), false) && config.trapType.getOrDefault(player.getUniqueId(), 1) == 1) {
+            if(!skilUsing(player) && config.trapType.getOrDefault(player.getUniqueId(), 1) == 1) {
 
                 player.spawnParticle(Particle.SWEEP_ATTACK, target.getLocation().clone().add(0, 1.2, 0), 1, 0, 0, 0, 0);
 
@@ -140,6 +148,7 @@ public class sabCore extends absCore {
                 }
 
             }
+            if(config.isHackAway.getOrDefault(player.getUniqueId(), false)) player.heal(1);
         }
     }
 
@@ -148,7 +157,7 @@ public class sabCore extends absCore {
 
         if (tag.Saboteur.contains(event.getPlayer())) {
             if (!pAttackUsing.contains(event.getPlayer().getUniqueId()) &&
-                    !config.skillUsing.getOrDefault(event.getPlayer().getUniqueId(), false)) {
+                    !skilUsing(event.getPlayer())) {
 
                 Player player = event.getPlayer();
 
@@ -235,9 +244,9 @@ public class sabCore extends absCore {
     public void sneakCharge(PlayerToggleSneakEvent event) {
         Player player = event.getPlayer();
 
-        if (!event.isSneaking() || !hasProperItems(player) || !tag.Saboteur.contains(player) || config.skillUsing.getOrDefault(player.getUniqueId(), false)) return;
+        if (!event.isSneaking() || !hasProperItems(player) || !tag.Saboteur.contains(player) || skilUsing(player)) return;
 
-        long durationTicks = 10L;
+        long durationTicks =(config.isHackAway.getOrDefault(player.getUniqueId(), false)) ? 4L : 10L;
 
         if (activeChargeTasks.containsKey(player.getUniqueId())) {
             activeChargeTasks.get(player.getUniqueId()).cancel();
@@ -259,7 +268,7 @@ public class sabCore extends absCore {
             @Override
             public void run() {
                 if (!player.isSneaking() || !hasProperItems(player)
-                        || config.skillUsing.getOrDefault(player.getUniqueId(), false)) {
+                        || skilUsing(player)) {
                     cleanup();
                     return;
                 }
@@ -315,23 +324,28 @@ public class sabCore extends absCore {
         return Fskill;
     }
 
-
     private boolean hasProperItems(Player player) {
         ItemStack main = player.getInventory().getItemInMainHand();
         ItemStack off = player.getInventory().getItemInOffHand();
         return main.getType() == Material.SHEARS && off.getType() == Material.AIR;
     }
 
+    private boolean skilUsing(Player player){
+        return (config.r_skillUsing_Hack.getOrDefault(player.getUniqueId(), false) || config.q_skillUsing_Hack.getOrDefault(player.getUniqueId(), false)
+                || config.r_skillUsing_Hack.getOrDefault(player.getUniqueId(), false) || config.r_skillUsing_Sweep_Hack.getOrDefault(player.getUniqueId(), false)
+                || config.q_skillUsing_Hack.getOrDefault(player.getUniqueId(), false) || config.q_skillUsing_Sweep_Hack.getOrDefault(player.getUniqueId(), false));
+    }
+
     private boolean canUseRSkill(Player player) {
-        return !config.skillUsing.getOrDefault(player.getUniqueId(), false);
+        return !skilUsing(player);
     }
 
     private boolean canUseQSkill(Player player) {
-        return !config.skillUsing.getOrDefault(player.getUniqueId(), false);
+        return !skilUsing(player);
     }
 
     private boolean canUseFSkill(Player player) {
-        return !config.skillUsing.getOrDefault(player.getUniqueId(), false);
+        return !skilUsing(player);
     }
 
     @Override

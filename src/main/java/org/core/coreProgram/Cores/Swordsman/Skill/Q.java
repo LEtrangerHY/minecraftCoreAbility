@@ -43,7 +43,7 @@ public class Q implements SkillBase {
 
         long maxTicks = (slashTimes > 1) ? 3 : 7;
 
-        config.skillUsing.put(player.getUniqueId(), true);
+        config.q_skillUsing.put(player.getUniqueId(), true);
 
         new BukkitRunnable() {
             int tick = 0;
@@ -51,7 +51,7 @@ public class Q implements SkillBase {
             @Override
             public void run() {
                 if (tick >= slashTimes || player.isDead()) {
-                    config.skillUsing.remove(player.getUniqueId());
+                    config.q_skillUsing.remove(player.getUniqueId());
                     config.q_damaged.remove(player.getUniqueId());
 
                     this.cancel();

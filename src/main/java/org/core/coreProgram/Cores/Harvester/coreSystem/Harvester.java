@@ -32,6 +32,7 @@ public class Harvester {
     public HashMap<UUID, Integer> grass = new HashMap<>();
     public HashMap<UUID, Integer> repeat = new HashMap<>();
     public long f_Skill_Cool = 26000;
+    public double f_Skill_dash = 1.5;
     public double f_Skill_amp = 0.13;
     public double f_Skill_damage = 2;
 

@@ -235,6 +235,10 @@ public class EntityLevelingManager implements Listener {
 
         for (Entity entity : world.getNearbyEntities(eyeLocation, range, range, range)) {
             if (!(entity instanceof LivingEntity) || entity.equals(player)) continue;
+            EntityType type = entity.getType();
+            if(type == EntityType.FALLING_BLOCK || type == EntityType.ITEM
+                    || type == EntityType.ARMOR_STAND || type == EntityType.VILLAGER
+                    || type == EntityType.BAT || type == EntityType.SQUID || type == EntityType.GLOW_SQUID || type == EntityType.BEE) continue;
 
             RayTraceResult result = world.rayTraceEntities(
                     eyeLocation, direction, range, raySize, e -> e.equals(entity)

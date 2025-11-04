@@ -79,7 +79,7 @@ public class R implements SkillBase {
 
         World world = player.getWorld();
 
-        config.skillUsing.put(player.getUniqueId(), true);
+        config.r_skillUsing.put(player.getUniqueId(), true);
         config.r_damaged.put(player.getUniqueId(), new HashSet<>());
 
         double amp = config.r_Skill_amp * player.getPersistentDataContainer().getOrDefault(new NamespacedKey(plugin, "R"), PersistentDataType.LONG, 0L);
@@ -94,7 +94,7 @@ public class R implements SkillBase {
             public void run() {
 
                 if (ticks > 5 || player.isDead()) {
-                    config.skillUsing.remove(player.getUniqueId());
+                    config.r_skillUsing.remove(player.getUniqueId());
                     config.r_damaged.remove(player.getUniqueId());
 
                     cancel();
@@ -125,7 +125,7 @@ public class R implements SkillBase {
 
         Location firstLoc = player.getLocation().clone();
 
-        config.skillUsing.put(player.getUniqueId(), true);
+        config.q_skillUsing.put(player.getUniqueId(), true);
         config.r_damaged.put(player.getUniqueId(), new HashSet<>());
 
         double amp = config.r_Skill_amp * player.getPersistentDataContainer().getOrDefault(new NamespacedKey(plugin, "R"), PersistentDataType.LONG, 0L);
@@ -141,7 +141,7 @@ public class R implements SkillBase {
             public void run() {
 
                 if (ticks > 5 || player.isDead()) {
-                    config.skillUsing.remove(player.getUniqueId());
+                    config.q_skillUsing.remove(player.getUniqueId());
                     config.r_damaged.remove(player.getUniqueId());
 
                     Location secondLoc = player.getLocation().clone();

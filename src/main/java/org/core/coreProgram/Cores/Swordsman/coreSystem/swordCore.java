@@ -117,7 +117,7 @@ public class swordCore extends absCore {
         Player player = event.getPlayer();
 
         if (!event.isSneaking() || !hasProperItems_Sheath(player) || !tag.Swordsman.contains(player)
-                || config.skillUsing.getOrDefault(player.getUniqueId(), false) || config.laidoSlash.getOrDefault(player.getUniqueId(), false)) return;
+                || skillUsing(player) || config.laidoSlash.getOrDefault(player.getUniqueId(), false)) return;
 
         long durationTicks = 20L;
 
@@ -141,7 +141,7 @@ public class swordCore extends absCore {
             @Override
             public void run() {
                 if (!player.isSneaking() || !hasProperItems_Sheath(player)
-                        || config.skillUsing.getOrDefault(player.getUniqueId(), false) || config.laidoSlash.getOrDefault(player.getUniqueId(), false)) {
+                        || skillUsing(player) || config.laidoSlash.getOrDefault(player.getUniqueId(), false)) {
                     cleanup();
                     return;
                 }
@@ -178,7 +178,7 @@ public class swordCore extends absCore {
 
         BlockData blood = Material.REDSTONE_BLOCK.createBlockData();
 
-        if(tag.Swordsman.contains(player) && !config.skillUsing.getOrDefault(player.getUniqueId(), false) && hasProperItems_Draw(player) && config.laidoSlash.getOrDefault(player.getUniqueId(), false)) {
+        if(tag.Swordsman.contains(player) && !skillUsing(player) && hasProperItems_Draw(player) && config.laidoSlash.getOrDefault(player.getUniqueId(), false)) {
             double originalDamage = event.getDamage();
             event.setDamage(originalDamage * 10);
 
@@ -246,16 +246,20 @@ public class swordCore extends absCore {
         return main.getType() == Material.IRON_SWORD && off.getType() == Material.BUNDLE && bundleIsEmpty && !config.laidoSlash.getOrDefault(player.getUniqueId(), false);
     }
 
+    private boolean skillUsing(Player player){
+        return (config.r_skillUsing.getOrDefault(player.getUniqueId(), false) || config.q_skillUsing.getOrDefault(player.getUniqueId(), false) || config.f_skillUsing.getOrDefault(player.getUniqueId(), false));
+    }
+
     private boolean canUseRSkill(Player player) {
-        return !config.skillUsing.getOrDefault(player.getUniqueId(), false);
+        return !skillUsing(player);
     }
 
     private boolean canUseQSkill(Player player) {
-        return !config.skillUsing.getOrDefault(player.getUniqueId(), false);
+        return !skillUsing(player);
     }
 
     private boolean canUseFSkill(Player player) {
-        return !config.skillUsing.getOrDefault(player.getUniqueId(), false);
+        return !skillUsing(player);
     }
 
     @Override

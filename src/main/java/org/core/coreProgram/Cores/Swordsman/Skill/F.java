@@ -79,7 +79,7 @@ public class F implements SkillBase {
         Invulnerable invulnerable = new Invulnerable(player,  200);
         invulnerable.applyEffect(player);
 
-        config.skillUsing.put(player.getUniqueId(), true);
+        config.f_skillUsing.put(player.getUniqueId(), true);
 
         world.spawnParticle(Particle.SPIT, player.getLocation().clone().add(0, 1.0, 0), 20, 0.2, 0.3, 0.2, 0.5);
 
@@ -198,7 +198,7 @@ public class F implements SkillBase {
                 public void run() {
 
                     if (ticks > 7 || player.isDead()) {
-                        config.skillUsing.remove(player.getUniqueId());
+                        config.f_skillUsing.remove(player.getUniqueId());
 
                         cancel();
                         return;
