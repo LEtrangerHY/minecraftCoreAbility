@@ -43,9 +43,9 @@ public class blueInventory extends absInventory {
     protected Component getName(Player player, String skill) {
 
         return switch (skill) {
-            case "R" -> Component.text("");
-            case "Q" -> Component.text("");
-            case "F" -> Component.text("");
+            case "R" -> Component.text("Wither");
+            case "Q" -> Component.text("Absorb");
+            case "F" -> Component.text("SOULBREAKER");
             default -> Component.text("???");
         };
     }
@@ -54,8 +54,8 @@ public class blueInventory extends absInventory {
     protected Material getTotem(Player player, String skill) {
         return switch (skill) {
             case "R" -> Material.SOUL_SAND;
-            case "Q" -> Material.WITHER_SKELETON_SKULL;
-            case "F" -> Material.CHERRY_SAPLING;
+            case "Q" -> Material.SOUL_TORCH;
+            case "F" -> Material.PALE_OAK_LEAVES;
             default -> Material.BARRIER;
         };
     }
@@ -84,10 +84,11 @@ public class blueInventory extends absInventory {
 
                 lore.add(Component.text("------------").color(NamedTextColor.WHITE));
                 lore.add(Component.text("타입 : 공격").color(NamedTextColor.LIGHT_PURPLE));
-                lore.add(Component.text("시스템 : -").color(NamedTextColor.LIGHT_PURPLE));
+                lore.add(Component.text("시스템 : 재사용").color(NamedTextColor.LIGHT_PURPLE));
                 lore.add(Component.text("대상 : -").color(NamedTextColor.LIGHT_PURPLE));
                 lore.add(Component.text("------------").color(NamedTextColor.WHITE));
-                lore.add(Component.text("").color(NamedTextColor.GREEN));
+                lore.add(Component.text("전방으로 45° 부채꼴로 위더 꽃을 바닥에 피어낸다.").color(NamedTextColor.GREEN));
+                lore.add(Component.text("재사용 : 위더 꽃 위의 대상에게 피해를 가하고, 이동속도를 45% 감소시킨다.").color(NamedTextColor.GREEN));
                 break;
             case "Q":
                 requireXp = (level < 6) ? Component.text("Require EXP : " + requireExpOfQ.get((int) level)) : Component.text("Require EXP : MAX");
@@ -96,9 +97,11 @@ public class blueInventory extends absInventory {
                 lore.add(Component.text("------------").color(NamedTextColor.WHITE));
                 lore.add(Component.text("타입 : 강화").color(NamedTextColor.LIGHT_PURPLE));
                 lore.add(Component.text("시스템 : 지속시간").color(NamedTextColor.LIGHT_PURPLE));
-                lore.add(Component.text("대상 : 플레이어").color(NamedTextColor.LIGHT_PURPLE));
+                lore.add(Component.text("대상 : 플레이어/적 오브젝트").color(NamedTextColor.LIGHT_PURPLE));
                 lore.add(Component.text("------------").color(NamedTextColor.WHITE));
-                lore.add(Component.text("").color(NamedTextColor.GREEN));
+                lore.add(Component.text("10초 동안 영혼 흡수 효과를 부여받는다.").color(NamedTextColor.GREEN));
+                lore.add(Component.text("패시브 공격 사용 시, 범위 내 적들에게 피해를 가한다.").color(NamedTextColor.GREEN));
+                lore.add(Component.text("피해를 가할 때마다 0.6 수치의 체력을 회복한다.").color(NamedTextColor.GREEN));
                 break;
             case "F":
                 requireXp = (level < 6) ? Component.text("Require EXP : " + requireExpOfF.get((int) level)) : Component.text("Require EXP : MAX");
@@ -107,9 +110,9 @@ public class blueInventory extends absInventory {
                 lore.add(Component.text("------------").color(NamedTextColor.WHITE));
                 lore.add(Component.text("타입 : 효과").color(NamedTextColor.LIGHT_PURPLE));
                 lore.add(Component.text("시스템 : 장판").color(NamedTextColor.LIGHT_PURPLE));
-                lore.add(Component.text("대상 : 플레이어/적 오브젝트/바이옴").color(NamedTextColor.LIGHT_PURPLE));
+                lore.add(Component.text("대상 : 적 오브젝트").color(NamedTextColor.LIGHT_PURPLE));
                 lore.add(Component.text("------------").color(NamedTextColor.WHITE));
-                lore.add(Component.text("").color(NamedTextColor.GREEN));
+                lore.add(Component.text("플레이어 중심 범위 내 적들의 이동속도를 45% 감소시키고, 26번의 지속적인 피해를 가한다.").color(NamedTextColor.GREEN));
                 break;
             default:
                 break;
