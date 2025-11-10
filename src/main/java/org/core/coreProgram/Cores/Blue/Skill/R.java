@@ -149,7 +149,7 @@ public class R implements SkillBase {
                         public void run() {
                             cool.setCooldown(player, config.r_Skill_Cool, "R");
                             if (block.getType() == Material.WITHER_ROSE) {
-                                block.setType(Material.AIR);
+                                block.setType(Material.AIR, false);
                                 world.spawnParticle(Particle.SMOKE, block.getLocation().add(0.5, 0.2, 0.5), 5, 0.1, 0.1, 0.1, 0.02);
 
                                 if(!config.Flower.isEmpty()) {

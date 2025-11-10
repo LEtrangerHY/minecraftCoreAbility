@@ -1,5 +1,6 @@
 package org.core.coreProgram.Cores.Blue.Skill;
 
+import org.bukkit.Color;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -27,6 +28,9 @@ public class Q implements SkillBase {
 
         World world = player.getWorld();
 
+        Particle.DustOptions dustOption_flowerDust = new Particle.DustOptions(Color.AQUA, 0.6f);
+        Particle.DustOptions dustOption_flowerDust_gra = new Particle.DustOptions(Color.NAVY, 0.6f);
+
         cool.setCooldown(player, 10000L, "Absorb");
 
         new BukkitRunnable() {
@@ -44,10 +48,16 @@ public class Q implements SkillBase {
                     return;
                 }
 
-                player.getWorld().spawnParticle(Particle.SMOKE, player.getLocation().add(0, 1.3, 0), 13, 0.5, 0.1, 0.5, 0);
+                player.getWorld().spawnParticle(Particle.SMOKE, player.getLocation().add(0, 1, 0), 13, 0.5, 0.1, 0.5, 0);
 
-                tick += 10;
+                if (Math.random() < 0.6) {
+                    world.spawnParticle(Particle.DUST, player.getLocation().add(0, 1, 0), 6, 0.4, 0.6, 0.4, 0, dustOption_flowerDust_gra);
+                }else{
+                    world.spawnParticle(Particle.DUST, player.getLocation().add(0, 1, 0), 6, 0.4, 0.6, 0.4, 0, dustOption_flowerDust);
+                }
+
+                tick += 5;
             }
-        }.runTaskTimer(plugin, 0L, 10L);
+        }.runTaskTimer(plugin, 0L, 5L);
     }
 }

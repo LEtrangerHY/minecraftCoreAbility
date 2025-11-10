@@ -113,10 +113,10 @@ public class blueCore extends absCore {
 
                 World world = player.getWorld();
 
-                world.spawnParticle(Particle.SOUL, target.getLocation().clone().add(0, 1.3, 0), 4, 0.4, 0.4, 0.4, 0);
-                world.spawnParticle(Particle.SOUL, player.getLocation().clone().add(0, 1.3, 0), 4, 0.4, 0.4, 0.4, 0);
+                world.spawnParticle(Particle.SOUL, target.getLocation().clone().add(0, 1.3, 0), 1, 0.4, 0.4, 0.4, 0);
+                world.spawnParticle(Particle.SOUL, player.getLocation().clone().add(0, 1.3, 0), 1, 0.4, 0.4, 0.4, 0);
 
-                player.heal(1);
+                player.heal(0.6);
 
             }
         }
@@ -147,11 +147,20 @@ public class blueCore extends absCore {
                         player.getAttribute(Attribute.ATTACK_SPEED).setBaseValue(1/1.3);
                         world.playSound(player.getLocation(), Sound.ENTITY_WITHER_AMBIENT, 1.3f, 1.0f);
 
+                        Particle.DustOptions dustOption_flowerDust = new Particle.DustOptions(Color.AQUA, 0.6f);
+                        Particle.DustOptions dustOption_flowerDust_gra = new Particle.DustOptions(Color.NAVY, 0.6f);
+
                         if(config.qSoulAbsorb.getOrDefault(player.getUniqueId(), false)){
 
-                            world.spawnParticle(Particle.SMOKE, player.getLocation().add(0, 1.3, 0), 44, 0.4, 0.4, 0.4, 1);
+                            world.spawnParticle(Particle.SMOKE, player.getLocation().add(0, 1.0, 0), 44, 0.4, 0.4, 0.4, 0.64);
 
-                            for (Entity entity : world.getNearbyEntities(player.getLocation(), 4.0, 1.3, 4.0)) {
+                            if (Math.random() < 0.6) {
+                                world.spawnParticle(Particle.DUST, player.getLocation().add(0, 1.0, 0), 44, 0.4, 0.6, 0.4, 0.64, dustOption_flowerDust_gra);
+                            }else{
+                                world.spawnParticle(Particle.DUST, player.getLocation().add(0, 1.0, 0), 44, 0.4, 0.6, 0.4, 0.64, dustOption_flowerDust);
+                            }
+
+                            for (Entity entity : world.getNearbyEntities(player.getLocation(), 6.0, 4, 6.0)) {
                                 if (entity instanceof LivingEntity target && entity != player) {
                                     ForceDamage forceDamage = new ForceDamage(target, 2.0);
                                     forceDamage.applyEffect(player);

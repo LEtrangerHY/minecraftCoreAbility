@@ -65,18 +65,6 @@ public class F implements SkillBase {
         Random rand = new Random();
         int randomTilt = rand.nextInt(6);
 
-        double tiltAngle = switch (randomTilt) {
-            case 0 -> Math.toRadians(4);
-            case 1 -> Math.toRadians(-4);
-            case 2 -> Math.toRadians(6);
-            case 3 -> Math.toRadians(-6);
-            case 4 -> Math.toRadians(8);
-            case 5 -> Math.toRadians(-8);
-            default -> Math.toRadians(0);
-        };
-
-        boolean tiltPosZ = Math.random() > 0.5;
-
         Vector direction = player.getLocation().getDirection().clone().setY(0).normalize();
 
         Particle.DustOptions dustOption_flowerDust = new Particle.DustOptions(Color.AQUA, 0.6f);
@@ -99,7 +87,7 @@ public class F implements SkillBase {
                     config.repeatCount.put(player.getUniqueId(), n+1);
 
                     Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                        if(config.repeatCount.getOrDefault(player.getUniqueId(), 0) < 26) {
+                        if(config.repeatCount.getOrDefault(player.getUniqueId(), 0) < 26 && !player.isDead() && player.isOnline()) {
                             FlowerSurge(player);
                         }else{
                             config.repeatCount.remove(player.getUniqueId());
@@ -118,23 +106,6 @@ public class F implements SkillBase {
                     for (double angle = -maxAngle; angle <= maxAngle; angle += Math.toRadians(3)) {
                         Vector angleDir = rotatedDir.clone().rotateAroundY(angle);
                         Vector particleOffset = angleDir.clone().multiply(length);
-
-                        double cosTilt = Math.cos(tiltAngle);
-                        double sinTilt = Math.sin(tiltAngle);
-
-                        double tiltedY_Z = particleOffset.getY() * cosTilt - particleOffset.getZ() * sinTilt;
-                        double tiltedZ_Y = particleOffset.getY() * sinTilt + particleOffset.getZ() * cosTilt;
-
-                        double tiltedY_X = particleOffset.getY() * cosTilt + particleOffset.getX() * sinTilt;
-                        double tiltedX_Y = particleOffset.getY() * sinTilt + particleOffset.getX() * cosTilt;
-
-                        if(tiltPosZ) {
-                            particleOffset.setY(tiltedY_Z);
-                            particleOffset.setZ(tiltedZ_Y);
-                        }else{
-                            particleOffset.setY(tiltedY_X);
-                            particleOffset.setX(tiltedX_Y);
-                        }
 
                         Location particleLocation = player.getLocation().clone().add(particleOffset);
 
