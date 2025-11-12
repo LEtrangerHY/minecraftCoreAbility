@@ -162,7 +162,7 @@ public class blueCore extends absCore {
 
                             for (Entity entity : world.getNearbyEntities(player.getLocation(), 6.0, 4, 6.0)) {
                                 if (entity instanceof LivingEntity target && entity != player) {
-                                    ForceDamage forceDamage = new ForceDamage(target, 2.0);
+                                    ForceDamage forceDamage = new ForceDamage(target, 2.6);
                                     forceDamage.applyEffect(player);
                                 }
                             }
@@ -277,6 +277,10 @@ public class blueCore extends absCore {
 
             @Override
             public void cooldownReset(Player player) {
+                cool.setCooldown(player, config.frozenCool, "R");
+                cool.setCooldown(player, config.frozenCool, "Q");
+                cool.setCooldown(player, config.frozenCool, "F");
+
                 cool.updateCooldown(player, "R", config.frozenCool);
                 cool.updateCooldown(player, "Q", config.frozenCool);
                 cool.updateCooldown(player, "F", config.frozenCool);

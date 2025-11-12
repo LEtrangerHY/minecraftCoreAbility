@@ -30,7 +30,6 @@ public class Bloom {
     public long f_Skill_Cool = 666000;
     public double f_Skill_amp = 0.2;
 
-
     public void variableReset(Player player){
 
         R_COOLDOWN.remove(player.getUniqueId());

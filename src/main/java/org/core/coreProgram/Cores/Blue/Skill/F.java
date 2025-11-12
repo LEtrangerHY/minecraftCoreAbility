@@ -56,14 +56,11 @@ public class F implements SkillBase {
         double maxTicks = 6;
         double innerRadius = 3.0;
 
-        config.f_damaged.put(player.getUniqueId(), new HashSet<>());
+        config.f_damaged.putIfAbsent(player.getUniqueId(), new HashSet<>());
         config.fskill_using.put(player.getUniqueId(), true);
 
         double amp = config.f_Skill_amp * player.getPersistentDataContainer().getOrDefault(new NamespacedKey(plugin, "F"), PersistentDataType.LONG, 0L);
         double damage = config.f_Skill_damage * (1 + amp);
-
-        Random rand = new Random();
-        int randomTilt = rand.nextInt(6);
 
         Vector direction = player.getLocation().getDirection().clone().setY(0).normalize();
 
@@ -118,9 +115,9 @@ public class F implements SkillBase {
                                 } else {
                                     if(Math.random() < 0.8) {
                                         if (Math.random() < 0.6) {
-                                            world.spawnParticle(Particle.DUST, particleLocation, 2, 0.4, 0.6, 0.4, 0.06, dustOption_flowerDust_gra);
+                                            world.spawnParticle(Particle.DUST, particleLocation, 2, 0.4, 0.6, 0.4, 0, dustOption_flowerDust_gra);
                                         } else {
-                                            world.spawnParticle(Particle.DUST, particleLocation, 1, 0.4, 0.6, 0.4, 0.06, dustOption_flowerDust);
+                                            world.spawnParticle(Particle.DUST, particleLocation, 1, 0.4, 0.6, 0.4, 0, dustOption_flowerDust);
                                         }
                                     }
                                     world.spawnParticle(Particle.SMOKE, particleLocation, 2, 0.4, 0.6, 0.4, 0.06);

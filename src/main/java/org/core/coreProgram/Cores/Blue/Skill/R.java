@@ -133,6 +133,8 @@ public class R implements SkillBase {
         config.Flower.get(player.getUniqueId()).sort(Comparator.comparingDouble(b -> b.getLocation().distance(playerLoc)));
         List<Block> flower = config.Flower.get(player.getUniqueId());
 
+        damageTimer(player);
+
         new BukkitRunnable() {
             int index = 0;
             @Override
@@ -167,12 +169,34 @@ public class R implements SkillBase {
         }.runTaskTimer(plugin, 0L, 1L);
     }
 
+    public void damageTimer(Player player){
+        new BukkitRunnable(){
+
+            int tick = 0;
+
+            @Override
+            public void run(){
+                if(!player.isOnline() || player.isDead() || tick > 20 * 4){
+                    config.rReuseDamage.remove(player.getUniqueId());
+                    cancel();
+                    return;
+                }
+
+                config.rReuseDamage.put(player.getUniqueId(), (double) (tick / 10));
+
+                tick++;
+            }
+
+        }.runTaskTimer(plugin, 0L, 1L);
+
+    }
+
     public void slowFlower(Player player, List<Block> blocksToPlace){
 
         World world = player.getWorld();
 
         double amp = config.r_Skill_amp * player.getPersistentDataContainer().getOrDefault(new NamespacedKey(plugin, "R"), PersistentDataType.LONG, 0L);
-        double damage = config.r_Skill_damage * (1 + amp);
+        double damage = config.rReuseDamage.getOrDefault(player.getUniqueId(), 0.0) * (1 + amp);
 
         config.r_damaged.putIfAbsent(player.getUniqueId(), new HashSet<>());
 

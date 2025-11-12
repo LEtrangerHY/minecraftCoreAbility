@@ -23,8 +23,8 @@ public class Blue {
     //R
     public HashMap<UUID, HashSet<Entity>> r_damaged = new HashMap<>();
     public HashMap<UUID, List<Block>> Flower = new HashMap<>();
+    public HashMap<UUID, Double> rReuseDamage = new HashMap<>();
     public long r_Skill_Cool = 13000;
-    public double r_Skill_damage = 4;
     public double r_Skill_amp = 0.13;
 
     //Q
@@ -38,7 +38,7 @@ public class Blue {
     public HashMap<UUID, Integer> repeatCount = new HashMap<>();
     public long f_Skill_Cool = 66000;
     public double f_Skill_amp = 0.13;
-    public double f_Skill_damage = 1.3;
+    public double f_Skill_damage = 0.13;
 
     public void variableReset(Player player){
 

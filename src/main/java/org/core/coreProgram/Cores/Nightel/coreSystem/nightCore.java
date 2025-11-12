@@ -169,6 +169,10 @@ public class nightCore extends absCore {
 
             @Override
             public void cooldownReset(Player player) {
+                cool.setCooldown(player, config.frozenCool, "R");
+                cool.setCooldown(player, config.frozenCool, "Q");
+                cool.setCooldown(player, config.frozenCool, "F");
+
                 cool.updateCooldown(player, "R", config.frozenCool);
                 cool.updateCooldown(player, "Q", config.frozenCool);
                 cool.updateCooldown(player, "F", config.frozenCool);

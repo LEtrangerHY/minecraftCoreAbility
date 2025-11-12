@@ -65,7 +65,7 @@ public class Cool {
                 @Override
                 public void run() {
                     long remainingTime = cooldownEndTime - System.currentTimeMillis();
-                    if (remainingTime <= 0) {
+                    if (remainingTime <= 0 || !player.isOnline()) {
                         bossBar.setProgress(0);
                         bossBar.removePlayer(player);
                         cooldowns.get(playerId).remove(skill);
@@ -99,7 +99,7 @@ public class Cool {
                 @Override
                 public void run() {
                     long remainingTime = cooldownEndTime - System.currentTimeMillis();
-                    if (remainingTime <= 0) {
+                    if (remainingTime <= 0 || !player.isOnline()) {
                         bossBar.setProgress(0);
                         bossBar.removePlayer(player);
                         playerCooldowns.remove(skill);
@@ -129,7 +129,7 @@ public class Cool {
                 @Override
                 public void run() {
                     long remainingTime = cooldownEndTime - System.currentTimeMillis();
-                    if (remainingTime <= 0) {
+                    if (remainingTime <= 0 || !player.isOnline()) {
                         cooldownData.bossBar.setProgress(0);
                         cooldownData.bossBar.removePlayer(player);
                         playerCooldowns.remove(skill);
