@@ -20,7 +20,6 @@ public class Knight {
     //passive
     public HashMap<UUID, Boolean> collision = new HashMap<>();
 
-
     //R
     public HashMap<UUID, Integer> swordCount = new HashMap<>();
     public double r_Skill_amplify = 0.2;
@@ -48,10 +47,15 @@ public class Knight {
         Q_COOLDOWN.remove(player.getUniqueId());
         F_COOLDOWN.remove(player.getUniqueId());
 
+        collision.remove(player.getUniqueId());
+
         swordCount.remove(player.getUniqueId());
 
-        isFocusCancel.remove(player.getUniqueId());
+        q_Skill_Using.remove(player.getUniqueId());
         isFocusing.remove(player.getUniqueId());
+        isFocusCancel.remove(player.getUniqueId());
+
+        damaged.remove(player.getUniqueId());
 
     }
 }

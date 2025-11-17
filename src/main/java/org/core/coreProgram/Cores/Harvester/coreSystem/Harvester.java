@@ -38,5 +38,17 @@ public class Harvester {
 
     public void variableReset(Player player) {
 
+        R_COOLDOWN.remove(player.getUniqueId());
+        Q_COOLDOWN.remove(player.getUniqueId());
+        F_COOLDOWN.remove(player.getUniqueId());
+
+        rskill_using.remove(player.getUniqueId());
+        damaged.remove(player.getUniqueId());
+
+        fskill_using.remove(player.getUniqueId());
+        f_damaged.remove(player.getUniqueId());
+        grass.remove(player.getUniqueId());
+        repeat.remove(player.getUniqueId());
+
     }
 }

@@ -49,13 +49,21 @@ public class Benzene {
         Q_COOLDOWN.remove(player.getUniqueId());
         F_COOLDOWN.remove(player.getUniqueId());
 
+        atkCount.remove(player.getUniqueId());
+
         Chain_Count.remove(player.getUniqueId());
         Chain.remove(player.getUniqueId());
 
-        damaged.remove(player.getUniqueId());
-        damaged_2.remove(player.getUniqueId());
         fskill_using.remove(player.getUniqueId());
-        atkCount.remove(player.getUniqueId());
+        blockBreak.remove(player.getUniqueId());
+        canBlockBreak.remove(player.getUniqueId());
+        damaged.remove(player.getUniqueId());
+
+        rskill_using.remove(player.getUniqueId());
+        damaged_2.remove(player.getUniqueId());
+
+        q_Skill_effect_1.remove(player.getUniqueId());
+        q_Skill_effect_2.remove(player.getUniqueId());
 
     }
 }

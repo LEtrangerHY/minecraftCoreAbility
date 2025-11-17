@@ -54,7 +54,6 @@ public class Bambo {
         moveToThrow.remove(player.getUniqueId());
         stringCount.remove(player.getUniqueId());
         stringPoint.remove(player.getUniqueId());
-        stringOn.remove(player.getUniqueId());
 
         damaged.remove(player.getUniqueId());
         r_damaged.remove(player.getUniqueId());

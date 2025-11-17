@@ -60,5 +60,25 @@ public class Saboteur {
         Q_COOLDOWN.remove(player.getUniqueId());
         F_COOLDOWN.remove(player.getUniqueId());
 
+        trapType.remove(player.getUniqueId());
+        collision.remove(player.getUniqueId());
+
+        trapSpikePos.remove(player.getUniqueId());
+        trapSpikeDamage.remove(player.getUniqueId());
+        trapThrowPos.remove(player.getUniqueId());
+        trapTarget.remove(player.getUniqueId());
+
+        r_skillUsing_Hack.remove(player.getUniqueId());
+        r_damaged_Sweep_Hack.remove(player.getUniqueId());
+        r_skillUsing_Sweep_Hack.remove(player.getUniqueId());
+
+        q_skillCount_Hack.remove(player.getUniqueId());
+        q_damaged_Hack.remove(player.getUniqueId());
+        q_damaged_Sweep_Hack.remove(player.getUniqueId());
+        q_skillUsing_Hack.remove(player.getUniqueId());
+        q_skillUsing_Sweep_Hack.remove(player.getUniqueId());
+
+        isHackAway.remove(player.getUniqueId());
+
     }
 }

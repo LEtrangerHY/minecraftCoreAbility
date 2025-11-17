@@ -46,5 +46,17 @@ public class Blue {
         Q_COOLDOWN.remove(player.getUniqueId());
         F_COOLDOWN.remove(player.getUniqueId());
 
+        collision.remove(player.getUniqueId());
+
+        r_damaged.remove(player.getUniqueId());
+        Flower.remove(player.getUniqueId());
+        rReuseDamage.remove(player.getUniqueId());
+
+        qSoulAbsorb.remove(player.getUniqueId());
+
+        fskill_using.remove(player.getUniqueId());
+        f_damaged.remove(player.getUniqueId());
+        repeatCount.remove(player.getUniqueId());
+
     }
 }

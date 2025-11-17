@@ -35,5 +35,12 @@ public class Glacier {
         Q_COOLDOWN.remove(player.getUniqueId());
         F_COOLDOWN.remove(player.getUniqueId());
 
+        collision.remove(player.getUniqueId());
+
+        Rcollision.remove(player.getUniqueId());
+        entityCollision.remove(player.getUniqueId());
+
+        F_collision.remove(player.getUniqueId());
+
     }
 }

@@ -23,7 +23,6 @@ public class Commander {
 
     public HashMap<UUID, HashSet<FallingBlock>> comBlocks = new HashMap<>();
 
-
     //R
     public HashMap<UUID, HashSet<Entity>> damaged = new HashMap<>();
     public double r_Skill_amp = 0.2;
@@ -50,5 +49,8 @@ public class Commander {
             fb.remove();;
         }
 
+        comBlocks.remove(player.getUniqueId());
+        damaged.remove(player.getUniqueId());
+        received.remove(player.getUniqueId());
     }
 }

@@ -37,5 +37,9 @@ public class Blaze {
         Q_COOLDOWN.remove(player.getUniqueId());
         F_COOLDOWN.remove(player.getUniqueId());
 
+        damaged.remove(player.getUniqueId());
+
+        BurstBlaze.remove(player.getUniqueId());
+
     }
 }

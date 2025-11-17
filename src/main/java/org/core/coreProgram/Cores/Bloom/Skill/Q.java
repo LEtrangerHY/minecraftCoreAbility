@@ -106,7 +106,7 @@ public class Q implements SkillBase {
                             }
                         }
 
-                        for (Entity entity : world.getNearbyEntities(particleLocation, 2, 2, 2)) {
+                        for (Entity entity : world.getNearbyEntities(particleLocation, 1.4, 1.4, 1.4)) {
                             if (entity instanceof LivingEntity target && entity != player && !config.q_damaged.getOrDefault(player.getUniqueId(), new HashSet<>()).contains(entity)) {
 
                                 world.spawnParticle(Particle.EXPLOSION, target.getLocation().add(0, 1.4, 0), 1, 0, 0, 0, 1);

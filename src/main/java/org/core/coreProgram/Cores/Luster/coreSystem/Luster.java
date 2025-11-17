@@ -39,5 +39,8 @@ public class Luster {
         Q_COOLDOWN.remove(player.getUniqueId());
         F_COOLDOWN.remove(player.getUniqueId());
 
+        collision.remove(player.getUniqueId());
+        golems.remove(player);
+
     }
 }

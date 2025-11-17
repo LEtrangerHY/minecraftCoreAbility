@@ -55,6 +55,12 @@ public class Carpenter {
 
         r_damaging.remove(player.getUniqueId());
         r_damaged.remove(player.getUniqueId());
+
+        q_damaging.remove(player.getUniqueId());
+        q_using.remove(player.getUniqueId());
+        crash.remove(player.getUniqueId());
+        normal_distribution.remove(player.getUniqueId());
+
         f_count.remove(player.getUniqueId());
     }
 }

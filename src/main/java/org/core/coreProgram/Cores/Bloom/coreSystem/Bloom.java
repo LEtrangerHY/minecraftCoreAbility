@@ -28,13 +28,13 @@ public class Bloom {
     //Q
     public HashMap<UUID, HashSet<Entity>> q_damaged = new HashMap<>();
     public HashMap<UUID, Integer> repeatCount = new HashMap<>();
-    public long q_Skill_Cool = 7000;
+    public long q_Skill_Cool = 14000;
     public double q_Skill_damage = 3;
     public double q_Skill_amp = 0.17;
 
     //F
     public HashMap<UUID, Location> treeLoc = new HashMap<>();
-    public long f_Skill_Cool = 700000;
+    public long f_Skill_Cool = 70000;
     public double f_Skill_damage = 0.7;
     public double f_Skill_amp = 0.17;
 
@@ -43,6 +43,12 @@ public class Bloom {
         R_COOLDOWN.remove(player.getUniqueId());
         Q_COOLDOWN.remove(player.getUniqueId());
         F_COOLDOWN.remove(player.getUniqueId());
+
+        collision.remove(player.getUniqueId());
+        damaged.remove(player.getUniqueId());
+
+        q_damaged.remove(player.getUniqueId());
+        repeatCount.remove(player.getUniqueId());
 
     }
 }

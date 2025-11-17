@@ -47,6 +47,13 @@ public class Nightel {
 
         damaged.remove(player.getUniqueId());
         damaged_2.remove(player.getUniqueId());
+        damaged_3.remove(player.getUniqueId());
+
+        dreamPoint.remove(player.getUniqueId());
+        dreamSkill.remove(player.getUniqueId());
+
+        rskill_using.remove(player.getUniqueId());
+        fskill_using.remove(player.getUniqueId());
 
     }
 }

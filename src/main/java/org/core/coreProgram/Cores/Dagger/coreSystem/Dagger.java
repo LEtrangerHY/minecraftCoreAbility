@@ -24,6 +24,7 @@ public class Dagger {
     public long r_Stun = 2000;
 
     //Q
+    public HashMap<UUID, HashSet<Entity>> q_damaged = new HashMap<>();
     public double q_Skill_amp = 0.06;
     public double q_Skill_Damage = 3;
     public long q_Skill_Cool = 8000;
@@ -31,7 +32,6 @@ public class Dagger {
     public long q_Skill_Cool_decrease = 4000;
     public double q_Skill_dash = 1.5;
     public double q_Skill_dash_2 = 2.2;
-    public HashMap<UUID, HashSet<Entity>> q_damaged = new HashMap<>();
 
     //F
     public double f_Skill_amp = 0.06;
