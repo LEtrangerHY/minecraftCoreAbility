@@ -16,8 +16,8 @@ import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.core.Cool.Cool;
-import org.core.Core;
-import org.core.coreConfig;
+import org.core.Main.Core;
+import org.core.Main.coreConfig;
 import org.core.coreProgram.AbsCoreSystem.ConfigWrapper;
 import org.core.coreProgram.AbsCoreSystem.SkillBase;
 import org.core.coreProgram.AbsCoreSystem.absCore;
@@ -51,7 +51,7 @@ public class bambCore extends absCore {
         this.Qskill = new Q(config, plugin, cool);
         this.Fskill = new F(config, plugin, cool);
 
-        getLogger().info("Bambo downloaded...");
+        plugin.getLogger().info("Bambo downloaded...");
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -132,6 +132,7 @@ public class bambCore extends absCore {
         if (event.getCause() == EntityDamageEvent.DamageCause.FALL &&
                 player.hasMetadata("noFallDamage")) {
             event.setCancelled(true);
+            player.removeMetadata("noFallDamage", plugin);
         }
     }
 
@@ -147,7 +148,7 @@ public class bambCore extends absCore {
     public void onPlayerMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
 
-        if (player.hasMetadata("noFallDamage") && player.getLocation().clone().subtract(0, 0.1, 0).getBlock().getType().isSolid()) {
+        if (player.hasMetadata("noFallDamage") && (player.getLocation().clone().add(0, 0.5, 0).getBlock().getType().isCollidable() || player.getLocation().clone().add(0, 0.5, 0).getBlock().getType() == Material.WATER)) {
             player.removeMetadata("noFallDamage", plugin);
         }
     }

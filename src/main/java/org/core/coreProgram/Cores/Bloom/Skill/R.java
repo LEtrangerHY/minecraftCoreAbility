@@ -46,7 +46,7 @@ public class R implements SkillBase {
 
                 player.getWorld().spawnParticle(Particle.CHERRY_LEAVES, current, 2, 0.1, 0.1, 0.1, 0);
 
-                if (!current.getBlock().getType().isAir()) {
+                if (current.getBlock().getType().isSolid()) {
                     spawnTornadoEffect(player, current);
                     cancel();
                     return;

@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.core.Cool.Cool;
 import org.core.Effect.EffectManager;
-import org.core.coreConfig;
+import org.core.Main.coreConfig;
 import org.core.coreProgram.Cores.Harvester.coreSystem.Harvester;
 
 public class Bountiful {

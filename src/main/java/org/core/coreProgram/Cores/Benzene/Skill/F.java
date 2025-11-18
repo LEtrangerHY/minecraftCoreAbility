@@ -66,8 +66,13 @@ public class F implements SkillBase {
         if(target != null){
             player.getWorld().playSound(player.getLocation(), Sound.ITEM_TRIDENT_HIT_GROUND, 1.6f, 1.0f);
             player.getWorld().spawnParticle(Particle.ENCHANTED_HIT, target.getLocation().clone().add(0, 1, 0), 22, 0.6, 0, 0.6, 1);
-            player.getWorld().spawnParticle(Particle.BLOCK, target.getLocation().clone().add(0, 1.2, 0), 12, 0.3, 0.3, 0.3,
-                    chain);
+
+            if(!target.isDead()){
+                chainCalc.increase(player, target);
+                if(target.isDead()){
+                    chainCalc.decrease(target);
+                }
+            }
         }
 
         new BukkitRunnable() {
@@ -161,10 +166,13 @@ public class F implements SkillBase {
                                 ForceDamage forceDamage = new ForceDamage(target, damage);
                                 forceDamage.applyEffect(player);
                                 target.setVelocity(new Vector(0, 0, 0));
-                                if(!target.isDead()){
-                                    chainCalc.increase(player, target);
-                                    if(target.isDead()){
-                                        chainCalc.decrease(target);
+
+                                if(config.canBlockBreak.getOrDefault(player.getUniqueId(), false)) {
+                                    if (!target.isDead()) {
+                                        chainCalc.increase(player, target);
+                                        if (target.isDead()) {
+                                            chainCalc.decrease(target);
+                                        }
                                     }
                                 }
                             }

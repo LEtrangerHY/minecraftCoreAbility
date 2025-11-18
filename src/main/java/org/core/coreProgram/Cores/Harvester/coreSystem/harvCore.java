@@ -18,13 +18,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.Vector;
 import org.core.Cool.Cool;
-import org.core.Core;
-import org.core.coreConfig;
+import org.core.Main.Core;
+import org.core.Main.coreConfig;
 import org.core.coreProgram.AbsCoreSystem.ConfigWrapper;
 import org.core.coreProgram.AbsCoreSystem.SkillBase;
 import org.core.coreProgram.AbsCoreSystem.absCore;
 import org.core.coreProgram.Cores.Harvester.Passive.Bountiful;
-import org.core.coreProgram.Cores.Harvester.coreSystem.Harvester;
 import org.core.coreProgram.Cores.Harvester.Skill.F;
 import org.core.coreProgram.Cores.Harvester.Skill.Q;
 import org.core.coreProgram.Cores.Harvester.Skill.R;
@@ -54,8 +53,7 @@ public class harvCore extends absCore {
         this.Qskill = new Q(config, plugin, cool);
         this.Fskill = new F(config, plugin, cool);
 
-
-        getLogger().info("Harvester downloaded...");
+        plugin.getLogger().info("Harvester downloaded...");
     }
 
     @EventHandler(priority = EventPriority.NORMAL)

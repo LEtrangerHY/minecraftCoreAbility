@@ -16,7 +16,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.block.TNTPrimeEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
@@ -25,8 +24,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.core.Cool.Cool;
-import org.core.Core;
-import org.core.coreConfig;
+import org.core.Main.Core;
+import org.core.Main.coreConfig;
 import org.core.coreProgram.AbsCoreSystem.ConfigWrapper;
 import org.core.coreProgram.AbsCoreSystem.SkillBase;
 import org.core.coreProgram.AbsCoreSystem.absCore;
@@ -71,7 +70,7 @@ public class benzCore extends absCore {
         this.Qskill = new Q(config, plugin, cool);
         this.Fskill = new F(config, plugin, cool, chaincalc);
 
-        getLogger().info("Benzene downloaded...");
+        plugin.getLogger().info("Benzene downloaded...");
     }
 
     @EventHandler(priority = EventPriority.NORMAL)

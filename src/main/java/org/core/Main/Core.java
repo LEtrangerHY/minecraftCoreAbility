@@ -1,4 +1,4 @@
-package org.core;
+package org.core.Main;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -12,13 +12,12 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.core.Cool.Cool;
-import org.core.Effect.Stun;
+import org.core.Database.db_connect;
 import org.core.Level.LevelingManager;
 import org.core.coreEntity.AbsEntityLeveling.EntityLevelingManager;
 import org.core.coreProgram.Cores.Bambo.coreSystem.Bambo;
@@ -77,6 +76,8 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
 
     private static Core instance;
 
+    private db_connect db_conn;
+
     private coreConfig config;
 
     private LevelingManager level;
@@ -123,6 +124,8 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
 
     @Override
     public void onEnable() {
+        getLogger().info("CORE downloading...");
+
         instance = this;
         Bukkit.getPluginManager().registerEvents(this, this);
 
@@ -147,6 +150,8 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
 
         this.config = new coreConfig(this);
 
+        this.db_conn = new db_connect(config, this);
+
         this.level = new LevelingManager(this, this.config);
         Bukkit.getPluginManager().registerEvents(this.level, this);
 
@@ -154,11 +159,6 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
         Bukkit.getPluginManager().registerEvents(this.nightel, this);
         this.nightInv = new nightInventory(this, this.config);
         Bukkit.getPluginManager().registerEvents(this.nightInv, this);
-
-        this.benz = new benzCore(this, this.config, benzConfig, cool);
-        Bukkit.getPluginManager().registerEvents(this.benz, this);
-        this.benzInv = new benzInventory(this, this.config);
-        Bukkit.getPluginManager().registerEvents(this.benzInv, this);
 
         this.bamb = new bambCore(this, this.config, bambConfig, cool);
         Bukkit.getPluginManager().registerEvents(this.bamb, this);
@@ -230,6 +230,11 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
         this.sabInv = new sabInventory(this, this.config);
         Bukkit.getPluginManager().registerEvents(this.sabInv, this);
 
+        this.benz = new benzCore(this, this.config, benzConfig, cool);
+        Bukkit.getPluginManager().registerEvents(this.benz, this);
+        this.benzInv = new benzInventory(this, this.config);
+        Bukkit.getPluginManager().registerEvents(this.benzInv, this);
+
         this.Elevel = new EntityLevelingManager(this);
         Bukkit.getPluginManager().registerEvents(this.Elevel, this);
 
@@ -248,11 +253,6 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
         getCommand("gc").setTabCompleter(this);
 
         getLogger().info("Cores downloaded!");
-    }
-
-    @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event){
-        event.getPlayer().setInvulnerable(false);
     }
 
     @Override
@@ -434,7 +434,6 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
                     suggestions.add(p.getName());
                 }
             } else if (args.length == 2) {
-                suggestions.add("benzene");
                 suggestions.add("nightel");
                 suggestions.add("knight");
                 suggestions.add("pyro");
@@ -450,6 +449,7 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
                 suggestions.add("blue");
                 suggestions.add("swordsman");
                 suggestions.add("saboteur");
+                suggestions.add("benzene");
             } else if (args.length == 3) {
                 suggestions.add("true");
                 suggestions.add("false");
@@ -465,5 +465,20 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
         }
 
         return suggestions;
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent e){
+        Player player = e.getPlayer();
+
+        if(db_conn.insertMember(player) != 0) player.kick(Component.text("데이터베이스에서 정보를 로드중 오류가 발생했습니다."));
+    }
+
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent e){
+        Player player = e.getPlayer();
+        player.setInvulnerable(false);
+
+        db_conn.insertMember(player);
     }
 }

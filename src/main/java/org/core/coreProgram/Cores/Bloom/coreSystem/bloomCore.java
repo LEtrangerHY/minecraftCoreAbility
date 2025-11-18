@@ -3,7 +3,6 @@ package org.core.coreProgram.Cores.Bloom.coreSystem;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -17,9 +16,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.core.Cool.Cool;
-import org.core.Core;
+import org.core.Main.Core;
 import org.core.Effect.ForceDamage;
-import org.core.coreConfig;
+import org.core.Main.coreConfig;
 import org.core.coreProgram.AbsCoreSystem.ConfigWrapper;
 import org.core.coreProgram.AbsCoreSystem.SkillBase;
 import org.core.coreProgram.AbsCoreSystem.absCore;
@@ -48,7 +47,7 @@ public class bloomCore extends absCore {
         this.Qskill = new Q(config, plugin, cool);
         this.Fskill = new F(config, plugin, cool);
 
-        getLogger().info("Bloom downloaded...");
+        plugin.getLogger().info("Bloom downloaded...");
     }
 
     @EventHandler(priority = EventPriority.NORMAL)

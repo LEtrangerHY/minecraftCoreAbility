@@ -19,9 +19,9 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.core.Cool.Cool;
-import org.core.Core;
+import org.core.Main.Core;
 import org.core.Effect.ForceDamage;
-import org.core.coreConfig;
+import org.core.Main.coreConfig;
 import org.core.coreProgram.AbsCoreSystem.ConfigWrapper;
 import org.core.coreProgram.AbsCoreSystem.SkillBase;
 import org.core.coreProgram.AbsCoreSystem.absCore;
@@ -53,8 +53,7 @@ public class lustCore extends absCore {
         this.Qskill = new Q(config, plugin, cool);
         this.Fskill = new F(config, plugin, cool);
 
-
-        getLogger().info("Luster downloaded...");
+        plugin.getLogger().info("Luster downloaded...");
     }
 
     @EventHandler(priority = EventPriority.NORMAL)

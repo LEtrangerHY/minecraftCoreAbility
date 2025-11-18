@@ -31,8 +31,7 @@ public class Bloom {
     public long q_Skill_Cool = 14000;
     public double q_Skill_damage = 3;
     public double q_Skill_amp = 0.17;
-
-    //F
+    
     public HashMap<UUID, Location> treeLoc = new HashMap<>();
     public long f_Skill_Cool = 70000;
     public double f_Skill_damage = 0.7;

@@ -1,6 +1,5 @@
-package org.core;
+package org.core.Main;
 
-import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
@@ -8,14 +7,8 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.core.playerSettings.persistentPlayerSet;
-import org.jetbrains.annotations.NotNull;
 
-import javax.naming.Name;
-import java.util.AbstractSet;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class coreConfig {
 
@@ -76,7 +69,7 @@ public class coreConfig {
         if (Blue.contains(player)) return "BLUE";
         if (Swordsman.contains(player)) return "SWORDSMAN";
         if (Saboteur.contains(player)) return "SABOTEUR";
-        return "NULL";
+        return "NONE";
     }
 
     public void clearPlayerCore(Player player){

@@ -13,7 +13,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 import org.core.Cool.Cool;
 import org.core.Effect.EffectManager;
-import org.core.coreConfig;
+import org.core.Main.coreConfig;
 import org.core.coreProgram.Cores.Carpenter.coreSystem.Carpenter;
 
 public class Christmas {

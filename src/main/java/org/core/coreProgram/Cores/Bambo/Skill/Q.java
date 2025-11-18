@@ -42,11 +42,13 @@ public class Q implements SkillBase {
 
         }
 
+        world.playSound(player.getLocation(), Sound.ENTITY_BREEZE_SHOOT, 1.0f, 1.0f);
+
         player.setVelocity(upward);
 
-        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_BREEZE_SHOOT, 1.0f, 1.0f);
-
-        player.setMetadata("noFallDamage", new FixedMetadataValue(plugin, true));
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            player.setMetadata("noFallDamage", new FixedMetadataValue(plugin, true));
+        }, 1L);
 
     }
 }

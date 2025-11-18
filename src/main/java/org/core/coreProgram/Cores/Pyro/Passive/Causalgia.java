@@ -1,14 +1,11 @@
 package org.core.coreProgram.Cores.Pyro.Passive;
 
-import org.bukkit.Color;
-import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
 import org.core.Cool.Cool;
 import org.core.Effect.EffectManager;
-import org.core.coreConfig;
+import org.core.Main.coreConfig;
 import org.core.coreProgram.Cores.Pyro.coreSystem.Pyro;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;

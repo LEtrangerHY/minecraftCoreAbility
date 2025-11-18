@@ -11,8 +11,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
-import org.core.Core;
-import org.core.coreConfig;
+import org.core.Main.Core;
+import org.core.Main.coreConfig;
 import org.core.coreProgram.AbsInentory.InventoryWrapper;
 import org.core.coreProgram.AbsInentory.absInventory;
 

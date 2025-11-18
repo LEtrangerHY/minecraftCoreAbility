@@ -1,7 +1,5 @@
 package org.core.coreProgram.Cores.Swordsman.coreSystem;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -9,7 +7,6 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,11 +19,10 @@ import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BundleMeta;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.core.Cool.Cool;
-import org.core.Core;
-import org.core.coreConfig;
+import org.core.Main.Core;
+import org.core.Main.coreConfig;
 import org.core.coreProgram.AbsCoreSystem.ConfigWrapper;
 import org.core.coreProgram.AbsCoreSystem.SkillBase;
 import org.core.coreProgram.AbsCoreSystem.absCore;
@@ -61,7 +57,7 @@ public class swordCore extends absCore {
         this.Qskill = new Q(config, plugin, cool, laido);
         this.Fskill = new F(config, plugin, cool, laido);
 
-        getLogger().info("Swordsman downloaded...");
+        plugin.getLogger().info("Swordsman downloaded...");
     }
 
     @EventHandler(priority = EventPriority.NORMAL)

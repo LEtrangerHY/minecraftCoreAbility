@@ -16,7 +16,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.*;
-import org.core.coreConfig;
+import org.core.Main.coreConfig;
 import org.core.coreProgram.Cores.Bambo.coreSystem.bambLeveling;
 import org.core.coreProgram.Cores.Benzene.coreSystem.benzLeveling;
 import org.core.coreProgram.Cores.Blaze.coreSystem.blazeLeveling;

@@ -8,17 +8,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryInteractEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.core.Cool.Cool;
-import org.core.coreConfig;
-import org.core.coreProgram.AbsCoreSystem.ConfigWrapper;
+import org.core.Main.coreConfig;
 
-import java.util.ArrayList;
 import java.util.List;
 
 abstract public class absInventory implements Listener {

@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.core.Cool.Cool;
-import org.core.coreConfig;
+import org.core.Main.coreConfig;
 import org.core.coreProgram.Cores.Nightel.coreSystem.Nightel;
 
 public class Dream implements Listener {

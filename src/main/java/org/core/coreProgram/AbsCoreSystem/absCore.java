@@ -1,6 +1,5 @@
 package org.core.coreProgram.AbsCoreSystem;
 
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -11,7 +10,7 @@ import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.core.Cool.Cool;
 import org.core.Effect.Stun;
-import org.core.coreConfig;
+import org.core.Main.coreConfig;
 
 import java.util.*;
 

@@ -12,8 +12,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.core.Cool.Cool;
-import org.core.Core;
-import org.core.coreConfig;
+import org.core.Main.Core;
+import org.core.Main.coreConfig;
 import org.core.coreProgram.AbsCoreSystem.ConfigWrapper;
 import org.core.coreProgram.AbsCoreSystem.SkillBase;
 import org.core.coreProgram.AbsCoreSystem.absCore;
@@ -46,7 +46,7 @@ public class nightCore extends absCore {
         this.Qskill = new Q(config, plugin, cool, dream);
         this.Fskill = new F(config, plugin, cool, dream);
 
-        getLogger().info("Nightel downloaded...");
+        plugin.getLogger().info("Nightel downloaded...");
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
