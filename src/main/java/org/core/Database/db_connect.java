@@ -20,11 +20,11 @@ public class db_connect {
     private final JavaPlugin plugin;
 
     private Connection connection;
-    private String host = "127.0.0.1";
-    private int port = 3306;
-    private String database = "CORE";
-    private String username = "root";
-    private String password = "4158LEsh@~";
+    private final String host;
+    private final int port;
+    private final String database;
+    private final String username;
+    private final String password;
 
     public static HashMap<UUID, user> user_list = new HashMap<>();
 
