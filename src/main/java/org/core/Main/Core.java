@@ -129,6 +129,8 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
         instance = this;
         Bukkit.getPluginManager().registerEvents(this, this);
 
+        saveDefaultConfig();
+
         Nightel nightConfig = new Nightel();
         Benzene benzConfig = new Benzene();
         Bambo bambConfig = new Bambo();
