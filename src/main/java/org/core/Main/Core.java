@@ -70,7 +70,11 @@ import org.core.coreProgram.Cores.Swordsman.coreSystem.swordCore;
 import org.core.coreProgram.Cores.Swordsman.coreSystem.swordInventory;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
 public final class Core extends JavaPlugin implements Listener, TabCompleter {
 
@@ -254,13 +258,46 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
         getCommand("corelevelset").setTabCompleter(this);
         getCommand("gc").setTabCompleter(this);
 
-        getLogger().info("Cores downloaded!");
+        getLogger().info("CORE downloaded!");
     }
 
     @Override
     public void onDisable() {
-        getLogger().info("Cores disabled!");
+        Collection<? extends Player> players = Bukkit.getOnlinePlayers();
+        int playerCount = players.size();
+
+        getLogger().info("Server shutting down: Starting DB save for " + playerCount + " players...");
+
+        CountDownLatch latch = new CountDownLatch(playerCount);
+
+        Thread dbThread = new Thread(() -> {
+            for (Player player : players) {
+                try {
+                    db_conn.insertMember(player);
+                } catch (Exception e) {
+                    getLogger().log(Level.SEVERE,
+                            "Error occurred while saving player '" + player.getName() + "'", e);
+                } finally {
+                    latch.countDown();
+                }
+            }
+        });
+
+        dbThread.start();
+
+        try {
+            boolean finished = latch.await(30, TimeUnit.SECONDS);
+
+            if (!finished) {
+                getLogger().warning("Not all player DB saves completed within 30 seconds!");
+            }
+        } catch (InterruptedException e) {
+            getLogger().log(Level.SEVERE, "Interrupted while waiting for DB save completion", e);
+        }
+
+        getLogger().info("CORE disabled!");
     }
+
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -409,8 +446,53 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
             target.getPersistentDataContainer().set(new NamespacedKey(this, "exp"), PersistentDataType.LONG, lv);
             target.getPersistentDataContainer().set(new NamespacedKey(this, "level"), PersistentDataType.LONG, xp);
             level.levelScoreBoard(target);
+            level.applyLevelHealth(target, true);
             sender.sendMessage( "§a" + target.getName() +"의 경험치, 레벨 수정 " + xp + ", " + lv);
             return true;
+        }
+
+        if (command.getName().equalsIgnoreCase("coredbpaste")) {
+            if(args.length == 1){
+                Player target = Bukkit.getPlayer(args[0]);
+                if (target == null) {
+                    sender.sendMessage("§c해당 플레이어를 찾을 수 없습니다.");
+                    return true;
+                }
+                db_conn.db_PastePlayerInfo(target);
+                level.applyLevelHealth(target, true);
+                sender.sendMessage( "§a" + target.getName() + " 소유의 core를 데이터베이스 수치로 붙여넣었습니다.");
+                return true;
+            }else if(args.length == 0){
+                if (!(sender instanceof Player player)) return true;
+                db_conn.db_PastePlayerInfo(player);
+                level.applyLevelHealth(player, true);
+                sender.sendMessage( "§a본인 소유의 core를 데이터베이스 수치로 붙여넣었습니다.");
+                return true;
+            }else{
+                sender.sendMessage("§c사용법: /coredbpaste <플레이어 닉네임|공백>");
+                return true;
+            }
+        }
+
+        if (command.getName().equalsIgnoreCase("coredbupdate")) {
+            if(args.length == 1){
+                Player target = Bukkit.getPlayer(args[0]);
+                if (target == null) {
+                    sender.sendMessage("§c해당 플레이어를 찾을 수 없습니다.");
+                    return true;
+                }
+                db_conn.insertMember(target);
+                sender.sendMessage( "§a" + "현재 " + target.getName() + " 소유의 core를 데이터베이스에 업데이트 하였습니다.");
+                return true;
+            }else if(args.length == 0){
+                if (!(sender instanceof Player player)) return true;
+                db_conn.insertMember(player);
+                sender.sendMessage( "§a" + "현재 본인 소유의 core를 데이터베이스에 업데이트 하였습니다.");
+                return true;
+            }else{
+                sender.sendMessage("§c사용법: /coredbupdate <플레이어 닉네임|공백>");
+                return true;
+            }
         }
 
         if (command.getName().equalsIgnoreCase("gc")) {
@@ -458,7 +540,8 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
             }
         }
 
-        if (command.getName().equalsIgnoreCase("corecheck") || command.getName().equalsIgnoreCase("coreclear") || command.getName().equalsIgnoreCase("corelevelset")) {
+        if (command.getName().equalsIgnoreCase("corecheck") || command.getName().equalsIgnoreCase("coreclear")
+                || command.getName().equalsIgnoreCase("corelevelset") || command.getName().equalsIgnoreCase("coredbpaste") || command.getName().equalsIgnoreCase("coredbupdate")) {
             if (args.length == 1) {
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     suggestions.add(p.getName());
@@ -467,13 +550,6 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
         }
 
         return suggestions;
-    }
-
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent e){
-        Player player = e.getPlayer();
-
-        if(db_conn.insertMember(player) != 0) player.kick(Component.text("데이터베이스에서 정보를 로드중 오류가 발생했습니다."));
     }
 
     @EventHandler

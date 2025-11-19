@@ -71,7 +71,7 @@ public class LevelingManager implements Listener {
         }, 1L);
     }
 
-    private void applyLevelHealth(Player player, boolean healFull) {
+    public void applyLevelHealth(Player player, boolean healFull) {
         long level = player.getPersistentDataContainer().getOrDefault(
                 new NamespacedKey(plugin, "level"), PersistentDataType.LONG, 0L
         );

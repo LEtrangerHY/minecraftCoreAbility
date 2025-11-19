@@ -1,90 +1,72 @@
 package org.core.Database;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.UUID;
-
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.core.Main.coreConfig;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
+import java.util.logging.Level;
+
 public class db_connect {
 
     private final coreConfig config;
     private final JavaPlugin plugin;
 
-    private Connection connection;
-    private final String host;
-    private final int port;
-    private final String database;
+    public static Map<UUID, user> user_list = new ConcurrentHashMap<>();
+
+    private final String jdbcUrl;
     private final String username;
     private final String password;
-
-    public static HashMap<UUID, user> user_list = new HashMap<>();
 
     public db_connect(coreConfig config, JavaPlugin plugin) {
         this.config = config;
         this.plugin = plugin;
 
-        this.host = plugin.getConfig().getString("mysql.host");
-        this.port = plugin.getConfig().getInt("mysql.port");
-        this.database = plugin.getConfig().getString("mysql.database");
+        this.jdbcUrl = "jdbc:mysql://" + plugin.getConfig().getString("mysql.host") + ":"
+                + plugin.getConfig().getInt("mysql.port") + "/"
+                + plugin.getConfig().getString("mysql.database") + "?autoReconnect=true";
         this.username = plugin.getConfig().getString("mysql.username");
         this.password = plugin.getConfig().getString("mysql.password");
 
-        this.open_Connection();
+        plugin.getLogger().info("Ready to connect to MySQL");
+        try (Connection conn = openConnection()) {
+            if (conn != null && !conn.isClosed()) {
+                plugin.getLogger().info("Database connection test successful");
+            }
+        } catch (SQLException e) {
+            plugin.getLogger().log(Level.SEVERE, "Database connection test failed", e);
+        }
     }
 
-    public Connection open_Connection() {
+    private Connection openConnection() {
         try {
-            if (connection != null && !connection.isClosed()) {
-                plugin.getLogger().info("Existing Database connection reused");
-                return connection;
-            }
-
-            synchronized (this) {
-                if (connection != null && !connection.isClosed()) {
-                    plugin.getLogger().info("Existing Database connection reused");
-                    return connection;
-                }
-
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                plugin.getLogger().info("Database driver loaded");
-
-                connection = DriverManager.getConnection(
-                        "jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true",
-                        username,
-                        password
-                );
-
-                if (connection != null && !connection.isClosed()) {
-                    plugin.getLogger().info("New database connection created");
-                } else {
-                    plugin.getLogger().severe("Failed to create database connection");
-                }
-            }
-            return connection;
-
-        } catch (Exception e) {
-            plugin.getLogger().severe("Database connection error");
-            e.printStackTrace();
+            return DriverManager.getConnection(jdbcUrl, username, password);
+        } catch (SQLException e) {
+            plugin.getLogger().log(Level.SEVERE, "Failed to open database connection", e);
             return null;
         }
     }
 
     public int insertMember(Player player) {
-        Connection conn = null;
+        String sql = "INSERT INTO user (u_uuid, u_name, u_core, u_level, u_exp, u_R, u_Q, u_F) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?) " +
+                "ON DUPLICATE KEY UPDATE u_name = VALUES(u_name), u_core = VALUES(u_core), " +
+                "u_level = VALUES(u_level), u_exp = VALUES(u_exp), u_R = VALUES(u_R), " +
+                "u_Q = VALUES(u_Q), u_F = VALUES(u_F)";
 
-        try {
-            conn = this.open_Connection();
+        try (Connection conn = openConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            String uuid = player.getUniqueId().toString();
+            UUID uuid = player.getUniqueId();
             String name = player.getName();
             String core = config.getPlayerCore(player);
 
@@ -99,26 +81,19 @@ public class db_connect {
             long F = player.getPersistentDataContainer()
                     .getOrDefault(new NamespacedKey(plugin, "F"), PersistentDataType.LONG, 0L);
 
-            String sql = "INSERT INTO user (u_uuid, u_name, u_core, u_level, u_exp, u_R, u_Q, u_F) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?) " +
-                    "ON DUPLICATE KEY UPDATE u_name = VALUES(u_name), u_core = VALUES(u_core), " +
-                    "u_level = VALUES(u_level), u_exp = VALUES(u_exp), u_R = VALUES(u_R), " +
-                    "u_Q = VALUES(u_Q), u_F = VALUES(u_F)";
+            pstmt.setString(1, uuid.toString());
+            pstmt.setString(2, name);
+            pstmt.setString(3, core);
+            pstmt.setLong(4, level);
+            pstmt.setLong(5, exp);
+            pstmt.setLong(6, R);
+            pstmt.setLong(7, Q);
+            pstmt.setLong(8, F);
 
-            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setString(1, uuid);
-                pstmt.setString(2, name);
-                pstmt.setString(3, core);
-                pstmt.setInt(4, Math.toIntExact(level));
-                pstmt.setInt(5, Math.toIntExact(exp));
-                pstmt.setInt(6, (int) R);
-                pstmt.setInt(7, (int) Q);
-                pstmt.setInt(8, (int) F);
-                pstmt.executeUpdate();
-            }
+            pstmt.executeUpdate();
 
             user u = new user();
-            u.setU_uuid(uuid);
+            u.setU_uuid(uuid.toString());
             u.setU_name(name);
             u.setU_core(core);
             u.setU_level((int) level);
@@ -127,65 +102,85 @@ public class db_connect {
             u.setU_q((int) Q);
             u.setU_f((int) F);
 
-            user_list.put(player.getUniqueId(), u);
+            user_list.put(uuid, u);
 
+            plugin.getLogger().info("Saved player " + name + " to database");
             return 0;
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            plugin.getLogger().log(Level.SEVERE, "Failed to save player " + player.getName(), e);
             return 1;
-
-        } finally {
-            try {
-                if (conn != null && !conn.isClosed()) conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return 2;
-            }
         }
     }
 
     public user db_PlayerInfo(Player player) {
         UUID playerUUID = player.getUniqueId();
         user u = null;
-        Connection conn = null;
+        String sql = "SELECT u_uuid, u_name, u_core, u_level, u_exp, u_R, u_Q, u_F FROM user WHERE u_uuid = ?";
 
-        try {
-            conn = this.open_Connection();
+        try (Connection conn = openConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            String sql = "SELECT u_uuid, u_name, u_core, u_level, u_exp, u_R, u_Q, u_F FROM user WHERE u_uuid = ?";
-            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setString(1, playerUUID.toString());
-                try (ResultSet rs = pstmt.executeQuery()) {
-                    if (!rs.next()) return null;
+            pstmt.setString(1, playerUUID.toString());
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (!rs.next()) return null;
 
-                    u = new user();
-                    u.setU_uuid(rs.getString("u_uuid"));
-                    u.setU_name(rs.getString("u_name"));
-                    u.setU_core(rs.getString("u_core"));
-                    u.setU_level(rs.getInt("u_level"));
-                    u.setU_exp(rs.getInt("u_exp"));
-                    u.setU_r(rs.getInt("u_R"));
-                    u.setU_q(rs.getInt("u_Q"));
-                    u.setU_f(rs.getInt("u_F"));
+                u = new user();
+                u.setU_uuid(rs.getString("u_uuid"));
+                u.setU_name(rs.getString("u_name"));
+                u.setU_core(rs.getString("u_core"));
+                u.setU_level(rs.getInt("u_level"));
+                u.setU_exp(rs.getInt("u_exp"));
+                u.setU_r(rs.getInt("u_R"));
+                u.setU_q(rs.getInt("u_Q"));
+                u.setU_f(rs.getInt("u_F"));
 
-                    user_list.put(playerUUID, u);
-                }
+                user_list.put(playerUUID, u);
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-
-        } finally {
-            try {
-                if (conn != null && !conn.isClosed()) conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        } catch (SQLException e) {
+            plugin.getLogger().log(Level.SEVERE, "Failed to fetch player info " + player.getName(), e);
         }
 
         return u;
     }
 
+    public user db_PastePlayerInfo(Player player) {
+        UUID playerUUID = player.getUniqueId();
+        user u = null;
+        String sql = "SELECT u_uuid, u_name, u_core, u_level, u_exp, u_R, u_Q, u_F FROM user WHERE u_uuid = ?";
+
+        try (Connection conn = openConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, playerUUID.toString());
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (!rs.next()) return null;
+
+                config.clearPlayerCore(player);
+                config.setSetting(player, rs.getString("u_core"), true);
+
+                player.getPersistentDataContainer().set(new NamespacedKey(plugin, "level"), PersistentDataType.LONG, (long) rs.getInt("u_level"));
+                player.getPersistentDataContainer().set(new NamespacedKey(plugin, "exp"), PersistentDataType.LONG, (long) rs.getInt("u_exp"));
+                player.getPersistentDataContainer().set(new NamespacedKey(plugin, "R"), PersistentDataType.LONG, (long) rs.getInt("u_R"));
+                player.getPersistentDataContainer().set(new NamespacedKey(plugin, "Q"), PersistentDataType.LONG, (long) rs.getInt("u_Q"));
+                player.getPersistentDataContainer().set(new NamespacedKey(plugin, "F"), PersistentDataType.LONG, (long) rs.getInt("u_F"));
+
+                u = new user();
+                u.setU_uuid(rs.getString("u_uuid"));
+                u.setU_name(rs.getString("u_name"));
+                u.setU_core(rs.getString("u_core"));
+                u.setU_level(rs.getInt("u_level"));
+                u.setU_exp(rs.getInt("u_exp"));
+                u.setU_r(rs.getInt("u_R"));
+                u.setU_q(rs.getInt("u_Q"));
+                u.setU_f(rs.getInt("u_F"));
+            }
+
+        } catch (SQLException e) {
+            plugin.getLogger().log(Level.SEVERE, "Failed to update player info " + player.getName(), e);
+        }
+
+        return u;
+    }
 }

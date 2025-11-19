@@ -18,6 +18,12 @@ commands:
   corelevelset:
     description: "corelevelset"
     usage: "/corelevelset"
+  coredbpaste:
+    description: "coredbpaste"
+    usage: "/coredbpaste"
+  coredbupdate:
+    description: "coredbupdate"
+    usage: "/coredbupdate"
   gc:
     description: "gc"
     usage: "/gc"
