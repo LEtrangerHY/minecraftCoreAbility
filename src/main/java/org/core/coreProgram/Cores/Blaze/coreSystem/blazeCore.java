@@ -43,7 +43,6 @@ public class blazeCore extends absCore {
     private final Q Qskill;
     private final F Fskill;
 
-
     public blazeCore(Core plugin, coreConfig tag, Blaze config, Cool cool) {
         super(tag, cool);
 

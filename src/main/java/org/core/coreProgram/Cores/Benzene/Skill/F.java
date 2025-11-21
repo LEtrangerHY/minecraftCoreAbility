@@ -46,32 +46,33 @@ public class F implements SkillBase {
 
         double slashLength = 4.8;
         double maxAngle = Math.toRadians(45);
-        int maxTicks = 5;
+        int maxTicks = 3;
         double innerRadius = 2.6;
 
         config.damaged.put(player.getUniqueId(), new HashSet<>());
 
-        double amp = config.f_Skill_Amp * player.getPersistentDataContainer().getOrDefault(new NamespacedKey(plugin, "F"), PersistentDataType.LONG, 0L);
+        double amp = config.f_Skill_Amp * player.getPersistentDataContainer()
+                .getOrDefault(new NamespacedKey(plugin, "F"), PersistentDataType.LONG, 0L);
         double damage = config.f_Skill_Damage * (1 + amp);
 
-        Entity target = getTargetedEntity(player,4.8, 0.3);
+        Entity target = getTargetedEntity(player, slashLength, 0.3);
+        Location origin = player.getEyeLocation().clone().add(0, -0.6, 0);
 
-        Location origin = player.getEyeLocation().add(0, -0.6, 0);
-        Vector direction = player.getLocation().getDirection().clone().setY(0).normalize();
+        Vector forward = player.getLocation().getDirection().normalize();
+        Vector worldUp = new Vector(0, 1, 0);
+        if (Math.abs(forward.dot(worldUp)) > 0.95) worldUp = new Vector(1, 0, 0);
+        Vector right = forward.clone().crossProduct(worldUp).normalize();
+        Vector up = right.clone().crossProduct(forward).normalize();
 
         Particle.DustOptions dustOption_slash = new Particle.DustOptions(Color.fromRGB(66, 66, 66), 0.6f);
         Particle.DustOptions dustOption_slash_gra = new Particle.DustOptions(Color.fromRGB(111, 111, 111), 0.6f);
-        BlockData chain = Material.CHAIN.createBlockData();
 
-        if(target != null){
-            player.getWorld().playSound(player.getLocation(), Sound.ITEM_TRIDENT_HIT_GROUND, 1.6f, 1.0f);
-            player.getWorld().spawnParticle(Particle.ENCHANTED_HIT, target.getLocation().clone().add(0, 1, 0), 22, 0.6, 0, 0.6, 1);
-
-            if(!target.isDead()){
+        if (target != null) {
+            world.playSound(player.getLocation(), Sound.ITEM_TRIDENT_HIT_GROUND, 1.6f, 1.0f);
+            world.spawnParticle(Particle.ENCHANTED_HIT, target.getLocation().clone().add(0, 1, 0), 22, 0.6, 0, 0.6, 1);
+            if (!target.isDead()) {
                 chainCalc.increase(player, target);
-                if(target.isDead()){
-                    chainCalc.decrease(target);
-                }
+                if (target.isDead()) chainCalc.decrease(target);
             }
         }
 
@@ -81,104 +82,92 @@ public class F implements SkillBase {
             @Override
             public void run() {
 
-                if(ticks < 2){
-                    player.getWorld().playSound(player.getLocation(), Sound.BLOCK_CHAIN_BREAK, 1.6f, 1.0f);
-                }
+                if (ticks < 2)
+                    world.playSound(player.getLocation(), Sound.BLOCK_CHAIN_BREAK, 1.6f, 1.0f);
 
-                if (ticks >= maxTicks || player.isDead()) {
-
-                    int chainNum = 0;
-
-                    if(!config.Chain.containsKey(player.getUniqueId())){
-                        config.Chain.put(player.getUniqueId(), new LinkedHashMap<>());
-                    }else{
-                        chainNum = config.Chain.getOrDefault(player.getUniqueId(), new LinkedHashMap<>()).size();
-                    }
-
+                if (ticks > maxTicks || player.isDead()) {
+                    int chainNum = config.Chain.getOrDefault(player.getUniqueId(), new LinkedHashMap<>()).size();
                     config.damaged.remove(player.getUniqueId());
 
-                    Location firstLocation = player.getLocation();
-
-                    GameMode playerGameMode = player.getGameMode();
-
-                    if(target != null && chainNum >= 2) {
-                        Special_Attack(player, firstLocation, playerGameMode, target, chainNum);
+                    if (target != null && chainNum >= 2) {
+                        Special_Attack(player, player.getLocation(), player.getGameMode(), target, chainNum);
                     }
 
-                    if(config.blockBreak.getOrDefault(player.getUniqueId(), false)){
+                    if (config.blockBreak.getOrDefault(player.getUniqueId(), false)) {
                         ItemStack mainHand = player.getInventory().getItemInMainHand();
                         ItemMeta meta = mainHand.getItemMeta();
-                        if (meta instanceof org.bukkit.inventory.meta.Damageable && mainHand.getType().getMaxDurability() > 0) {
-                            org.bukkit.inventory.meta.Damageable damageable = (org.bukkit.inventory.meta.Damageable) meta;
-                            int newDamage = damageable.getDamage() + 12;
-                            damageable.setDamage(newDamage);
+                        if (meta instanceof org.bukkit.inventory.meta.Damageable dm) {
+                            int newDamage = dm.getDamage() + 6;
+                            dm.setDamage(newDamage);
                             mainHand.setItemMeta(meta);
-
-                            if (newDamage >= mainHand.getType().getMaxDurability()) {
+                            if (newDamage >= mainHand.getType().getMaxDurability())
                                 player.getInventory().setItemInMainHand(null);
-                            }
                         }
                         config.blockBreak.remove(player.getUniqueId());
                     }
 
-                    if(config.canBlockBreak.getOrDefault(player.getUniqueId(), false)){
-                        config.canBlockBreak.remove(player.getUniqueId());
-                    }
+                    config.canBlockBreak.remove(player.getUniqueId());
 
                     this.cancel();
                     return;
                 }
 
-                double progress = (ticks + 1) * (maxAngle * 2 / maxTicks) - maxAngle;
-                Vector rotatedDir = direction.clone().rotateAroundY(progress);
+                double progressAngle = ((double) ticks / maxTicks) * (maxAngle * 2) - maxAngle;
+                progressAngle = -progressAngle;
+
+                double startAngle = maxAngle;
+                double endAngle = -maxAngle;
+                double step = -Math.toRadians(2);
 
                 for (double length = 0; length <= slashLength; length += 0.1) {
-                    for (double angle = -maxAngle; angle <= maxAngle; angle += Math.toRadians(2)) {
-                        Vector angleDir = rotatedDir.clone().rotateAroundY(angle);
-                        Vector particleOffset = angleDir.clone().multiply(length);
+                    for (double angle = startAngle; angle >= endAngle; angle += step) {
 
-                        Location particleLocation = origin.clone().add(particleOffset);
+                        double xOffset = Math.sin(angle + progressAngle) * length;
+                        double zOffset = Math.cos(angle + progressAngle) * length;
+                        double yOffset = 0;
 
+                        Vector local = right.clone().multiply(xOffset)
+                                .add(forward.clone().multiply(zOffset))
+                                .add(up.clone().multiply(yOffset));
+
+                        Location particleLocation = origin.clone().add(local);
                         double distanceFromOrigin = particleLocation.distance(origin);
 
-                        if(config.canBlockBreak.getOrDefault(player.getUniqueId(), false)) {
+                        if (config.canBlockBreak.getOrDefault(player.getUniqueId(), false)) {
                             Block blockDown = particleLocation.clone().getBlock();
                             Block blockUp = particleLocation.clone().add(0, 1, 0).getBlock();
-                            if(blockDown.getType() != Material.AIR && blockDown.getType() != Material.WATER && blockDown.getType() != Material.LAVA) {
+                            if (blockDown.getType() != Material.AIR && blockDown.getType() != Material.WATER && blockDown.getType() != Material.LAVA)
                                 breakBlockSafely(player, blockDown);
-                            }
-                            if(blockUp.getType() != Material.AIR && blockDown.getType() != Material.WATER && blockDown.getType() != Material.LAVA) {
+                            if (blockUp.getType() != Material.AIR && blockUp.getType() != Material.WATER && blockUp.getType() != Material.LAVA)
                                 breakBlockSafely(player, blockUp);
-                            }
                         }
 
                         if (distanceFromOrigin >= innerRadius) {
-                            if (Math.random() < 0.11) {
+                            if (Math.random() < 0.11)
                                 world.spawnParticle(Particle.DUST, particleLocation, 1, 0, 0, 0, 0, dustOption_slash);
-                            }else{
+                            else
                                 world.spawnParticle(Particle.DUST, particleLocation, 1, 0, 0, 0, 0, dustOption_slash_gra);
-                            }
                         }
 
                         for (Entity entity : world.getNearbyEntities(particleLocation, 0.6, 0.6, 0.6)) {
-                            if (entity instanceof LivingEntity target && entity != player && !config.damaged.getOrDefault(player.getUniqueId(), new HashSet<>()).contains(entity)) {
-                                config.damaged.getOrDefault(player.getUniqueId(), new HashSet<>()).add(entity);
-                                ForceDamage forceDamage = new ForceDamage(target, damage);
-                                forceDamage.applyEffect(player);
-                                target.setVelocity(new Vector(0, 0, 0));
+                            if (entity instanceof LivingEntity le && entity != player &&
+                                    !config.damaged.get(player.getUniqueId()).contains(entity)) {
+                                config.damaged.get(player.getUniqueId()).add(entity);
+                                ForceDamage fd = new ForceDamage(le, damage);
+                                fd.applyEffect(player);
+                                le.setVelocity(new Vector(0, 0, 0));
 
-                                if(config.canBlockBreak.getOrDefault(player.getUniqueId(), false)) {
-                                    if (!target.isDead()) {
-                                        chainCalc.increase(player, target);
-                                        if (target.isDead()) {
-                                            chainCalc.decrease(target);
-                                        }
+                                if (config.canBlockBreak.getOrDefault(player.getUniqueId(), false)) {
+                                    if (!le.isDead()) {
+                                        chainCalc.increase(player, le);
+                                        if (le.isDead()) chainCalc.decrease(le);
                                     }
                                 }
                             }
                         }
                     }
                 }
+
                 ticks++;
             }
         }.runTaskTimer(plugin, 0L, 1L);

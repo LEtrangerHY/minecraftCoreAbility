@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
-public class db_connect {
+public class dbConnect {
 
     private final coreConfig config;
     private final JavaPlugin plugin;
@@ -27,7 +27,7 @@ public class db_connect {
     private final String username;
     private final String password;
 
-    public db_connect(coreConfig config, JavaPlugin plugin) {
+    public dbConnect(coreConfig config, JavaPlugin plugin) {
         this.config = config;
         this.plugin = plugin;
 

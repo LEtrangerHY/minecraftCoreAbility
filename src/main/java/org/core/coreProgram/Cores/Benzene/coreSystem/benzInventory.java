@@ -169,7 +169,7 @@ public class benzInventory extends absInventory {
         List<Long> requireExpList;
         switch (skill) {
             case "R": requireExpList = requireExpOfR; break;
-            case "Q": requireExpList = requireExpOfQ; applyAdditionalHealth(player, 2); break;
+            case "Q": requireExpList = requireExpOfQ; applyAdditionalHealth(player, 1); break;
             case "F": requireExpList = requireExpOfF; break;
             default: return;
         }

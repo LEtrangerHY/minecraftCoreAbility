@@ -45,8 +45,8 @@ public class R implements SkillBase {
         world.playSound(player.getLocation(), Sound.ITEM_TRIDENT_THROW, 1, 1);
 
         Boolean invisibility = player.isInvisible();
-        double slashLength = (player.isInvisible()) ? 4 : 6.6;
-        double maxAngle = (player.isInvisible()) ? Math.toRadians(100) : Math.toRadians(26);
+        double slashLength = (player.isInvisible()) ? 4 : 6.4;
+        double maxAngle = (player.isInvisible()) ? Math.toRadians(100) : Math.toRadians(24);
         double maxTicks = (player.isInvisible()) ? 6 : 4;
         double innerRadius = 2;
 
@@ -54,17 +54,20 @@ public class R implements SkillBase {
 
         double amp = config.r_Skill_amp * player.getPersistentDataContainer().getOrDefault(new NamespacedKey(plugin, "R"), PersistentDataType.LONG, 0L);
         double damage = config.r_Skill_damage * (1 + amp);
-
         damage = (player.isInvisible()) ? damage * 4 : damage;
 
         Location origin = player.getEyeLocation().add(0, -0.7, 0);
-        Vector direction = player.getLocation().getDirection().clone().setY(0).normalize();
+
+        Vector forward = player.getLocation().getDirection().normalize();
+        Vector worldUp = new Vector(0, 1, 0);
+        if (Math.abs(forward.dot(worldUp)) > 0.95) worldUp = new Vector(1, 0, 0);
+        Vector right = forward.clone().crossProduct(worldUp).normalize();
+        Vector up = right.clone().crossProduct(forward).normalize();
 
         Particle.DustOptions dustOption_slash = new Particle.DustOptions(Color.fromRGB(108, 108, 44), 0.6f);
         Particle.DustOptions dustOption_slash_gra = new Particle.DustOptions(Color.fromRGB(166, 166, 88), 0.6f);
 
         double finalDamage = damage;
-
         config.rskill_using.put(player.getUniqueId(), true);
 
         new BukkitRunnable() {
@@ -73,43 +76,44 @@ public class R implements SkillBase {
             @Override
             public void run() {
 
-                if(invisibility) player.sendActionBar(Component.text("Invisible shot!").color(NamedTextColor.YELLOW));
+                if (invisibility) player.sendActionBar(Component.text("Invisible shot!").color(NamedTextColor.YELLOW));
 
-                if (ticks >= maxTicks || player.isDead()) {
-
+                if (ticks > maxTicks || player.isDead()) {
                     config.rskill_using.remove(player.getUniqueId());
-
                     config.damaged.remove(player.getUniqueId());
-
                     this.cancel();
                     return;
                 }
 
-                double progress = (ticks + 1) * (maxAngle * 2 / maxTicks) - maxAngle;
-                Vector rotatedDir = direction.clone().rotateAroundY(progress);
+                double progress = ((ticks) * (maxAngle * 2 / maxTicks)) - maxAngle;
 
                 for (double length = 0; length <= slashLength; length += 0.1) {
                     for (double angle = -maxAngle; angle <= maxAngle; angle += Math.toRadians(2)) {
-                        Vector angleDir = rotatedDir.clone().rotateAroundY(angle);
-                        Vector particleOffset = angleDir.clone().multiply(length);
 
-                        Location particleLocation = origin.clone().add(particleOffset);
+                        double xOffset = Math.sin(angle + progress) * length;
+                        double zOffset = Math.cos(angle + progress) * length;
+                        double yOffset = 0;
 
+                        Vector local = right.clone().multiply(xOffset)
+                                .add(forward.clone().multiply(zOffset))
+                                .add(up.clone().multiply(yOffset));
+
+                        Location particleLocation = origin.clone().add(local);
                         double distanceFromOrigin = particleLocation.distance(origin);
-
 
                         if (distanceFromOrigin >= innerRadius) {
                             if (Math.random() < 0.26) {
                                 world.spawnParticle(Particle.DUST, particleLocation, 1, 0, 0, 0, 0, dustOption_slash);
-                            }else{
+                            } else {
                                 world.spawnParticle(Particle.DUST, particleLocation, 1, 0, 0, 0, 0, dustOption_slash_gra);
                             }
                         }
 
                         for (Entity entity : world.getNearbyEntities(particleLocation, 0.4, 0.4, 0.4)) {
-                            if (entity instanceof LivingEntity target && entity != player && !config.damaged.getOrDefault(player.getUniqueId(), new HashSet<>()).contains(entity)) {
-                                config.damaged.getOrDefault(player.getUniqueId(), new HashSet<>()).add(entity);
-                                if(invisibility) {
+                            if (entity instanceof LivingEntity target && entity != player &&
+                                    !config.damaged.getOrDefault(player.getUniqueId(), new HashSet<>()).contains(target)) {
+                                config.damaged.get(player.getUniqueId()).add(target);
+                                if (invisibility) {
                                     world.spawnParticle(Particle.CRIT, target.getLocation().clone().add(0, 1.3, 0), 26, 0.4, 0.4, 0.4, 1);
                                     world.playSound(target.getLocation().clone().add(0, 1.3, 0), Sound.ENTITY_PLAYER_ATTACK_CRIT, 1, 1);
                                 }
@@ -121,18 +125,37 @@ public class R implements SkillBase {
 
                         Block blockDown = particleLocation.clone().getBlock();
                         Block blockUp = particleLocation.clone().add(0, 1, 0).getBlock();
-                        if(blockDown.getType() == Material.SHORT_GRASS || blockDown.getType() == Material.TALL_GRASS || blockDown.getType() == Material.WHEAT || blockDown.getType() == Material.POTATOES || blockDown.getType() == Material.CARROTS || blockDown.getType() == Material.BEETROOTS) {
-                            breakBlockSafely(player, blockDown);
-                        }
-                        if(blockUp.getType() == Material.SHORT_GRASS || blockUp.getType() == Material.TALL_GRASS || blockUp.getType() == Material.WHEAT || blockUp.getType() == Material.POTATOES || blockUp.getType() == Material.CARROTS || blockUp.getType() == Material.BEETROOTS) {
-                            breakBlockSafely(player, blockDown);
-                        }
+                        if (isBreakablePlant(blockDown)) breakBlockSafely(player, blockDown);
+                        if (isBreakablePlant(blockUp)) breakBlockSafely(player, blockUp);
                     }
                 }
+
                 ticks++;
             }
         }.runTaskTimer(plugin, 0L, 1L);
     }
+
+    private boolean isBreakablePlant(Block block) {
+        return switch (block.getType()) {
+            case SHORT_GRASS, TALL_GRASS, WHEAT, POTATOES, CARROTS, BEETROOTS -> true;
+            default -> false;
+        };
+    }
+
+    public void breakBlockSafely(Player player, Block block) {
+        if (UNBREAKABLE_BLOCKS.contains(block.getType())) return;
+
+        block.getWorld().spawnParticle(
+                Particle.BLOCK,
+                block.getLocation().add(0.5, 0.5, 0.5),
+                6,
+                0.3, 0.3, 0.3,
+                block.getBlockData()
+        );
+
+        block.breakNaturally(new ItemStack(Material.IRON_HOE), false);
+    }
+
 
     private static final Set<Material> UNBREAKABLE_BLOCKS = Set.of(
             Material.BEDROCK,
@@ -148,20 +171,4 @@ public class R implements SkillBase {
             Material.GRASS_BLOCK,
             Material.DIRT
     );
-
-    public void breakBlockSafely(Player player, Block block) {
-        if (UNBREAKABLE_BLOCKS.contains(block.getType())) {
-            return;
-        }
-
-        block.getWorld().spawnParticle(
-                Particle.BLOCK,
-                block.getLocation().add(0.5, 0.5, 0.5),
-                6,
-                0.3, 0.3, 0.3,
-                block.getBlockData()
-        );
-
-        block.breakNaturally(new ItemStack(Material.IRON_HOE), false);
-    }
 }

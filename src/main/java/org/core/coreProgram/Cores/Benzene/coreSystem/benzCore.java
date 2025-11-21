@@ -94,7 +94,7 @@ public class benzCore extends absCore {
     private void applyAdditionalHealth(Player player, boolean healFull) {
         long addHP =
                 player.getPersistentDataContainer().getOrDefault(
-                        new NamespacedKey(plugin, "Q"), PersistentDataType.LONG, 0L) * 2;
+                        new NamespacedKey(plugin, "Q"), PersistentDataType.LONG, 0L);
 
         AttributeInstance maxHealth = player.getAttribute(Attribute.MAX_HEALTH);
         if (maxHealth != null) {

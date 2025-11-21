@@ -12,12 +12,11 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.core.Cool.Cool;
-import org.core.Database.db_connect;
+import org.core.Database.dbConnect;
 import org.core.Level.LevelingManager;
 import org.core.coreEntity.AbsEntityLeveling.EntityLevelingManager;
 import org.core.coreProgram.Cores.Bambo.coreSystem.Bambo;
@@ -80,7 +79,7 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
 
     private static Core instance;
 
-    private db_connect db_conn;
+    private dbConnect dbConn;
 
     private coreConfig config;
 
@@ -156,7 +155,7 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
 
         this.config = new coreConfig(this);
 
-        this.db_conn = new db_connect(config, this);
+        this.dbConn = new dbConnect(config, this);
 
         this.level = new LevelingManager(this, this.config);
         Bukkit.getPluginManager().registerEvents(this.level, this);
@@ -273,7 +272,7 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
         Thread dbThread = new Thread(() -> {
             for (Player player : players) {
                 try {
-                    db_conn.insertMember(player);
+                    dbConn.insertMember(player);
                 } catch (Exception e) {
                     getLogger().log(Level.SEVERE,
                             "Error occurred while saving player '" + player.getName() + "'", e);
@@ -458,13 +457,13 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
                     sender.sendMessage("§c해당 플레이어를 찾을 수 없습니다.");
                     return true;
                 }
-                db_conn.db_PastePlayerInfo(target);
+                dbConn.db_PastePlayerInfo(target);
                 level.applyLevelHealth(target, true);
                 sender.sendMessage( "§a" + target.getName() + " 소유의 core를 데이터베이스 수치로 붙여넣었습니다.");
                 return true;
             }else if(args.length == 0){
                 if (!(sender instanceof Player player)) return true;
-                db_conn.db_PastePlayerInfo(player);
+                dbConn.db_PastePlayerInfo(player);
                 level.applyLevelHealth(player, true);
                 sender.sendMessage( "§a본인 소유의 core를 데이터베이스 수치로 붙여넣었습니다.");
                 return true;
@@ -481,12 +480,12 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
                     sender.sendMessage("§c해당 플레이어를 찾을 수 없습니다.");
                     return true;
                 }
-                db_conn.insertMember(target);
+                dbConn.insertMember(target);
                 sender.sendMessage( "§a" + "현재 " + target.getName() + " 소유의 core를 데이터베이스에 업데이트 하였습니다.");
                 return true;
             }else if(args.length == 0){
                 if (!(sender instanceof Player player)) return true;
-                db_conn.insertMember(player);
+                dbConn.insertMember(player);
                 sender.sendMessage( "§a" + "현재 본인 소유의 core를 데이터베이스에 업데이트 하였습니다.");
                 return true;
             }else{
@@ -557,6 +556,6 @@ public final class Core extends JavaPlugin implements Listener, TabCompleter {
         Player player = e.getPlayer();
         player.setInvulnerable(false);
 
-        db_conn.insertMember(player);
+        dbConn.insertMember(player);
     }
 }
