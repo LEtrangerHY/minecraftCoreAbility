@@ -347,7 +347,7 @@ public class F implements SkillBase {
                         }else if(length < innerRadius + 0.3){
                             world.spawnParticle(Particle.DUST, particleLocation, 1, 0, 0, 0, 0, dustOptions2);
                         }else{
-                            if(Math.random() < 0.66){
+                            if(Math.random() <= 0.66){
                                 world.spawnParticle(Particle.DUST, particleLocation, 1, 0, 0, 0, 0, dustOptions3);
                             }else{
                                 world.spawnParticle(Particle.DUST, particleLocation, 1, 0, 0, 0, 0, dustOptions_gra);
