@@ -66,7 +66,7 @@ public class R implements SkillBase {
             Particle.DustOptions dustOptions_gra = new Particle.DustOptions(Color.fromRGB(255, 255, 255), 0.7f);
             BlockData iron = Material.IRON_BLOCK.createBlockData();
 
-            world.spawnParticle(Particle.FLASH, fb.getLocation(), 13, 0, 0, 0, 0.8);
+            world.spawnParticle(Particle.END_ROD, fb.getLocation(), 44, 0.8, 0.8, 0.8, 0.4);
 
             world.playSound(fb.getLocation(), Sound.ENTITY_WITHER_DEATH, 1f, 1f);
             world.spawnParticle(Particle.ENCHANTED_HIT, spawnLoc, 30, 0.2, 0.2, 0.2, 1);

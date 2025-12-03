@@ -40,7 +40,6 @@ public class Q implements SkillBase {
             world.playSound(center, Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1.0f, 1.0f);
             world.playSound(center, Sound.ITEM_FIRECHARGE_USE, 1.0f, 1.0f);
 
-            world.spawnParticle(Particle.FLASH, center, 10, 0.3, 0.3, 0.3, 0.9);
             world.spawnParticle(Particle.END_ROD, center.clone().add(0, 1.2, 0), 70, 0.7, 0.7, 0.7, 0.7);
             world.spawnParticle(Particle.SOUL_FIRE_FLAME, center, 21, 0.1, 0.1, 0.1, 0.9);
             world.spawnParticle(Particle.FLAME, center, 21, 0.1, 0.1, 0.1, 0.9);
@@ -55,7 +54,7 @@ public class Q implements SkillBase {
                 int z = random.nextInt(radius * 2 + 1) - radius;
 
                 Location fireLoc = center.clone().add(x, 0, z);
-                fireLoc.setY(world.getHighestBlockYAt(fireLoc) + 1); // 가장 위 공기층 (지표면 위)
+                fireLoc.setY(world.getHighestBlockYAt(fireLoc) + 1);
 
                 Block block = fireLoc.getBlock();
 

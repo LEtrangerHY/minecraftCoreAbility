@@ -90,7 +90,7 @@ public class comCore extends absCore {
     public void passiveAttackEffect(PlayerInteractEvent event) {
 
         if(tag.Commander.contains(event.getPlayer())) {
-            if (pAttackUsing.contains(event.getPlayer().getUniqueId())) {
+            if (!pAttackUsing.contains(event.getPlayer().getUniqueId())) {
 
                 Player player = event.getPlayer();
 

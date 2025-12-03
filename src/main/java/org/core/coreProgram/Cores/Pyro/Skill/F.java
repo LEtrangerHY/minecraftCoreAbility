@@ -108,6 +108,8 @@ public class F implements SkillBase {
     }
 
     public void Delay(Player player, Location burstLoction){
+        Particle.DustOptions dustOptions = new Particle.DustOptions(Color.RED, 1.0f);
+
         new BukkitRunnable() {
             int ticks = 0;
 
@@ -122,7 +124,7 @@ public class F implements SkillBase {
                     return;
                 }
 
-                player.spawnParticle(Particle.FLASH, burstLoction, 30, 0.5, 0.5, 0.5, 0.9);
+                player.getWorld().spawnParticle(Particle.END_ROD, burstLoction, 14, 0.7, 0.7, 0.7, 0.49);
 
                 ticks++;
             }
@@ -136,7 +138,6 @@ public class F implements SkillBase {
         world.playSound(player.getLocation(), Sound.ENTITY_DRAGON_FIREBALL_EXPLODE, 1, 1);
         world.playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 1, 1);
         world.spawnParticle(Particle.FLAME, burstLoction, 70, 0.1, 0.1, 0.1, 0.9);
-        world.spawnParticle(Particle.FLASH, burstLoction, 10, 0.3, 0.3, 0.3, 0.9);
         world.spawnParticle(Particle.END_ROD, burstLoction.clone().add(0, 1.2, 0), 70, 0.7, 0.7, 0.7, 0.7);
         world.spawnParticle(Particle.TOTEM_OF_UNDYING, burstLoction.clone().add(0, 1.2, 0), 70, 3, 3, 3, 0.7);
         world.spawnParticle(Particle.SOUL_FIRE_FLAME, burstLoction, 70, 0.1, 0.1, 0.1, 0.9);
