@@ -120,6 +120,11 @@ public class F implements SkillBase {
         double amp = config.f_Skill_amp * player.getPersistentDataContainer().getOrDefault(new NamespacedKey(plugin, "F"), PersistentDataType.LONG, 0L);
         double damage = config.f_Skill_damage * (1 + amp);
 
+        DamageSource source = DamageSource.builder(DamageType.PLAYER_ATTACK)
+                .withCausingEntity(player)
+                .withDirectEntity(player)
+                .build();
+
         Location origin = player.getEyeLocation().add(0, -0.6, 0);
         Vector direction = player.getLocation().getDirection().clone().setY(0).normalize();
 
@@ -159,10 +164,6 @@ public class F implements SkillBase {
                             if (entity instanceof LivingEntity target && entity != player && !config.f_damaged.getOrDefault(player.getUniqueId(), new HashSet<>()).contains(entity)) {
                                 Stun stun = new Stun(entity, config.f_Skill_stun);
                                 stun.applyEffect(player);
-
-                                DamageSource source = DamageSource.builder(DamageType.PLAYER_ATTACK)
-                                        .withCausingEntity(player)
-                                        .build();
 
                                 ForceDamage forceDamage = new ForceDamage(target, damage, source);
                                 forceDamage.applyEffect(player);

@@ -139,7 +139,6 @@ public class dagCore extends absCore {
             Location playerLocation = player.getLocation();
             Vector direction = playerLocation.getDirection().normalize().multiply(1.3);
 
-
             if (action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK) {
 
                 if(action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK){

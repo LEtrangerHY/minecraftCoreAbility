@@ -1,4 +1,6 @@
 package org.core.coreProgram.Cores.VOL2.Claud.Skill;
 
-public class F {
+import org.core.coreProgram.AbsCoreSystem.SkillBase;
+
+public class F{
 }

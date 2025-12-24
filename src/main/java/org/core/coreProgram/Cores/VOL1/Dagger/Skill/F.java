@@ -132,7 +132,7 @@ public class F implements SkillBase {
         double amp = config.f_Skill_amp * player.getPersistentDataContainer().getOrDefault(new NamespacedKey(plugin, "F"), PersistentDataType.LONG, 0L);
         double damage = config.f_Skill_Damage_2 * (1 + amp);
 
-        DamageSource source = DamageSource.builder(DamageType.GENERIC)
+        DamageSource source = DamageSource.builder(DamageType.PLAYER_ATTACK)
                 .withCausingEntity(player)
                 .withDirectEntity(player)
                 .build();

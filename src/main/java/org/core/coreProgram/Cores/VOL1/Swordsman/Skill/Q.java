@@ -89,6 +89,7 @@ public class Q implements SkillBase {
 
         DamageSource source = DamageSource.builder(DamageType.PLAYER_ATTACK)
                 .withCausingEntity(player)
+                .withDirectEntity(player)
                 .build();
 
         Location origin = player.getEyeLocation().clone().add(0, height, 0);

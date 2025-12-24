@@ -129,6 +129,7 @@ public class Q implements SkillBase {
 
         DamageSource source = DamageSource.builder(DamageType.PLAYER_ATTACK)
                 .withCausingEntity(player)
+                .withDirectEntity(player)
                 .build();
 
         new BukkitRunnable() {

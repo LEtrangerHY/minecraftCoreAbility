@@ -89,6 +89,7 @@ public class R implements SkillBase {
 
         DamageSource source = DamageSource.builder(DamageType.PLAYER_ATTACK)
                 .withCausingEntity(player)
+                .withDirectEntity(player)
                 .build();
 
         Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(255, 255, 255), 0.6f);
@@ -139,6 +140,7 @@ public class R implements SkillBase {
 
         DamageSource source = DamageSource.builder(DamageType.PLAYER_ATTACK)
                 .withCausingEntity(player)
+                .withDirectEntity(player)
                 .build();
 
         Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(255, 255, 255), 0.6f);

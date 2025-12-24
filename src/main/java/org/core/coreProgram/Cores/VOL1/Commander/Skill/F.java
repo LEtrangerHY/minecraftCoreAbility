@@ -131,7 +131,7 @@ public class F implements SkillBase {
         World world = player.getWorld();
 
         double amp = config.f_Skill_amp * player.getPersistentDataContainer().getOrDefault(new NamespacedKey(plugin, "F"), PersistentDataType.LONG, 0L);
-        double damage = 4 * (1 + amp);
+        double damage = config.f_Skill_Damage * (1 + amp);
 
         world.spawnParticle(Particle.EXPLOSION, center, 4, 0.4, 0.4, 0.4, 1.3);
         world.playSound(center, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE, 1, 1);

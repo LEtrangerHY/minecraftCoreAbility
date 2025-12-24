@@ -45,7 +45,7 @@ public class burstInventory extends absInventory {
         return switch (skill) {
             case "R" -> Component.text("Groundburst");
             case "Q" -> Component.text("Burstrush");
-            case "F" -> Component.text("SATURATIONBOM");
+            case "F" -> Component.text("SATURATIONBOMB");
             default -> Component.text("???");
         };
     }

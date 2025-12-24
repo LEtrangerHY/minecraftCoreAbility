@@ -121,7 +121,7 @@ public class Q implements SkillBase {
                 PotionEffect slowness = new PotionEffect(PotionEffectType.SLOWNESS, 20 * 4, 1, false, false);
                 ((LivingEntity) entity).addPotionEffect(slowness);
 
-                fb.getWorld().playSound(fb.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1, 1);
+                fb.getWorld().playSound(fb.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1.5f, 1);
 
                 Location start = fb.getLocation().clone().add(0.5, 0.5, 0.5);
 
@@ -132,7 +132,7 @@ public class Q implements SkillBase {
                 attackLine(player, maxDistance, start, dir);
             }else{
                 ((LivingEntity) entity).heal(2);
-                player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.5f, 1);
+                player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 2.0f, 1);
                 player.spawnParticle(Particle.HAPPY_VILLAGER, player.getLocation().clone().add(0, 1.2, 0), 5, 0.2, 0.2, 0.2, 0);
             }
         }

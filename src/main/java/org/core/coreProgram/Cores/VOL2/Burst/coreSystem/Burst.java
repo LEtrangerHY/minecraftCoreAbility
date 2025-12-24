@@ -28,13 +28,14 @@ public class Burst {
     //Q
     public double q_Skill_amp = 0.14;
     public double q_Skill_Jump = 1.6;
-    public double q_Skill_dash = 1.6;
+    public double q_Skill_dash = 2.6;
     public double q_Skill_Damage = 4;
     public long q_Skill_Cool = 12000;
 
     //F
     public double f_Skill_amp = 0.2;
-    public double f_Skill_Damage = 1;
+    public double f_Skill_Jump = 1.3;
+    public double f_Skill_dash = 2.0;
     public long f_Skill_Cool = 30000;
 
 

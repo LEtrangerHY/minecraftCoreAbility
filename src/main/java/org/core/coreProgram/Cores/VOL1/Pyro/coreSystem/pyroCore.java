@@ -208,6 +208,7 @@ public class pyroCore extends absCore {
 
         DamageSource source = DamageSource.builder(DamageType.MAGIC)
                 .withCausingEntity(player)
+                .withDirectEntity(player)
                 .build();
 
         for (Entity entity : world.getNearbyEntities(burstLoction, 3, 3, 3)) {
@@ -218,7 +219,7 @@ public class pyroCore extends absCore {
                     burn.applyEffect(player);
                 }
 
-                ForceDamage forceDamage = new ForceDamage(target, 4.0, source);
+                ForceDamage forceDamage = new ForceDamage(target, 2.0, source);
                 forceDamage.applyEffect(player);
 
                 Vector direction = entity.getLocation().toVector().subtract(burstLoction.toVector()).normalize().multiply(0.5);

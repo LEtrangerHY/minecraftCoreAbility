@@ -147,17 +147,6 @@ public class bambCore extends absCore {
         }
     }
 
-    @EventHandler
-    public void onPlayerMove(PlayerMoveEvent event) {
-        Player player = event.getPlayer();
-
-        if(tag.Bambo.contains(player)) {
-            if (player.getPersistentDataContainer().getOrDefault(new NamespacedKey(plugin, "noFallDamage"), PersistentDataType.BOOLEAN, false)) {
-                player.getPersistentDataContainer().remove(new NamespacedKey(plugin, "noFallDamage"));
-            }
-        }
-    }
-
     @Override
     protected boolean contains(Player player) {
         return tag.Bambo.contains(player);

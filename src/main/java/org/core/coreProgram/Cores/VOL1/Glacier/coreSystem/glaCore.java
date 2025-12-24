@@ -152,7 +152,7 @@ public class glaCore extends absCore {
 
                                         world.playSound(player.getLocation(), Sound.BLOCK_GLASS_BREAK, 1, 1);
 
-                                        ForceDamage forceDamage = new ForceDamage(target, 3.0, source);
+                                        ForceDamage forceDamage = new ForceDamage(target, 4.0, source);
                                         forceDamage.applyEffect(player);
 
                                         if (Math.random() < 0.6) {

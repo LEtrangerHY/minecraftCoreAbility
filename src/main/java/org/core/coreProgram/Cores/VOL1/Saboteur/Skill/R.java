@@ -341,6 +341,7 @@ public class R implements SkillBase {
         DamageSource source = DamageSource.builder(DamageType.MOB_PROJECTILE)
                 .withCausingEntity(player)
                 .withDirectEntity(item)
+                .withDamageLocation(player.getLocation())
                 .build();
 
         int n = config.q_skillCount_Hack.getOrDefault(player.getUniqueId(), 0);

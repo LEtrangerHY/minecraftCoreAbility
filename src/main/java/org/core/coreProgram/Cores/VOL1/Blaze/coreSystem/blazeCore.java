@@ -33,6 +33,8 @@ import org.core.coreProgram.Cores.VOL1.Blaze.Skill.F;
 import org.core.coreProgram.Cores.VOL1.Blaze.Skill.Q;
 import org.core.coreProgram.Cores.VOL1.Blaze.Skill.R;
 
+import java.util.HashSet;
+
 public class blazeCore extends absCore {
     private final Core plugin;
     private final Blaze config;
@@ -151,18 +153,25 @@ public class blazeCore extends absCore {
                             cool.setCooldown(player, 4000L, "blaze");
                         }
 
+                        DamageSource source = DamageSource.builder(DamageType.MAGIC)
+                                .withCausingEntity(player)
+                                .withDirectEntity(player)
+                                .build();
+
+                        config.damaged.putIfAbsent(player.getUniqueId(), new HashSet<>());
+
                         World world = player.getWorld();
                         Location origin = player.getLocation().add(0, 1.3, 0);
                         Vector forward = origin.getDirection().normalize();
 
-                        player.getWorld().playSound(player.getLocation(), Sound.ITEM_FIRECHARGE_USE, 1, 1);
-                        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 1, 1);
+                        world.playSound(player.getLocation(), Sound.ITEM_FIRECHARGE_USE, 1, 1);
+                        world.playSound(player.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 1, 1);
 
                         double maxDistance = (config.BurstBlaze.getOrDefault(player.getUniqueId(), false)) ? 11.0 : 9.0;
                         double coneAngle = (config.BurstBlaze.getOrDefault(player.getUniqueId(), false)) ? 360.0 : 60.0;
 
                         if(config.BurstBlaze.getOrDefault(player.getUniqueId(), false)){
-                            player.spawnParticle(Particle.SOUL_FIRE_FLAME, player.getLocation().clone().add(0, 0.6, 0), 130, 0.1, 0.1, 0.1, 0.8);
+                            player.spawnParticle(Particle.SOUL_FIRE_FLAME, player.getLocation().clone().add(0, 0.6, 0), 108, 0.1, 0.1, 0.1, 0.8);
                             for (Entity entity : world.getNearbyEntities(player.getLocation(), 13, 13, 13)) {
                                 if (entity instanceof LivingEntity target && entity != player) {
 
@@ -180,11 +189,6 @@ public class blazeCore extends absCore {
 
                         double finalDamage = damage;
 
-                        DamageSource source = DamageSource.builder(DamageType.MAGIC)
-                                .withCausingEntity(player)
-                                .withDirectEntity(player)
-                                .build();
-
                         new BukkitRunnable() {
                             double distance = 1.0;
 
@@ -200,7 +204,7 @@ public class blazeCore extends absCore {
                                     Vector dir = (config.BurstBlaze.getOrDefault(player.getUniqueId(), false)) ? forward.clone().setY(0).rotateAroundY(Math.toRadians(angle)): forward.clone().rotateAroundY(Math.toRadians(angle));
                                     Location particleLoc = origin.clone().add(dir.multiply(distance));
 
-                                    world.spawnParticle(Particle.SOUL_FIRE_FLAME, particleLoc, 4, 0.2, 0.1, 0.2, 0.04);
+                                    world.spawnParticle(Particle.SOUL_FIRE_FLAME, particleLoc, 2, 0.2, 0.1, 0.2, 0.04);
 
                                     double dist = (config.BurstBlaze.getOrDefault(player.getUniqueId(), false)) ? 2 : 0.6;
 

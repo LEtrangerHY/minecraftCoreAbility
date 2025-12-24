@@ -184,6 +184,7 @@ public class sabCore extends absCore {
                         DamageSource source = DamageSource.builder(DamageType.MOB_PROJECTILE)
                                 .withCausingEntity(player)
                                 .withDirectEntity(item)
+                                .withDamageLocation(player.getLocation())
                                 .build();
 
                         Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {

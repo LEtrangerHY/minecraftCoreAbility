@@ -61,8 +61,8 @@ public class R implements SkillBase {
             public void run() {
                 if (!player.isOnline() || player.isDead() || tick > 40) {
 
-                    world.playSound(particleLoc, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE, 1, 1);
-                    world.playSound(particleLoc, Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
+                    world.playSound(particleLoc, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE, 2, 1);
+                    world.playSound(particleLoc, Sound.ENTITY_GENERIC_EXPLODE, 2, 1);
                     world.spawnParticle(Particle.EXPLOSION, particleLoc.clone().add(0, 0.6, 0), 3, 0.3, 0.3, 0.3, 1.0);
                     world.spawnParticle(Particle.FLAME, particleLoc.clone().add(0, 0.6, 0), 44, 0.1, 0.1, 0.1, 0.8);
                     world.spawnParticle(Particle.SMOKE, particleLoc.clone().add(0, 0.6, 0), 44, 0.1, 0.1, 0.1, 0.8);

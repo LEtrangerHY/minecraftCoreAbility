@@ -192,11 +192,8 @@ public class blueCore extends absCore {
 
                                 for (Entity entity : world.getNearbyEntities(particleLocation, 1.3, 1.3, 1.3)) {
                                     if (entity instanceof LivingEntity target && entity != player) {
-                                        DamageSource source = DamageSource.builder(DamageType.MAGIC)
-                                                .withCausingEntity(player)
-                                                .build();
 
-                                        ForceDamage forceDamage = new ForceDamage(target, 2, source);
+                                        ForceDamage forceDamage = new ForceDamage(target, 3.0, source);
                                         forceDamage.applyEffect(player);
                                     }
                                 }

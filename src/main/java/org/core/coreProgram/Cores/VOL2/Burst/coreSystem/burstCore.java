@@ -75,8 +75,7 @@ public class burstCore extends absCore {
     }
 
     private void applyAdditionalHealth(Player player, boolean healFull) {
-        long addHP =
-                player.getPersistentDataContainer().getOrDefault(
+        long addHP = player.getPersistentDataContainer().getOrDefault(
                         new NamespacedKey(plugin, "F"), PersistentDataType.LONG, 0L) * 2;
 
         AttributeInstance maxHealth = player.getAttribute(Attribute.MAX_HEALTH);
@@ -117,8 +116,8 @@ public class burstCore extends absCore {
                         player.damage(1.4, player);
                         player.setVelocity(new Vector(0, 0, 0));
 
-                        world.playSound(player.getLocation(), Sound.ENTITY_DRAGON_FIREBALL_EXPLODE, 1, 1);
-                        world.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
+                        world.playSound(player.getLocation(), Sound.ENTITY_DRAGON_FIREBALL_EXPLODE, 2, 1);
+                        world.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 2, 1);
                         world.spawnParticle(Particle.FLAME, player.getLocation().clone().add(0, 0.6, 0), 67, 0.1, 0.1, 0.1, 0.4);
                         world.spawnParticle(Particle.SMOKE, player.getLocation().clone().add(0, 0.6, 0), 24, 0.1, 0.1, 0.1, 0.8);
 
@@ -150,7 +149,7 @@ public class burstCore extends absCore {
                             ForceDamage forceDamage = new ForceDamage((LivingEntity) entity, 7.0, source);
                             forceDamage.applyEffect(player);
 
-                            Vector direction = entity.getLocation().toVector().subtract(center.toVector()).normalize().multiply(1.2);
+                            Vector direction = entity.getLocation().toVector().subtract(center.toVector()).normalize().multiply(1.3);
                             direction.setY(0.6);
 
                             entity.setVelocity(direction);
@@ -163,40 +162,6 @@ public class burstCore extends absCore {
                 }
             } else {
                 pAttackUsing.remove(event.getPlayer().getUniqueId());
-            }
-        }
-    }
-
-    @EventHandler
-    public void onFallDamage(EntityDamageEvent event) {
-        if (!(event.getEntity() instanceof Player player)) return;
-
-        if(tag.Burst.contains(player)) {
-            if (event.getCause() == EntityDamageEvent.DamageCause.FALL &&
-                    player.getPersistentDataContainer().getOrDefault(new NamespacedKey(plugin, "noFallDamage"), PersistentDataType.BOOLEAN, false)) {
-                event.setCancelled(true);
-                player.getPersistentDataContainer().remove(new NamespacedKey(plugin, "noFallDamage"));
-            }
-        }
-    }
-
-    @EventHandler
-    public void onGameModeChange(PlayerGameModeChangeEvent event) {
-        Player player = event.getPlayer();
-        if(tag.Burst.contains(player)) {
-            if (player.getPersistentDataContainer().getOrDefault(new NamespacedKey(plugin, "noFallDamage"), PersistentDataType.BOOLEAN, false)) {
-                player.getPersistentDataContainer().remove(new NamespacedKey(plugin, "noFallDamage"));
-            }
-        }
-    }
-
-    @EventHandler
-    public void onPlayerMove(PlayerMoveEvent event) {
-        Player player = event.getPlayer();
-
-        if(tag.Burst.contains(player)) {
-            if (player.getPersistentDataContainer().getOrDefault(new NamespacedKey(plugin, "noFallDamage"), PersistentDataType.BOOLEAN, false)) {
-                player.getPersistentDataContainer().remove(new NamespacedKey(plugin, "noFallDamage"));
             }
         }
     }
