@@ -67,7 +67,7 @@ public class F implements SkillBase {
         List<LivingEntity> candidates = new ArrayList<>();
 
         for (Entity entity : world.getNearbyEntities(eyeLocation, range, range, range)) {
-            if (!(entity instanceof LivingEntity) || entity.equals(player)) continue;
+            if (!(entity instanceof LivingEntity) || entity.equals(player) || entity.isInvulnerable()) continue;
 
             RayTraceResult result = world.rayTraceEntities(
                     eyeLocation, direction, range, raySize, e -> e.equals(entity)

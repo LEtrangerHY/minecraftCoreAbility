@@ -80,7 +80,7 @@ public class R implements SkillBase {
 
             world.spawnParticle(Particle.CRIT, particleLocation, 8, 0.08, 0.08, 0.08, 0);
 
-            world.sendActionBar(Component.text("not designated").color(NamedTextColor.DARK_RED));
+            player.sendActionBar(Component.text("not designated").color(NamedTextColor.DARK_RED));
 
             long cools = 250L;
             cool.updateCooldown(player, "R", cools);
@@ -97,7 +97,7 @@ public class R implements SkillBase {
         List<LivingEntity> candidates = new ArrayList<>();
 
         for (Entity entity : world.getNearbyEntities(eyeLocation, range, range, range)) {
-            if (!(entity instanceof LivingEntity) || entity.equals(player)) continue;
+            if (!(entity instanceof LivingEntity) || entity.equals(player) || entity.isInvulnerable()) continue;
 
             RayTraceResult result = world.rayTraceEntities(
                     eyeLocation, direction, range, raySize, e -> e.equals(entity)
