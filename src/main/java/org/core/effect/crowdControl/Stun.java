@@ -1,29 +1,27 @@
-package org.core.Debuff;
+package org.core.effect.crowdControl;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class Frost implements Debuffs{
-    private static final HashMap<Entity, Long> frostbiteEntities = new HashMap();
+public class Stun implements Effects, Listener {
+    public static Map<Entity, Long> stunnedEntities = new HashMap();
 
     private final Entity target;
     private final long duration;
 
-    public Frost(Entity target, long duration) {
+    public Stun(Entity target, long duration) {
         this.target = target;
         this.duration = duration;
     }
@@ -34,18 +32,15 @@ public class Frost implements Debuffs{
 
         if(target.isInvulnerable()) return;
 
+        LivingEntity livingEntity = (LivingEntity) target;
+
         long endTime = System.currentTimeMillis() + duration;
+
+        Location stunPos = target.getLocation();
 
         new BukkitRunnable() {
             @Override
             public void run() {
-                frostbiteEntities.put(target, endTime);
-                entity.getWorld().spawnParticle(Particle.SNOWFLAKE, target.getLocation().clone().add(0, 1.3, 0), 6, 0.5, 0.5, 0.5, 0);
-
-                Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(0, 255, 255), 0.6f);
-                entity.getWorld().spawnParticle(Particle.DUST, target.getLocation().clone().add(0, 1.3, 0), 3, 0.4, 0.4, 0.4, 0, dustOptions);
-
-                target.setFreezeTicks((int) duration / 50);
 
                 if (entity instanceof Player player) {
                     if(System.currentTimeMillis() >= endTime || player.isDead() || !player.isOnline()){
@@ -53,25 +48,32 @@ public class Frost implements Debuffs{
                         removeEffect(player);
                         cancel();
                     }
-                    target.sendActionBar(Component.text("Frost").color(NamedTextColor.AQUA));
+                    target.sendActionBar(Component.text("Stunned").color(NamedTextColor.YELLOW));
                 }
 
                 if (System.currentTimeMillis() >= endTime || target.isDead()) {
-                    target.setFreezeTicks(0);
                     removeEffect(target);
                     cancel();
                 }
+
+                stunnedEntities.put(target, endTime);
+
+                target.teleport(stunPos);
+                target.setVelocity(new Vector(0, 0, 0));
             }
-        }.runTaskTimer(Objects.requireNonNull(Bukkit.getPluginManager().getPlugin("Core")), 0L, 20L);
+        }.runTaskTimer(Objects.requireNonNull(Bukkit.getPluginManager().getPlugin("Core")), 0L, 1L);
     }
 
     @Override
     public void removeEffect(Entity entity) {
-        frostbiteEntities.remove(entity);
+        if (!(entity instanceof LivingEntity livingEntity)) return;
+
+        stunnedEntities.remove(entity);
     }
 
-    public static boolean isFrostbite(Entity entity) {
-        Long endTime = frostbiteEntities.get(entity);
+    public static boolean isStunned(Entity entity) {
+        Long endTime = stunnedEntities.get(entity);
         return endTime != null && System.currentTimeMillis() < endTime;
     }
+
 }

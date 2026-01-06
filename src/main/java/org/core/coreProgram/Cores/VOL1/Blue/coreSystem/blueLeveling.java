@@ -8,7 +8,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.core.Level.Levels;
+import org.core.level.Levels;
 
 import java.util.Collections;
 import java.util.Set;

@@ -9,9 +9,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.*;
 import org.bukkit.util.Vector;
-import org.core.Cool.Cool;
-import org.core.Effect.Stun;
-import org.core.Main.coreConfig;
+import org.core.cool.Cool;
+import org.core.effect.crowdControl.Stun;
+import org.core.main.coreConfig;
 import org.core.coreProgram.Cores.VOL1.Benzene.coreSystem.Benzene;
 
 import java.util.*;

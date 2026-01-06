@@ -6,8 +6,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.*;
-import org.core.Cool.Cool;
-import org.core.Main.coreConfig;
+import org.core.cool.Cool;
+import org.core.main.coreConfig;
 import org.core.coreProgram.Cores.VOL1.Saboteur.coreSystem.Saboteur;
 
 import java.util.*;

@@ -7,8 +7,8 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.core.Cool.Cool;
-import org.core.Main.coreConfig;
+import org.core.cool.Cool;
+import org.core.main.coreConfig;
 import org.core.coreProgram.Cores.VOL1.Nightel.coreSystem.Nightel;
 
 public class Hexa implements Listener {

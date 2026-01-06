@@ -1,4 +1,4 @@
-package org.core.Level;
+package org.core.level;
 
 import org.bukkit.entity.Entity;
 

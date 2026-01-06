@@ -1,4 +1,4 @@
-package org.core.Cool;
+package org.core.cool;
 
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;

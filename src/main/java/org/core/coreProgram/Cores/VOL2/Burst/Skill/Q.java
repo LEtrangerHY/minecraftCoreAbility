@@ -10,14 +10,11 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
-import org.core.Cool.Cool;
-import org.core.Effect.ForceDamage;
-import org.core.Effect.Invulnerable;
+import org.core.cool.Cool;
+import org.core.effect.crowdControl.ForceDamage;
+import org.core.effect.crowdControl.Invulnerable;
 import org.core.coreProgram.AbsCoreSystem.SkillBase;
 import org.core.coreProgram.Cores.VOL2.Burst.coreSystem.Burst;
-
-import java.util.HashSet;
-import java.util.List;
 
 public class Q implements SkillBase {
     private final Burst config;

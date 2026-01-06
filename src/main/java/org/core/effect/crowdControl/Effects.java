@@ -1,7 +1,6 @@
-package org.core.Effect;
+package org.core.effect.crowdControl;
 
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 
 public interface Effects {
     void applyEffect(Entity entity);

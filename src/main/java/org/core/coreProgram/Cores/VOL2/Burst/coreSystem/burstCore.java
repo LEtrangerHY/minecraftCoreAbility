@@ -6,34 +6,25 @@ import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.damage.DamageSource;
 import org.bukkit.damage.DamageType;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.IronGolem;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
-import org.core.Cool.Cool;
-import org.core.Effect.ForceDamage;
-import org.core.Main.Core;
-import org.core.Main.coreConfig;
+import org.core.cool.Cool;
+import org.core.effect.crowdControl.ForceDamage;
+import org.core.main.Core;
+import org.core.main.coreConfig;
 import org.core.coreProgram.AbsCoreSystem.ConfigWrapper;
 import org.core.coreProgram.AbsCoreSystem.SkillBase;
 import org.core.coreProgram.AbsCoreSystem.absCore;
 import org.core.coreProgram.Cores.VOL2.Burst.Skill.F;
 import org.core.coreProgram.Cores.VOL2.Burst.Skill.Q;
 import org.core.coreProgram.Cores.VOL2.Burst.Skill.R;
-
-import java.util.Map;
-import java.util.Set;
 
 public class burstCore extends absCore {
     private final Core plugin;
@@ -113,7 +104,10 @@ public class burstCore extends absCore {
 
                         World world = player.getWorld();
 
-                        player.damage(1.4, player);
+                        DamageSource selfSource = DamageSource.builder(DamageType.EXPLOSION)
+                                .build();
+
+                        player.damage(1.4, selfSource);
                         player.setVelocity(new Vector(0, 0, 0));
 
                         world.playSound(player.getLocation(), Sound.ENTITY_DRAGON_FIREBALL_EXPLODE, 2, 1);

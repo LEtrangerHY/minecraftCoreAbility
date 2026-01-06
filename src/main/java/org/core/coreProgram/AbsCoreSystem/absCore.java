@@ -8,9 +8,9 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
-import org.core.Cool.Cool;
-import org.core.Effect.Stun;
-import org.core.Main.coreConfig;
+import org.core.cool.Cool;
+import org.core.effect.crowdControl.Stun;
+import org.core.main.coreConfig;
 
 import java.util.*;
 

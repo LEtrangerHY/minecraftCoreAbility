@@ -14,8 +14,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
-import org.core.Cool.Cool;
-import org.core.Effect.ForceDamage;
+import org.core.cool.Cool;
+import org.core.effect.crowdControl.ForceDamage;
 import org.core.coreProgram.AbsCoreSystem.SkillBase;
 import org.core.coreProgram.Cores.VOL1.Carpenter.coreSystem.Carpenter;
 

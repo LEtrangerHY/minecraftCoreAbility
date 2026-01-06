@@ -1,6 +1,6 @@
 name: Core
 version: '2.0'
-main: org.core.Main.Core
+main: org.core.main.Core
 api-version: '1.21.10'
 commands:
   core:

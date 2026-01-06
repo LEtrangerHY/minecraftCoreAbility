@@ -13,13 +13,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
-import org.core.Cool.Cool;
-import org.core.Effect.ForceDamage;
+import org.core.cool.Cool;
+import org.core.effect.crowdControl.ForceDamage;
 import org.core.coreProgram.AbsCoreSystem.SkillBase;
 import org.core.coreProgram.Cores.VOL2.Burst.coreSystem.Burst;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class R implements SkillBase {
     private final Burst config;

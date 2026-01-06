@@ -1,4 +1,4 @@
-package org.core.Level;
+package org.core.level;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.*;
@@ -16,7 +16,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.*;
-import org.core.Main.coreConfig;
+import org.core.main.coreConfig;
 import org.core.coreProgram.Cores.VOL1.Bambo.coreSystem.bambLeveling;
 import org.core.coreProgram.Cores.VOL1.Benzene.coreSystem.benzLeveling;
 import org.core.coreProgram.Cores.VOL1.Blaze.coreSystem.blazeLeveling;

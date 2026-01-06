@@ -10,12 +10,12 @@ import org.bukkit.inventory.meta.BundleMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.core.Cool.Cool;
-import org.core.Debuff.Burn;
-import org.core.Debuff.Frost;
-import org.core.Effect.Grounding;
-import org.core.Effect.Stun;
-import org.core.Main.coreConfig;
+import org.core.cool.Cool;
+import org.core.effect.debuff.Burn;
+import org.core.effect.debuff.Frost;
+import org.core.effect.crowdControl.Grounding;
+import org.core.effect.crowdControl.Stun;
+import org.core.main.coreConfig;
 import org.core.coreProgram.Cores.VOL1.Swordsman.coreSystem.Swordsman;
 
 import java.util.ArrayList;

@@ -1,14 +1,13 @@
-package org.core.Debuff;
+package org.core.effect.crowdControl;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.core.Effect.Effects;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class DebuffManager implements Listener {
+public class EffectManager implements Listener {
     private final Map<Entity, Map<Class<? extends Effects>, Effects>> activeEffects = new HashMap<>();
 
     public void addEffect(Entity entity, Effects effect) {

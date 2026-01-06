@@ -13,8 +13,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
-import org.core.Cool.Cool;
-import org.core.Debuff.Burn;
+import org.core.cool.Cool;
+import org.core.effect.debuff.Burn;
 import org.core.coreProgram.AbsCoreSystem.SkillBase;
 import org.core.coreProgram.Cores.VOL1.Pyro.coreSystem.Pyro;
 

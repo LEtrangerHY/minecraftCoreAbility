@@ -1,4 +1,4 @@
-package org.core.Main;
+package org.core.main;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
@@ -8,7 +8,6 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.core.playerSettings.persistentPlayerSet;
 
-import javax.naming.Name;
 import java.util.Set;
 
 public class coreConfig {

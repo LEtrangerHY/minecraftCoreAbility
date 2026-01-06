@@ -1,4 +1,4 @@
-package org.core.Database;
+package org.core.database;
 
 public class user {
     private String u_uuid;

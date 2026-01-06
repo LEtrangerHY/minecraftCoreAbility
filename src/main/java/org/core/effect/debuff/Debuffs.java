@@ -1,7 +1,6 @@
-package org.core.Debuff;
+package org.core.effect.debuff;
 
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 
 public interface Debuffs {
     void applyEffect(Entity entity);

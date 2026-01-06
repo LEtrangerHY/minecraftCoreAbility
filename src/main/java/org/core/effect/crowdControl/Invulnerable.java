@@ -1,21 +1,14 @@
-package org.core.Effect;
+package org.core.effect.crowdControl;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
 
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-
-import static org.bukkit.Bukkit.getLogger;
 
 public class Invulnerable implements Effects, Listener {
     public static Set<Entity> invulnerablePlayers = new HashSet<>();

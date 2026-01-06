@@ -6,9 +6,9 @@ import org.bukkit.block.BlockState;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.core.Cool.Cool;
-import org.core.Effect.EffectManager;
-import org.core.Main.coreConfig;
+import org.core.cool.Cool;
+import org.core.effect.crowdControl.EffectManager;
+import org.core.main.coreConfig;
 import org.core.coreProgram.Cores.VOL1.Harvester.coreSystem.Harvester;
 
 public class Bountiful {

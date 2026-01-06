@@ -1,4 +1,4 @@
-package org.core.Effect;
+package org.core.effect.crowdControl;
 
 import org.bukkit.damage.DamageSource;
 import org.bukkit.entity.Entity;
@@ -6,7 +6,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class ForceDamage implements Effects, Listener {

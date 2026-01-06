@@ -11,9 +11,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
-import org.core.Cool.Cool;
-import org.core.Effect.EffectManager;
-import org.core.Main.coreConfig;
+import org.core.cool.Cool;
+import org.core.effect.crowdControl.EffectManager;
+import org.core.main.coreConfig;
 import org.core.coreProgram.Cores.VOL1.Carpenter.coreSystem.Carpenter;
 
 public class Christmas {

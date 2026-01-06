@@ -8,9 +8,9 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
-import org.core.Cool.Cool;
-import org.core.Effect.EffectManager;
-import org.core.Effect.ForceDamage;
+import org.core.cool.Cool;
+import org.core.effect.crowdControl.EffectManager;
+import org.core.effect.crowdControl.ForceDamage;
 import org.core.coreProgram.Cores.VOL1.Benzene.coreSystem.Benzene;
 
 import java.util.*;

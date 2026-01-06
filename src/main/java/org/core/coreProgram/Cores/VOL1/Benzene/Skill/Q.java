@@ -14,8 +14,8 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
-import org.core.Cool.Cool;
-import org.core.Effect.Grounding;
+import org.core.cool.Cool;
+import org.core.effect.crowdControl.Grounding;
 import org.core.coreProgram.Cores.VOL1.Benzene.coreSystem.Benzene;
 import org.core.coreProgram.AbsCoreSystem.SkillBase;
 

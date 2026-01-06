@@ -1,10 +1,10 @@
-package org.core.Database;
+package org.core.database;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.core.Main.coreConfig;
+import org.core.main.coreConfig;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
