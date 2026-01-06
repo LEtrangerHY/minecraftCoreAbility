@@ -45,7 +45,7 @@ public class nightInventory extends absInventory {
         return switch (skill) {
             case "R" -> Component.text("Twilight");
             case "Q" -> Component.text("Whirlwind");
-            case "F" -> Component.text("DISCONNECTION");
+            case "F" -> Component.text("SEVERANCE");
             default -> Component.text("???");
         };
     }

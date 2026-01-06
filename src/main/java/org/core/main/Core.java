@@ -8,6 +8,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.core.command.*;
 import org.core.cool.Cool;
+import org.core.coreProgram.Cores.VOL2.Lavender.coreSystem.Lavender;
+import org.core.coreProgram.Cores.VOL2.Lavender.coreSystem.lavCore;
+import org.core.coreProgram.Cores.VOL2.Lavender.coreSystem.lavInventory;
 import org.core.database.dbConnect;
 import org.core.level.LevelingManager;
 import org.core.coreEntity.AbsEntityLeveling.EntityLevelingManager;
@@ -95,6 +98,7 @@ public final class Core extends JavaPlugin implements Listener {
     private swordCore swordsman;
     private sabCore saboteur;
     private burstCore burst;
+    private lavCore lavender;
 
     private nightInventory nightInv;
     private benzInventory benzInv;
@@ -113,6 +117,7 @@ public final class Core extends JavaPlugin implements Listener {
     private swordInventory swordInv;
     private sabInventory sabInv;
     private burstInventory burstInv;
+    private lavInventory lavInv;
 
     private EntityLevelingManager Elevel;
 
@@ -146,6 +151,7 @@ public final class Core extends JavaPlugin implements Listener {
         Swordsman swordConfig = new Swordsman();
         Saboteur sabConfig = new Saboteur();
         Burst burstConfig = new Burst();
+        Lavender lavConfig = new Lavender();
 
         Cool cool = new Cool(this);
 
@@ -235,6 +241,11 @@ public final class Core extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(this.burst, this);
         this.burstInv = new burstInventory(this, this.config);
         Bukkit.getPluginManager().registerEvents(this.burstInv, this);
+
+        this.lavender = new lavCore(this, this.config, lavConfig, cool);
+        Bukkit.getPluginManager().registerEvents(this.lavender, this);
+        this.lavInv = new lavInventory(this, this.config);
+        Bukkit.getPluginManager().registerEvents(this.lavInv, this);
 
         this.benz = new benzCore(this, this.config, benzConfig, cool);
         Bukkit.getPluginManager().registerEvents(this.benz, this);
