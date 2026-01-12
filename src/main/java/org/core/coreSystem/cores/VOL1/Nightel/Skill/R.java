@@ -14,7 +14,7 @@ import org.core.cool.Cool;
 import org.core.effect.crowdControl.ForceDamage;
 import org.core.effect.crowdControl.Invulnerable;
 import org.core.coreSystem.absCoreSystem.SkillBase;
-import org.core.coreSystem.cores.VOL1.Nightel.Passive.Hexa;
+import org.core.coreSystem.cores.VOL1.Nightel.Passive.Chain;
 import org.core.coreSystem.cores.VOL1.Nightel.coreSystem.Nightel;
 
 import java.util.HashSet;
@@ -25,21 +25,21 @@ public class R implements SkillBase {
     private final Nightel config;
     private final JavaPlugin plugin;
     private final Cool cool;
-    private final Hexa hexa;
+    private final Chain chain;
 
-    public R(Nightel config, JavaPlugin plugin, Cool cool, Hexa hexa) {
+    public R(Nightel config, JavaPlugin plugin, Cool cool, Chain chain) {
         this.config = config;
         this.plugin = plugin;
         this.cool = cool;
-        this.hexa = hexa;
+        this.chain = chain;
     }
 
     @Override
     public void Trigger(Player player) {
 
-        boolean diff = (config.hexaSkill.containsKey(player.getUniqueId()) && !config.hexaSkill.getOrDefault(player.getUniqueId(), "").equals("R"));
+        boolean diff = (config.chainSkill.containsKey(player.getUniqueId()) && !config.chainSkill.getOrDefault(player.getUniqueId(), "").equals("R"));
 
-        hexa.hexaPoint(player, config.r_Skill_Cool, "R");
+        chain.chainCount(player, config.r_Skill_Cool, "R");
 
         player.swingMainHand();
 

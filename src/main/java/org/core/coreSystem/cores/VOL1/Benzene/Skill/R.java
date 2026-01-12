@@ -16,7 +16,7 @@ import org.bukkit.util.Vector;
 import org.core.cool.Cool;
 import org.core.effect.crowdControl.ForceDamage;
 import org.core.effect.crowdControl.Invulnerable;
-import org.core.coreSystem.cores.VOL1.Benzene.Passive.ChainCalc;
+import org.core.coreSystem.cores.VOL1.Benzene.Passive.chainResonance;
 import org.core.coreSystem.cores.VOL1.Benzene.coreSystem.Benzene;
 import org.core.coreSystem.absCoreSystem.SkillBase;
 
@@ -28,13 +28,13 @@ public class R implements SkillBase {
     private final Benzene config;
     private final JavaPlugin plugin;
     private final Cool cool;
-    private final ChainCalc chainCalc;
+    private final chainResonance chainResonance;
 
-    public R(Benzene config, JavaPlugin plugin, Cool cool, ChainCalc chainCalc) {
+    public R(Benzene config, JavaPlugin plugin, Cool cool, chainResonance chainResonance) {
         this.config = config;
         this.plugin = plugin;
         this.cool = cool;
-        this.chainCalc = chainCalc;
+        this.chainResonance = chainResonance;
     }
 
     @Override
@@ -59,7 +59,7 @@ public class R implements SkillBase {
     public void detect(Player player){
 
         config.rskill_using.put(player.getUniqueId(), true);
-        config.damaged_2.put(player.getUniqueId(), new HashSet<>());
+        config.damaged_1.put(player.getUniqueId(), new HashSet<>());
 
         double amp = config.r_Skill_amp * player.getPersistentDataContainer().getOrDefault(new NamespacedKey(plugin, "R"), PersistentDataType.LONG, 0L);
         double damage = config.r_Skill_damage * (1 + amp);
@@ -90,7 +90,7 @@ public class R implements SkillBase {
 
                 if (ticks > 6 || player.isDead()) {
                     config.rskill_using.remove(player.getUniqueId());
-                    config.damaged_2.remove(player.getUniqueId());
+                    config.damaged_1.remove(player.getUniqueId());
                     cancel();
                     return;
                 }
@@ -100,18 +100,18 @@ public class R implements SkillBase {
 
                 List<Entity> nearbyEntities = player.getNearbyEntities(1.2, 1.2, 1.2);
                 for (Entity entity : nearbyEntities) {
-                    if (entity instanceof LivingEntity target && entity != player && !config.damaged_2.getOrDefault(player.getUniqueId(), new HashSet<>()).contains(entity)) {
+                    if (entity instanceof LivingEntity target && entity != player && !config.damaged_1.getOrDefault(player.getUniqueId(), new HashSet<>()).contains(entity)) {
 
                         ForceDamage forceDamage = new ForceDamage(target, damage, source);
                         forceDamage.applyEffect(player);
 
-                        config.damaged_2.getOrDefault(player.getUniqueId(), new HashSet<>()).add(target);
+                        config.damaged_1.getOrDefault(player.getUniqueId(), new HashSet<>()).add(target);
                         target.setVelocity(new Vector(0, 0, 0));
 
                         if(!target.isDead()){
-                            chainCalc.increase(player, target);
+                            chainResonance.increase(player, target);
                             if(target.isDead()){
-                                chainCalc.decrease(target);
+                                chainResonance.decrease(target);
                             }
                         }
                     }

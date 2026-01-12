@@ -15,14 +15,14 @@ import org.core.coreSystem.cores.VOL1.Benzene.coreSystem.Benzene;
 
 import java.util.*;
 
-public class DamageShare {
+public class damageShare {
 
     private final Benzene config;
     private final JavaPlugin plugin;
     private final Cool cool;
     private EffectManager effectManager = new EffectManager();
 
-    public DamageShare(Benzene config, JavaPlugin plugin, Cool cool) {
+    public damageShare(Benzene config, JavaPlugin plugin, Cool cool) {
         this.config = config;
         this.plugin = plugin;
         this.cool = cool;
@@ -47,7 +47,7 @@ public class DamageShare {
                 .withDirectEntity(player)
                 .build();
 
-        for (Entity chainedEntity : new ArrayList<>(config.Chain.getOrDefault(player.getUniqueId(), new LinkedHashMap<>()).values())) {
+        for (Entity chainedEntity : new ArrayList<>(config.chainRes.getOrDefault(player.getUniqueId(), new LinkedHashMap<>()).values())) {
             if (!(chainedEntity instanceof LivingEntity) || chainedEntity == target) continue;
 
             if (processedEntities.contains(chainedEntity)) continue;
@@ -67,7 +67,7 @@ public class DamageShare {
                 config.damageTimes.putIfAbsent(chainedEntity, new LinkedHashMap<>());
                 config.damageTimes.get(chainedEntity).put(target, times);
 
-                double shareDamage = damage * (config.Chain.getOrDefault(player.getUniqueId(), new LinkedHashMap<>()).size()) / 10;
+                double shareDamage = damage * (config.chainRes.getOrDefault(player.getUniqueId(), new LinkedHashMap<>()).size()) / 10;
                 if (config.q_Skill_effect_2.containsValue(target)) {
                     shareDamage *= (5.0 / 3);
                 }

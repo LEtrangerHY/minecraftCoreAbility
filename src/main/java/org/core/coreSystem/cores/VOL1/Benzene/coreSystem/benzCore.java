@@ -29,9 +29,9 @@ import org.core.main.coreConfig;
 import org.core.coreSystem.absCoreSystem.ConfigWrapper;
 import org.core.coreSystem.absCoreSystem.SkillBase;
 import org.core.coreSystem.absCoreSystem.absCore;
-import org.core.coreSystem.cores.VOL1.Benzene.Passive.ChainCalc;
-import org.core.coreSystem.cores.VOL1.Benzene.Passive.DamageAmplify;
-import org.core.coreSystem.cores.VOL1.Benzene.Passive.DamageShare;
+import org.core.coreSystem.cores.VOL1.Benzene.Passive.chainResonance;
+import org.core.coreSystem.cores.VOL1.Benzene.Passive.damageAmplify;
+import org.core.coreSystem.cores.VOL1.Benzene.Passive.damageShare;
 import org.core.coreSystem.cores.VOL1.Benzene.Skill.F;
 import org.core.coreSystem.cores.VOL1.Benzene.Skill.Q;
 import org.core.coreSystem.cores.VOL1.Benzene.Skill.R;
@@ -46,9 +46,9 @@ public class benzCore extends absCore {
     private final Core plugin;
     private final Benzene config;
 
-    private final ChainCalc chaincalc;
-    private final DamageAmplify damageAmplify;
-    private final DamageShare damageShare;
+    private final chainResonance chaincalc;
+    private final org.core.coreSystem.cores.VOL1.Benzene.Passive.damageAmplify damageAmplify;
+    private final org.core.coreSystem.cores.VOL1.Benzene.Passive.damageShare damageShare;
 
     private final R Rskill;
     private final Q Qskill;
@@ -60,9 +60,9 @@ public class benzCore extends absCore {
         this.plugin = plugin;
         this.config = config;
 
-        this.chaincalc = new ChainCalc(tag, config, plugin, cool);
-        this.damageAmplify = new DamageAmplify(config);
-        this.damageShare = new DamageShare(config, plugin, cool);
+        this.chaincalc = new chainResonance(tag, config, plugin, cool);
+        this.damageAmplify = new damageAmplify(config);
+        this.damageShare = new damageShare(config, plugin, cool);
 
         this.Rskill = new R(config, plugin, cool, chaincalc);
         this.Qskill = new Q(config, plugin, cool);
@@ -191,12 +191,13 @@ public class benzCore extends absCore {
 
         Player player = event.getPlayer();
 
-        if(tag.Benzene.contains(player) && config.atkCount.getOrDefault(player.getUniqueId(), 0) < 3){
-            player.setWalkSpeed((float) 0.2 * ((float) 4/3));
-        }else{
-            player.setWalkSpeed((float) 0.2);
+        if(tag.Benzene.contains(player)){
+            if(config.atkCount.getOrDefault(player.getUniqueId(), 0) < 3) {
+                player.setWalkSpeed((float) 0.2 * ((float) 4 / 3));
+            }else{
+                player.setWalkSpeed((float) 0.2);
+            }
         }
-
     }
 
     @EventHandler(priority = EventPriority.LOW)
@@ -223,7 +224,7 @@ public class benzCore extends absCore {
             }
         }
 
-        if(tag.Benzene.contains(player) && config.Chain.getOrDefault(player.getUniqueId(), new LinkedHashMap<>()).containsValue(target) && distance <= 24){
+        if(tag.Benzene.contains(player) && config.chainRes.getOrDefault(player.getUniqueId(), new LinkedHashMap<>()).containsValue(target) && distance <= 24){
             double originalDamage = event.getDamage();
             double amplifiedDamage = damageAmplify.Amplify(player, target, originalDamage);
 

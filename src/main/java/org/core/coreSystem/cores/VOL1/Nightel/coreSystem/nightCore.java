@@ -17,7 +17,7 @@ import org.core.main.coreConfig;
 import org.core.coreSystem.absCoreSystem.ConfigWrapper;
 import org.core.coreSystem.absCoreSystem.SkillBase;
 import org.core.coreSystem.absCoreSystem.absCore;
-import org.core.coreSystem.cores.VOL1.Nightel.Passive.Hexa;
+import org.core.coreSystem.cores.VOL1.Nightel.Passive.Chain;
 import org.core.coreSystem.cores.VOL1.Nightel.Skill.F;
 import org.core.coreSystem.cores.VOL1.Nightel.Skill.Q;
 import org.core.coreSystem.cores.VOL1.Nightel.Skill.R;
@@ -26,7 +26,7 @@ public class nightCore extends absCore {
     private final Core plugin;
     private final Nightel config;
 
-    private final Hexa hexa;
+    private final Chain chain;
 
     private final R Rskill;
     private final Q Qskill;
@@ -38,11 +38,11 @@ public class nightCore extends absCore {
         this.plugin = plugin;
         this.config = config;
 
-        this.hexa = new Hexa(config, tag, plugin, cool);
+        this.chain = new Chain(config, tag, plugin, cool);
 
-        this.Rskill = new R(config, plugin, cool, hexa);
-        this.Qskill = new Q(config, plugin, cool, hexa);
-        this.Fskill = new F(config, plugin, cool, hexa);
+        this.Rskill = new R(config, plugin, cool, chain);
+        this.Qskill = new Q(config, plugin, cool, chain);
+        this.Fskill = new F(config, plugin, cool, chain);
 
         plugin.getLogger().info("Nightel downloaded...");
     }

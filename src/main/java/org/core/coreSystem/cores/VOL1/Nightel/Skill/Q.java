@@ -16,7 +16,7 @@ import org.bukkit.util.Vector;
 import org.core.cool.Cool;
 import org.core.effect.crowdControl.ForceDamage;
 import org.core.coreSystem.absCoreSystem.SkillBase;
-import org.core.coreSystem.cores.VOL1.Nightel.Passive.Hexa;
+import org.core.coreSystem.cores.VOL1.Nightel.Passive.Chain;
 import org.core.coreSystem.cores.VOL1.Nightel.coreSystem.Nightel;
 
 import java.util.HashSet;
@@ -26,20 +26,18 @@ public class Q implements SkillBase {
     private final Nightel config;
     private final JavaPlugin plugin;
     private final Cool cool;
-    private final Hexa hexa;
+    private final Chain chain;
 
-    public Q(Nightel config, JavaPlugin plugin, Cool cool, Hexa hexa) {
+    public Q(Nightel config, JavaPlugin plugin, Cool cool, Chain chain) {
         this.config = config;
         this.plugin = plugin;
         this.cool = cool;
-        this.hexa = hexa;
+        this.chain = chain;
     }
 
     @Override
     public void Trigger(Player player) {
-
         TeleportPos(player, 0);
-
     }
 
     public void TeleportPos(Player player, double loop){
@@ -57,7 +55,9 @@ public class Q implements SkillBase {
 
         if (feetBlock.isPassable() && headBlock.isPassable()) {
 
-            hexa.hexaPoint(player, config.q_Skill_Cool, "Q");
+            boolean same = (config.chainSkill.containsKey(player.getUniqueId()) && config.chainSkill.getOrDefault(player.getUniqueId(), "").equals("Q"));
+
+            chain.chainCount(player, config.q_Skill_Cool, "Q");
 
             Location finalLocation = targetLocation.clone();
             finalLocation.setDirection(start.toVector().subtract(targetLocation.toVector()));
@@ -66,9 +66,7 @@ public class Q implements SkillBase {
 
             world.spawnParticle(Particle.SPIT, player.getLocation().clone(), 33, 0.2, 0.3, 0.2, 0.6);
 
-            int atk = Math.min(config.hexaPoint.getOrDefault(player.getUniqueId(), 1) + 3, 6);
-
-            TeleportSlash(player, maxDistance, start, direction, atk);
+            TeleportSlash(player, maxDistance, start, direction, same);
 
         } else {
             if(maxDistance < 0){
@@ -80,12 +78,14 @@ public class Q implements SkillBase {
         }
     }
 
-    public void TeleportSlash(Player player, double maxDistance, Location start, Vector direction, int atk){
+    public void TeleportSlash(Player player, double maxDistance, Location start, Vector direction, boolean same){
 
         World world = player.getWorld();
 
         double step = 0.5;
-        config.damaged_2.put(player.getUniqueId(), new HashSet<>());
+        config.damaged_1.put(player.getUniqueId(), new HashSet<>());
+
+        int atk = same ? 6 : 3;
 
         double amp = config.q_SKill_amp * player.getPersistentDataContainer().getOrDefault(new NamespacedKey(plugin, "Q"), PersistentDataType.LONG, 0L);
         double damage = config.q_Skill_damage * (1 + amp);
@@ -101,7 +101,7 @@ public class Q implements SkillBase {
             Location point = start.clone().add(direction.clone().multiply(i));
             for (Entity entity : world.getNearbyEntities(point, 1.2, 1.2, 1.2)) {
                 if (entity instanceof LivingEntity target && entity != player) {
-                    if (!config.damaged_2.getOrDefault(player.getUniqueId(), new HashSet<>()).contains(target)) {
+                    if (!config.damaged_1.getOrDefault(player.getUniqueId(), new HashSet<>()).contains(target)) {
                         hit = true;
                         new BukkitRunnable() {
                             int tick = 0;
@@ -120,13 +120,13 @@ public class Q implements SkillBase {
                                 target.setVelocity(new Vector(0, 0, 0));
 
                                 world.spawnParticle(Particle.SWEEP_ATTACK, target.getLocation().clone().add(0, 1.2, 0), 3, 0.6, 0.6, 0.6, 1);
-                                world.spawnParticle(Particle.ENCHANTED_HIT, target.getLocation().clone().add(0, 1.2, 0), 11, 0.6, 0.6, 0.6, 1);
+                                if(same) world.spawnParticle(Particle.ENCHANTED_HIT, target.getLocation().clone().add(0, 1.2, 0), 11, 0.6, 0.6, 0.6, 1);
 
                                 tick++;
                             }
                         }.runTaskTimer(plugin, 0L, 2L);
 
-                        config.damaged_2.getOrDefault(player.getUniqueId(), new HashSet<>()).add(target);
+                        config.damaged_1.getOrDefault(player.getUniqueId(), new HashSet<>()).add(target);
                     }
                 }
             }

@@ -16,11 +16,11 @@ public class Benzene {
 
     //passive
     public LinkedHashMap<Entity, LinkedHashMap<Entity, Long>> damageTimes = new LinkedHashMap<>();
-    public HashMap<UUID, Integer> Chain_Count = new HashMap<>();
-    public HashMap<UUID, LinkedHashMap<Integer, Entity>> Chain = new HashMap<>();
+    public HashMap<UUID, Integer> crCount = new HashMap<>();
+    public HashMap<UUID, LinkedHashMap<Integer, Entity>> chainRes = new HashMap<>();
 
     //R
-    public HashMap<UUID, HashSet<Entity>> damaged_2 = new HashMap<>();
+    public HashMap<UUID, HashSet<Entity>> damaged_1 = new HashMap<>();
     public HashMap<UUID, Integer> atkCount = new HashMap<>();
     public HashMap<UUID, Boolean> rskill_using = new HashMap<>();
     public double r_Skill_dash = 1.6;
@@ -34,7 +34,7 @@ public class Benzene {
     public long q_Skill_Cool = 3000;
 
     //F
-    public HashMap<UUID, HashSet<Entity>> damaged = new HashMap<>();
+    public HashMap<UUID, HashSet<Entity>> damaged_2 = new HashMap<>();
     public HashMap<UUID, Boolean> blockBreak = new HashMap<>();
     public HashMap<UUID, Boolean> canBlockBreak = new HashMap<>();
     public HashMap<UUID, Boolean> fskill_using = new HashMap<>();
@@ -51,16 +51,16 @@ public class Benzene {
 
         atkCount.remove(player.getUniqueId());
 
-        Chain_Count.remove(player.getUniqueId());
-        Chain.remove(player.getUniqueId());
+        crCount.remove(player.getUniqueId());
+        chainRes.remove(player.getUniqueId());
 
         fskill_using.remove(player.getUniqueId());
         blockBreak.remove(player.getUniqueId());
         canBlockBreak.remove(player.getUniqueId());
-        damaged.remove(player.getUniqueId());
+        damaged_2.remove(player.getUniqueId());
 
         rskill_using.remove(player.getUniqueId());
-        damaged_2.remove(player.getUniqueId());
+        damaged_1.remove(player.getUniqueId());
 
         q_Skill_effect_1.remove(player.getUniqueId());
         q_Skill_effect_2.remove(player.getUniqueId());

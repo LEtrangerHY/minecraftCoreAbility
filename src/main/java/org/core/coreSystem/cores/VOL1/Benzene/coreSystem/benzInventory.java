@@ -44,7 +44,7 @@ public class benzInventory extends absInventory {
 
         return switch (skill) {
             case "R" -> Component.text("Dusk");
-            case "Q" -> Component.text("Vertigo");
+            case "Q" -> Component.text("Resonance");
             case "F" -> Component.text("⏣");
             default -> Component.text("???");
         };

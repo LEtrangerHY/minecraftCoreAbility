@@ -15,8 +15,8 @@ public class Nightel {
     public long frozenCool = 10000;
 
     //passive
-    public HashMap<UUID, Integer> hexaPoint = new HashMap<>();
-    public HashMap<UUID, String> hexaSkill = new HashMap<>();
+    public HashMap<UUID, Integer> chainCount = new HashMap<>();
+    public HashMap<UUID, String> chainSkill = new HashMap<>();
 
     //R
     public HashMap<UUID, HashSet<Entity>> damaged = new HashMap<>();
@@ -27,13 +27,13 @@ public class Nightel {
     public long r_Skill_Cool = 600;
 
     //Q
-    public HashMap<UUID, HashSet<Entity>> damaged_2 = new HashMap<>();
+    public HashMap<UUID, HashSet<Entity>> damaged_1 = new HashMap<>();
     public double q_SKill_amp = 0.2;
     public double q_Skill_damage = 1;
     public long q_Skill_Cool = 600;
 
     //F
-    public HashMap<UUID, HashSet<Entity>> damaged_3 = new HashMap<>();
+    public HashMap<UUID, HashSet<Entity>> damaged_2 = new HashMap<>();
     public HashMap<UUID, Boolean> fskill_using = new HashMap<>();
     public double f_Skill_amp = 0.2;
     public double f_Skill_damage = 1;
@@ -46,11 +46,11 @@ public class Nightel {
         F_COOLDOWN.remove(player.getUniqueId());
 
         damaged.remove(player.getUniqueId());
+        damaged_1.remove(player.getUniqueId());
         damaged_2.remove(player.getUniqueId());
-        damaged_3.remove(player.getUniqueId());
 
-        hexaPoint.remove(player.getUniqueId());
-        hexaSkill.remove(player.getUniqueId());
+        chainCount.remove(player.getUniqueId());
+        chainSkill.remove(player.getUniqueId());
 
         rskill_using.remove(player.getUniqueId());
         fskill_using.remove(player.getUniqueId());

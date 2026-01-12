@@ -50,8 +50,8 @@ public class Q implements SkillBase {
             PotionEffect wither = new PotionEffect(PotionEffectType.WITHER, 120, 1, false, false);
             player.addPotionEffect(wither);
 
-            PotionEffect fireresistance = new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 260, 4, false, false);
-            player.addPotionEffect(fireresistance);
+            PotionEffect fireResistance = new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 260, 4, false, false);
+            player.addPotionEffect(fireResistance);
 
             new BukkitRunnable(){
                 int tick = 0;

@@ -18,7 +18,7 @@ import org.bukkit.util.Vector;
 import org.core.cool.Cool;
 import org.core.effect.crowdControl.ForceDamage;
 import org.core.effect.crowdControl.Invulnerable;
-import org.core.coreSystem.cores.VOL1.Benzene.Passive.ChainCalc;
+import org.core.coreSystem.cores.VOL1.Benzene.Passive.chainResonance;
 import org.core.coreSystem.cores.VOL1.Benzene.coreSystem.Benzene;
 import org.core.coreSystem.absCoreSystem.SkillBase;
 
@@ -29,13 +29,13 @@ public class F implements SkillBase {
     private final Benzene config;
     private final JavaPlugin plugin;
     private final Cool cool;
-    private final ChainCalc chainCalc;
+    private final chainResonance chainResonance;
 
-    public F(Benzene config, JavaPlugin plugin, Cool cool, ChainCalc chainCalc) {
+    public F(Benzene config, JavaPlugin plugin, Cool cool, chainResonance chainResonance) {
         this.config = config;
         this.plugin = plugin;
         this.cool = cool;
-        this.chainCalc = chainCalc;
+        this.chainResonance = chainResonance;
     }
 
     @Override
@@ -50,7 +50,7 @@ public class F implements SkillBase {
         int maxTicks = 3;
         double innerRadius = 2.6;
 
-        config.damaged.put(player.getUniqueId(), new HashSet<>());
+        config.damaged_2.put(player.getUniqueId(), new HashSet<>());
 
         double amp = config.f_Skill_Amp * player.getPersistentDataContainer()
                 .getOrDefault(new NamespacedKey(plugin, "F"), PersistentDataType.LONG, 0L);
@@ -61,7 +61,7 @@ public class F implements SkillBase {
                 .withDirectEntity(player)
                 .build();
 
-        Entity target = getTargetedEntity(player, slashLength, 0.3);
+        Entity target = getTargetedEntity(player, 5.0, 0.3);
         Location origin = player.getEyeLocation().clone().add(0, -0.6, 0);
 
         Vector forward = player.getLocation().getDirection().normalize();
@@ -77,8 +77,8 @@ public class F implements SkillBase {
             world.playSound(player.getLocation(), Sound.ITEM_TRIDENT_HIT_GROUND, 1.6f, 1.0f);
             world.spawnParticle(Particle.ENCHANTED_HIT, target.getLocation().clone().add(0, 1, 0), 22, 0.6, 0, 0.6, 1);
             if (!target.isDead()) {
-                chainCalc.increase(player, target);
-                if (target.isDead()) chainCalc.decrease(target);
+                chainResonance.increase(player, target);
+                if (target.isDead()) chainResonance.decrease(target);
             }
         }
 
@@ -92,8 +92,8 @@ public class F implements SkillBase {
                     world.playSound(player.getLocation(), Sound.BLOCK_CHAIN_BREAK, 1.6f, 1.0f);
 
                 if (ticks > maxTicks || player.isDead()) {
-                    int chainNum = config.Chain.getOrDefault(player.getUniqueId(), new LinkedHashMap<>()).size();
-                    config.damaged.remove(player.getUniqueId());
+                    int chainNum = config.chainRes.getOrDefault(player.getUniqueId(), new LinkedHashMap<>()).size();
+                    config.damaged_2.remove(player.getUniqueId());
 
                     if (target != null && chainNum >= 2) {
                         Special_Attack(player, player.getLocation(), player.getGameMode(), target, chainNum);
@@ -156,9 +156,9 @@ public class F implements SkillBase {
                         }
 
                         for (Entity entity : world.getNearbyEntities(particleLocation, 0.6, 0.6, 0.6)) {
-                            if (entity instanceof LivingEntity target && entity != player && !config.damaged.get(player.getUniqueId()).contains(entity)) {
+                            if (entity instanceof LivingEntity target && entity != player && !config.damaged_2.get(player.getUniqueId()).contains(entity)) {
 
-                                config.damaged.get(player.getUniqueId()).add(entity);
+                                config.damaged_2.get(player.getUniqueId()).add(entity);
 
                                 ForceDamage forceDamage = new ForceDamage(target, damage, source);
                                 forceDamage.applyEffect(player);
@@ -166,8 +166,8 @@ public class F implements SkillBase {
 
                                 if (config.canBlockBreak.getOrDefault(player.getUniqueId(), false)) {
                                     if (!target.isDead()) {
-                                        chainCalc.increase(player, target);
-                                        if (target.isDead()) chainCalc.decrease(target);
+                                        chainResonance.increase(player, target);
+                                        if (target.isDead()) chainResonance.decrease(target);
                                     }
                                 }
                             }
@@ -255,7 +255,7 @@ public class F implements SkillBase {
             @Override
             public void run() {
                 if (tick >= chainNum || player.isDead()) {
-                    config.damaged.remove(player.getUniqueId());
+                    config.damaged_2.remove(player.getUniqueId());
                     config.fskill_using.remove(player.getUniqueId());
 
                     if(!isSafe(player.getLocation())){
@@ -284,7 +284,7 @@ public class F implements SkillBase {
 
     public void Slash(Player player, double height) {
 
-        config.damaged.put(player.getUniqueId(), new HashSet<>());
+        config.damaged_2.put(player.getUniqueId(), new HashSet<>());
 
         player.swingMainHand();
         World world = player.getWorld();
@@ -369,13 +369,13 @@ public class F implements SkillBase {
                         for (Entity entity : world.getNearbyEntities(particleLocation, 1.2, 1.2, 1.2)) {
                             if (entity instanceof LivingEntity target && entity != player) {
 
-                                if(!config.damaged.getOrDefault(player.getUniqueId(), new HashSet<>()).contains(entity)) {
+                                if(!config.damaged_2.getOrDefault(player.getUniqueId(), new HashSet<>()).contains(entity)) {
 
                                     ForceDamage forceDamage = new ForceDamage(target, damage, source);
                                     forceDamage.applyEffect(player);
                                     target.setVelocity(new Vector(0, 0, 0));
 
-                                    config.damaged.getOrDefault(player.getUniqueId(), new HashSet<>()).add(entity);
+                                    config.damaged_2.getOrDefault(player.getUniqueId(), new HashSet<>()).add(entity);
                                 }
                             }
                         }

@@ -17,7 +17,7 @@ import org.core.cool.Cool;
 import org.core.effect.crowdControl.ForceDamage;
 import org.core.effect.crowdControl.Invulnerable;
 import org.core.coreSystem.absCoreSystem.SkillBase;
-import org.core.coreSystem.cores.VOL1.Nightel.Passive.Hexa;
+import org.core.coreSystem.cores.VOL1.Nightel.Passive.Chain;
 import org.core.coreSystem.cores.VOL1.Nightel.coreSystem.Nightel;
 
 import java.util.*;
@@ -27,13 +27,13 @@ public class F implements SkillBase {
     private final Nightel config;
     private final JavaPlugin plugin;
     private final Cool cool;
-    private final Hexa hexa;
+    private final Chain chain;
 
-    public F(Nightel config, JavaPlugin plugin, Cool cool, Hexa hexa) {
+    public F(Nightel config, JavaPlugin plugin, Cool cool, Chain chain) {
         this.config = config;
         this.plugin = plugin;
         this.cool = cool;
-        this.hexa = hexa;
+        this.chain = chain;
     }
 
     @Override
@@ -42,16 +42,22 @@ public class F implements SkillBase {
         player.swingMainHand();
         World world = player.getWorld();
 
-        Location firstLocation = player.getLocation();
-
-        GameMode playerGameMode = player.getGameMode();
-
         Entity target = getTargetedEntity(player,4.8, 0.3);
 
         if(target != null){
+
+            Location firstLocation = player.getLocation();
+            GameMode playerGameMode = player.getGameMode();
+
             world.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_KNOCKBACK, 1.0f, 1.0f);
             world.spawnParticle(Particle.ENCHANTED_HIT, target.getLocation().clone().add(0, 1.2, 0), 22, 0.6, 0.6, 0.6, 1);
-            Special_Attack(player, firstLocation, playerGameMode, target, config.hexaPoint.getOrDefault(player.getUniqueId(), 0));
+
+            int slashCount = config.chainCount.getOrDefault(player.getUniqueId(), 0);
+
+            boolean justTeleport = !(slashCount > 1.0);
+            if(slashCount < 6 && !justTeleport) chain.removePoint(player);
+
+            Special_Attack(player, firstLocation, playerGameMode, target, slashCount, justTeleport);
         }else{
             world.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_WEAK, 1, 1);
             long cools = 250L;
@@ -83,13 +89,11 @@ public class F implements SkillBase {
                 .orElse(null);
     }
 
-    public void Special_Attack(Player player, Location firstLocation, GameMode playerGameMode, Entity entity, int slashCount) {
-
-        boolean justTeleport = !(slashCount > 1.0);
+    public void Special_Attack(Player player, Location firstLocation, GameMode playerGameMode, Entity entity, int slashCount, boolean justTeleport) {
 
         World world = player.getWorld();
 
-        config.fskill_using.put(player.getUniqueId(), true);
+        if(!justTeleport) config.fskill_using.put(player.getUniqueId(), true);
 
         Invulnerable invulnerable = new Invulnerable(player, 150L * slashCount);
         invulnerable.applyEffect(player);
@@ -103,39 +107,35 @@ public class F implements SkillBase {
                     config.damaged.remove(player.getUniqueId());
                     config.fskill_using.remove(player.getUniqueId());
 
-                    if(!isSafe(player.getLocation())){
-                        player.teleport(firstLocation);
-                    }
+                    if(!isSafe(player.getLocation())) player.teleport(firstLocation);
 
                     player.setGameMode(playerGameMode);
-
-                    if(!justTeleport) {
-                        hexa.removePoint(player);
-                    }
 
                     this.cancel();
                     return;
                 }
 
-                world.playSound(player.getLocation(), Sound.ENTITY_WITHER_SHOOT, 1, 1);
-                world.spawnParticle(Particle.ENCHANTED_HIT, entity.getLocation().clone().add(0, 1.2, 0), 22, 0.6, 0.6, 0.6, 1);
-
                 teleportBehind(player, playerGameMode, entity, -5.0);
 
-                double height = - 0.2 * tick;
-
-                if(!justTeleport) {
-                    Slash(player, height);
+                if(slashCount == 6) {
+                    world.spawnParticle(Particle.ENCHANTED_HIT, entity.getLocation().clone().add(0, 1.2, 0), 22, 0.6, 0.6, 0.6, 1);
+                    world.playSound(player.getLocation(), Sound.ENTITY_WITHER_SHOOT, 1, 1);
+                }else{
+                    world.spawnParticle(Particle.CRIT, entity.getLocation().clone().add(0, 1.2, 0), 22, 0.6, 0.6, 0.6, 1);
+                    world.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_CRIT, 1, 1);
                 }
+
+                double height = - 0.2 * tick;
+                if(!justTeleport) Slash(player, height, slashCount);
 
                 tick++;
             }
         }.runTaskTimer(plugin, 0L, 3L);
     }
 
-    public void Slash(Player player, double height) {
+    public void Slash(Player player, double height, int slashCount) {
 
-        config.damaged_3.put(player.getUniqueId(), new HashSet<>());
+        config.damaged_2.put(player.getUniqueId(), new HashSet<>());
 
         player.swingMainHand();
         World world = player.getWorld();
@@ -159,8 +159,9 @@ public class F implements SkillBase {
             default -> Math.toRadians(0);
         };
 
+        double baseDamage = (slashCount == 6) ? 6 : config.f_Skill_damage;
         double amp = config.f_Skill_amp * player.getPersistentDataContainer().getOrDefault(new NamespacedKey(plugin, "F"), PersistentDataType.LONG, 0L);
-        double damage = config.f_Skill_damage * (1 + amp);
+        double damage = baseDamage * (1 + amp);
 
         DamageSource source = DamageSource.builder(DamageType.PLAYER_ATTACK)
                 .withCausingEntity(player)
@@ -211,13 +212,13 @@ public class F implements SkillBase {
                         }
 
                         for (Entity entity : world.getNearbyEntities(particleLocation, 1.2, 1.2, 1.2)) {
-                            if (entity instanceof LivingEntity target && entity != player && !config.damaged_3.getOrDefault(player.getUniqueId(), new HashSet<>()).contains(entity)) {
+                            if (entity instanceof LivingEntity target && entity != player && !config.damaged_2.getOrDefault(player.getUniqueId(), new HashSet<>()).contains(entity)) {
 
-                                ForceDamage forceDamage = new ForceDamage(target, damage * (config.hexaPoint.getOrDefault(player.getUniqueId(), 1)), source);
+                                ForceDamage forceDamage = new ForceDamage(target, damage, source);
                                 forceDamage.applyEffect(player);
                                 target.setVelocity(new Vector(0, 0, 0));
 
-                                config.damaged_3.getOrDefault(player.getUniqueId(), new HashSet<>()).add(entity);
+                                config.damaged_2.getOrDefault(player.getUniqueId(), new HashSet<>()).add(entity);
                             }
                         }
                     }

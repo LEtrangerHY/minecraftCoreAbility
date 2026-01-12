@@ -45,7 +45,7 @@ public class Q implements SkillBase {
         Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(30, 30, 30), 0.6f);
         BlockData chain = Material.IRON_CHAIN.createBlockData();
 
-        player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1.0f, 1.0f);
+        player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1.6f, 1.0f);
 
         if(entity != null){
             chain_qSkill_Particle_Effect(player, entity, 40);

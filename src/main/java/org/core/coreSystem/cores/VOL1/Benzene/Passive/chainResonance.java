@@ -16,13 +16,13 @@ import org.core.coreSystem.cores.VOL1.Benzene.coreSystem.Benzene;
 
 import java.util.*;
 
-public class ChainCalc {
+public class chainResonance {
     private final coreConfig tag;
     private final Benzene config;
     private final JavaPlugin plugin;
     private final Cool cool;
 
-    public ChainCalc(coreConfig tag, Benzene config, JavaPlugin plugin, Cool cool) {
+    public chainResonance(coreConfig tag, Benzene config, JavaPlugin plugin, Cool cool) {
         this.tag = tag;
         this.config = config;
         this.plugin = plugin;
@@ -30,11 +30,11 @@ public class ChainCalc {
     }
 
     public void increase(Player player, Entity entity) {
-        if (config.Chain.getOrDefault(player.getUniqueId(), new LinkedHashMap<>()).isEmpty()) {
-            config.Chain.put(player.getUniqueId(), new LinkedHashMap<>());
+        if (config.chainRes.getOrDefault(player.getUniqueId(), new LinkedHashMap<>()).isEmpty()) {
+            config.chainRes.put(player.getUniqueId(), new LinkedHashMap<>());
         }
 
-        LinkedHashMap<Integer, Entity> playerChain = config.Chain.get(player.getUniqueId());
+        LinkedHashMap<Integer, Entity> playerChain = config.chainRes.get(player.getUniqueId());
 
         if(playerChain.isEmpty()){
             updateChainList(player);
@@ -43,8 +43,8 @@ public class ChainCalc {
         BlockData chain = Material.IRON_CHAIN.createBlockData();
 
         if (playerChain.size() < 6) {
-            int chainCount = config.Chain_Count.getOrDefault(player.getUniqueId(), 0) + 1;
-            config.Chain_Count.put(player.getUniqueId(), chainCount);
+            int chainCount = config.crCount.getOrDefault(player.getUniqueId(), 0) + 1;
+            config.crCount.put(player.getUniqueId(), chainCount);
 
             player.getWorld().spawnParticle(Particle.BLOCK, entity.getLocation().clone().add(0, 1.2, 0), 12, 0.3, 0.3, 0.3, chain);
 
@@ -55,10 +55,10 @@ public class ChainCalc {
             }
 
         } else {
-            removeFirstEntryFromLinkedHashMap(config.Chain, player.getUniqueId(), player);
+            removeFirstEntryFromLinkedHashMap(config.chainRes, player.getUniqueId(), player);
 
-            int chainCount = config.Chain_Count.getOrDefault(player.getUniqueId(), 0) + 1;
-            config.Chain_Count.put(player.getUniqueId(), chainCount);
+            int chainCount = config.crCount.getOrDefault(player.getUniqueId(), 0) + 1;
+            config.crCount.put(player.getUniqueId(), chainCount);
             playerChain.put(chainCount, entity);
 
             int t = countIndivChain(player, entity);
@@ -73,11 +73,11 @@ public class ChainCalc {
 
     public void decrease(Entity targetEntity) {
 
-        config.Chain.forEach((uuid, entityMap) -> {
+        config.chainRes.forEach((uuid, entityMap) -> {
             entityMap.values().removeIf(entity -> entity.equals(targetEntity));
         });
 
-        config.Chain.entrySet().removeIf(entry -> entry.getValue().isEmpty());
+        config.chainRes.entrySet().removeIf(entry -> entry.getValue().isEmpty());
     }
 
     public <K, V> void removeFirstEntryFromLinkedHashMap(Map<K, LinkedHashMap<Integer, V>> map, K key, Player player) {
@@ -85,7 +85,7 @@ public class ChainCalc {
         BlockData chain = Material.IRON_CHAIN.createBlockData();
         if (chainMap != null && !chainMap.isEmpty()) {
             Integer firstKey = chainMap.entrySet().iterator().next().getKey();
-            Entity firstKeyEntity = config.Chain.getOrDefault(player.getUniqueId(), new LinkedHashMap<>()).get(firstKey);
+            Entity firstKeyEntity = config.chainRes.getOrDefault(player.getUniqueId(), new LinkedHashMap<>()).get(firstKey);
 
             Location loc1 = player.getLocation().add(0, player.getHeight() / 2 + 0.2, 0);
             Location loc2 = firstKeyEntity.getLocation().add(0, firstKeyEntity.getHeight() / 2 + 0.2, 0);
@@ -96,7 +96,7 @@ public class ChainCalc {
 
             if(distance <= 22) {
 
-                Stun stun = new Stun(config.Chain.getOrDefault(player.getUniqueId(), new LinkedHashMap<>()).get(firstKey), 100L * t);
+                Stun stun = new Stun(config.chainRes.getOrDefault(player.getUniqueId(), new LinkedHashMap<>()).get(firstKey), 100L * t);
                 stun.applyEffect(player);
 
                 player.getWorld().spawnParticle(Particle.BLOCK, firstKeyEntity.getLocation().clone().add(0, t * 0.2, 0), 12, 0.3, 0.3, 0.3, chain);
@@ -123,7 +123,7 @@ public class ChainCalc {
                 Location loc2 = target.getLocation().add(0, target.getHeight() / 2 + 0.2, 0);
                 double distance = loc1.distance(loc2);
 
-                if (target.isDead() || !config.Chain.getOrDefault(player.getUniqueId(), new LinkedHashMap<>()).containsValue(target) || !player.isOnline()) {
+                if (target.isDead() || !config.chainRes.getOrDefault(player.getUniqueId(), new LinkedHashMap<>()).containsValue(target) || !player.isOnline()) {
 
                     particleUse.remove(target);
 
@@ -190,7 +190,7 @@ public class ChainCalc {
 
         int t = 0;
 
-        for (Entity chainedEntity : new ArrayList<>(config.Chain.getOrDefault(player.getUniqueId(), new LinkedHashMap<>()).values())) {
+        for (Entity chainedEntity : new ArrayList<>(config.chainRes.getOrDefault(player.getUniqueId(), new LinkedHashMap<>()).values())) {
             if (chainedEntity == target) {
                 t++;
             }
@@ -213,8 +213,8 @@ public class ChainCalc {
             public void run() {
                 if (!player.isOnline() || !tag.Benzene.contains(player) || player.isDead()) {
 
-                    config.Chain.remove(player.getUniqueId());
-                    config.Chain_Count.remove(player.getUniqueId());
+                    config.chainRes.remove(player.getUniqueId());
+                    config.crCount.remove(player.getUniqueId());
 
                     activeTasks.remove(playerUUID);
                     player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
@@ -236,7 +236,7 @@ public class ChainCalc {
 
                 int startScore = 7;
 
-                if (!config.Chain.getOrDefault(player.getUniqueId(), new LinkedHashMap<>()).isEmpty()) {
+                if (!config.chainRes.getOrDefault(player.getUniqueId(), new LinkedHashMap<>()).isEmpty()) {
 
                     Score score1 = objective.getScore("⏣⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬⌬");
                     score1.setScore(startScore--);
@@ -249,7 +249,7 @@ public class ChainCalc {
                     names.put(player.getUniqueId(), new ArrayList<>());
                     distances.put(player.getUniqueId(), new ArrayList<>());
 
-                    for (Entity entity : config.Chain.getOrDefault(player.getUniqueId(), new LinkedHashMap<>()).sequencedValues()) {
+                    for (Entity entity : config.chainRes.getOrDefault(player.getUniqueId(), new LinkedHashMap<>()).sequencedValues()) {
                         Location loc1 = player.getLocation().add(0, player.getHeight() / 2 + 0.2, 0);
                         Location loc2 = entity.getLocation().add(0, entity.getHeight() / 2 + 0.2, 0);
 

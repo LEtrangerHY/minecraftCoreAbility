@@ -7,11 +7,11 @@ import org.core.coreSystem.cores.VOL1.Benzene.coreSystem.Benzene;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-public class DamageAmplify {
+public class damageAmplify {
 
     private final Benzene config;
 
-    public DamageAmplify(Benzene config) {
+    public damageAmplify(Benzene config) {
         this.config = config;
     }
 
@@ -20,7 +20,7 @@ public class DamageAmplify {
 
         int t = 0;
 
-        for (Entity chainedEntity : new ArrayList<>(config.Chain.getOrDefault(player.getUniqueId(), new LinkedHashMap<>()).values())) {
+        for (Entity chainedEntity : new ArrayList<>(config.chainRes.getOrDefault(player.getUniqueId(), new LinkedHashMap<>()).values())) {
             if (chainedEntity == entity) {
                 t++;
             }
